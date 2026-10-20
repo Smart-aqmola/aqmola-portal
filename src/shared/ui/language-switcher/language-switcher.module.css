@@ -1,0 +1,35 @@
+.switcher {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tap-target);
+  min-height: var(--tap-target);
+  padding: 0 var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  opacity: 0.7;
+}
+
+.link:hover {
+  opacity: 1;
+}
+
+@media (max-width: 600px) {
+  .link {
+    min-width: 28px;
+    padding: 0;
+  }
+}
+
+.link[aria-current="true"] {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}

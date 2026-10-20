@@ -1,0 +1,46 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.title {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-regular);
+}
+
+.text {
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+}
+
+.statuses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+
+.status {
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+}
+
+.status[data-kind="submitted"] {
+  background: var(--status-new-bg);
+  color: var(--status-new-fg);
+}
+
+.status[data-kind="review"] {
+  background: var(--status-work-bg);
+  color: var(--status-work-fg);
+}
+
+.status[data-kind="done"] {
+  background: var(--status-done-bg);
+  color: var(--status-done-fg);
+}

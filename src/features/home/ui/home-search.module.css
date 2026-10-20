@@ -1,0 +1,114 @@
+/* Sits on the dark hero photo: frosted glass panel with white text. */
+.form {
+  --color-focus: #8fd3ea;
+  margin-top: var(--space-7);
+  max-width: 880px;
+}
+
+.audience {
+  display: inline-flex;
+  gap: var(--space-1);
+  margin: 0 0 var(--space-3);
+  padding: 4px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: rgb(16 36 46 / 45%);
+}
+
+.option {
+  display: block;
+}
+
+.option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.option span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 var(--space-5);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.option input:checked + span {
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: var(--weight-medium);
+}
+
+.option input:focus-visible + span {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.finder {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr auto;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 10px 10px 10px 8px;
+  border-radius: var(--radius-md);
+  background: rgb(60 74 80 / 62%);
+  backdrop-filter: blur(10px);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+  min-height: var(--tap-target);
+  padding: var(--space-1) var(--space-4);
+}
+
+.field input,
+.field select {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  color: var(--color-on-dark);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-light);
+  outline: none;
+  appearance: none;
+}
+
+.field input::placeholder {
+  color: rgb(255 255 255 / 85%);
+}
+
+.field select option {
+  color: var(--color-text);
+}
+
+.field:focus-within {
+  border-radius: var(--radius-sm);
+  outline: 3px solid var(--color-focus);
+  outline-offset: -3px;
+}
+
+.submit {
+  padding-inline: var(--space-8);
+}
+
+@media (max-width: 800px) {
+  .finder {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: var(--space-2);
+  }
+
+  .field {
+    border-bottom: 1px solid rgb(255 255 255 / 20%);
+  }
+
+  .submit {
+    margin-top: var(--space-2);
+  }
+}

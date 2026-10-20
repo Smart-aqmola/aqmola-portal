@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вариант 3 — Гид по области</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --orange:#F27A1A; --orange-2:#D9650B; --orange-pale:#FFF1E6;
+  --ink:#1D2433; --muted:#6A7282; --line:#ECEEF2; --page:#F3F5F8; --bg:#FFFFFF;
+}
+*{box-sizing:border-box;margin:0}
+html{overflow-x:hidden}
+body{font-family:Montserrat,system-ui,sans-serif;color:var(--ink);background:var(--page);line-height:1.5;font-size:15px;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--orange);outline-offset:2px;border-radius:8px}
+.ico{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.ring{position:absolute;border:14px solid var(--orange);border-radius:50%;pointer-events:none;z-index:0}
+.ring.r1{width:180px;height:180px;left:-110px;top:200px}
+.ring.r2{width:120px;height:120px;right:-70px;top:820px;border-width:10px}
+.shell{position:relative;z-index:1;max-width:1440px;margin:24px auto;background:var(--bg);border-radius:40px;overflow:hidden;box-shadow:0 30px 60px rgba(29,36,51,.06)}
+.demo{font-size:12px;text-align:center;padding:7px 12px;background:var(--orange-pale);color:#8E4208}
+
+header .bar{display:flex;align-items:center;gap:36px;height:88px;padding:0 64px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:24px;letter-spacing:-.01em}
+nav.main{margin-left:auto;display:flex;gap:34px;font-weight:500;font-size:15px;white-space:nowrap}
+nav.main a:hover,nav.main a[aria-current]{color:var(--orange)}
+.tools{display:flex;align-items:center;gap:14px}
+.icon-btn{background:none;border:0;width:40px;height:40px;display:grid;place-items:center;color:var(--ink)}
+.lang{display:flex;gap:4px;font-size:13px;font-weight:600}
+.lang button{background:none;border:0;padding:4px 6px;color:var(--muted);border-radius:6px}
+.lang button[aria-pressed=true]{color:var(--orange);background:var(--orange-pale)}
+.cta{background:var(--orange);color:#fff;border:0;border-radius:12px;padding:13px 20px;font-weight:700;font-size:14px;letter-spacing:.02em;display:inline-flex;gap:8px;align-items:center;box-shadow:0 10px 20px rgba(242,122,26,.3);white-space:nowrap}
+.cta:hover{background:var(--orange-2)}
+.menu-btn{display:none}
+
+.hero{position:relative;height:620px;color:#fff;clip-path:ellipse(115% 100% at 50% 0%);
+  background:#3B7FA0 url("https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a7/Zerenda_June_01.jpg/1920px-Zerenda_June_01.jpg") center 60%/cover no-repeat}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,30,50,.55),rgba(10,30,50,.15) 70%)}
+.hero-in{position:relative;max-width:1000px;margin:0 auto;padding:110px 32px 0}
+.hero h1{font-weight:800;font-size:clamp(34px,5vw,58px);line-height:1.05;text-transform:uppercase;letter-spacing:.01em;text-shadow:0 2px 20px rgba(0,0,0,.25)}
+.hero p{margin-top:12px;font-size:16px;opacity:.95;max-width:620px}
+
+.search{margin-top:30px;background:#fff;border-radius:18px;padding:12px;display:grid;grid-template-columns:1fr 1fr auto;gap:8px;color:var(--ink);box-shadow:0 20px 40px rgba(0,0,0,.18)}
+.sf{padding:8px 18px;border-right:1px solid var(--line);display:flex;flex-direction:column;justify-content:center;min-width:0}
+.sf:nth-child(2){border-right:0}
+.sf label{font-weight:700;font-size:14px}
+.sf select{border:0;background:none;font:inherit;font-size:13px;color:var(--muted);padding:2px 0;outline:none;cursor:pointer;width:100%}
+.go{background:var(--orange);color:#fff;border:0;border-radius:12px;padding:0 38px;font-weight:700;font-size:16px;display:flex;align-items:center;gap:8px;min-height:56px}
+.go:hover{background:var(--orange-2)}
+
+.board{position:relative;z-index:2;max-width:1000px;margin:-170px auto 0;padding:0 32px;display:grid;grid-template-columns:1.6fr 1fr;gap:24px}
+.card{background:#fff;border-radius:20px;box-shadow:0 20px 50px rgba(29,36,51,.1);padding:22px}
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.tile{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:16px 6px;border-radius:14px;font-size:13px;font-weight:500;line-height:1.25;min-height:112px;background:none;border:0;color:var(--ink);transition:box-shadow .15s}
+.tile .ico{width:30px;height:30px;color:var(--orange);stroke-width:1.6}
+.tile:hover,.tile[aria-pressed=true]{box-shadow:0 10px 24px rgba(29,36,51,.1);background:#fff}
+.tile[aria-pressed=true]{font-weight:700}
+.news a{display:grid;grid-template-columns:72px 1fr;gap:12px;align-items:center;padding:8px 0}
+.news img{width:72px;height:72px;border-radius:10px;object-fit:cover;background:var(--page)}
+.news b{font-size:13px;font-weight:600;line-height:1.35;display:block}
+.news time{font-size:11px;color:var(--muted)}
+.card-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.card-h b{font-size:15px}
+.card-h a{font-size:13px;color:var(--orange);font-weight:600}
+
+.inner{max-width:1000px;margin:0 auto;padding:0 32px}
+section{padding:64px 0 0}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.sec-h h2{font-weight:800;font-size:clamp(22px,2.6vw,30px);letter-spacing:-.01em}
+.sec-h a{color:var(--orange);font-weight:600;font-size:14px}
+
+.list{border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.row{display:grid;grid-template-columns:52px 1fr auto;gap:16px;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row:hover{background:#FFFAF5}
+.row .ic{width:52px;height:52px;border-radius:14px;background:var(--orange-pale);color:var(--orange);display:grid;place-items:center}
+.row h3{font-size:15px;font-weight:700;line-height:1.35}
+.row .meta{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:4px}
+.row .meta .free{color:#2E8B57;font-weight:700}
+.btn{background:var(--ink);color:#fff;border:0;border-radius:10px;padding:11px 18px;font-weight:600;font-size:13px;white-space:nowrap}
+.btn:hover{background:#000}
+
+.places{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:200px 200px;gap:14px}
+.pl{position:relative;border-radius:20px;overflow:hidden;background:var(--page);color:#fff}
+.pl:first-child{grid-row:span 2}
+.pl img{width:100%;height:100%;object-fit:cover;display:block}
+.pl div{position:absolute;inset:auto 0 0 0;padding:16px 18px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.6))}
+.pl b{display:block;font-size:17px}
+.pl:first-child b{font-size:24px}
+.pl span{font-size:12px;opacity:.9}
+
+.soon{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.soon div{border-radius:18px;padding:20px;background:var(--page)}
+.soon small{font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.06em}
+.soon b{display:block;margin:8px 0 4px;font-size:15px}
+.soon p{font-size:13px;color:var(--muted)}
+
+footer{margin-top:72px;border-top:1px solid var(--line);padding:36px 64px 30px;font-size:13px;color:var(--muted)}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:24px}
+footer b{color:var(--ink);display:block;margin-bottom:8px}
+footer a{display:block;padding:3px 0}
+.credits{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-size:11px}
+.credits a{display:inline;text-decoration:underline}
+
+@media (max-width:1320px){nav.main{display:none}.menu-btn{display:grid}.tools{margin-left:auto}}
+@media (max-width:1150px){
+  header .bar{padding:0 32px}
+  .board{grid-template-columns:1fr}
+  footer{padding:36px 32px 30px}
+  .fgrid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .shell{margin:0;border-radius:0}
+  .ring{display:none}
+  header .bar{padding:0 16px;height:68px;gap:10px}
+  .cta span{display:none}.cta{padding:11px 12px}
+  .tools .icon-btn.search-i{display:none}.tools{gap:6px}.logo{font-size:20px}.logo svg{width:32px;height:32px}.lang button{padding:4px 5px}
+  .hero{height:auto;padding-bottom:210px;clip-path:ellipse(160% 100% at 50% 0%)}
+  .hero-in{padding:44px 16px 0}
+  .search{grid-template-columns:1fr;padding:8px}
+  .sf{border-right:0;border-bottom:1px solid var(--line);padding:10px 12px}
+  .sf:nth-child(2){border-bottom:0}
+  .board{margin-top:-170px;padding:0 16px}
+  .tiles{grid-template-columns:repeat(3,1fr)}
+  .tile{min-height:96px;font-size:12px}
+  .inner{padding:0 16px}
+  .row{grid-template-columns:44px 1fr}.row .ic{width:44px;height:44px}.row .btn{grid-column:2;justify-self:start}
+  .places{grid-template-columns:1fr 1fr;grid-template-rows:220px 150px}
+  .pl:first-child{grid-row:auto;grid-column:span 2}
+  .soon{grid-template-columns:1fr 1fr}
+  footer{padding:32px 16px 24px}
+  .fgrid{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="ring r1" aria-hidden="true"></div>
+<div class="ring r2" aria-hidden="true"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-meter" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 13l4-3M8 5l1 2M16 5l-1 2"/></symbol>
+  <symbol id="i-house" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M6 8h12v4a6 6 0 0 1-12 0zM12 18v3"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></symbol>
+  <symbol id="i-heat" viewBox="0 0 24 24"><path d="M5 20V9M10 20V6M15 20V9M20 20V6M3 20h19M5 9c1-2 3-2 5-3M15 9c1-2 3-2 5-3"/></symbol>
+  <symbol id="i-crane" viewBox="0 0 24 24"><path d="M4 21h16M7 21V4h2v17M9 5h11l-3 3M17 8v4M15 12h4v3h-4z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 21h18M6 17v-5M11 17V7M16 17v-8M20 5l-4 4-5-2-5 4"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4zM8 9h8M8 12h5"/></symbol>
+  <symbol id="i-water" viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c1 4 6 6 6 11a6 6 0 0 1-12 0c0-3 2-4 3-6 1 2 2 2 3 2-1-3 0-5 0-7z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></symbol>
+  <symbol id="i-bus" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="15" rx="3"/><path d="M5 11h14M8 21v-3M16 21v-3M8 15h.01M16 15h.01"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+</svg>
+
+<div class="shell">
+  <div class="demo">Тестовая версия портала. Организации и заявки вымышлены, личные данные не вводите.</div>
+  <header>
+    <div class="bar">
+      <a class="logo" href="#"><svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true"><path d="M7 20a12 12 0 0 1 24 0" fill="none" stroke="#F27A1A" stroke-width="4" stroke-linecap="round"/><path d="M6 25c3 0 3-2 6.5-2s3.5 2 6.5 2 3-2 6.5-2 3.5 2 6.5 2M9 31c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2" fill="none" stroke="#F27A1A" stroke-width="2.6" stroke-linecap="round"/></svg>aqmola</a>
+      <nav class="main" aria-label="Основная"><a href="#" aria-current="page">Главная</a><a href="#">Районы</a><a href="#">Услуги</a><a href="#">Мои заявки</a><a href="#">Новости</a><a href="#">Туризм</a></nav>
+      <div class="tools">
+        <div class="lang" role="group" aria-label="Язык"><button aria-pressed="false">ҚАЗ</button><button aria-pressed="true">РУС</button><button aria-pressed="false">ENG</button></div>
+        <button class="icon-btn search-i" aria-label="Поиск"><svg class="ico"><use href="#i-search"/></svg></button>
+        <button class="cta"><span>ПОДАТЬ ЗАЯВКУ</span><svg class="ico" style="width:18px;height:18px"><use href="#i-plus"/></svg></button>
+        <button class="icon-btn menu-btn" aria-label="Меню"><svg class="ico"><use href="#i-list"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-in">
+      <h1>Услуги рядом с домом</h1>
+      <p>Коммунальные услуги, заявки, новости и места для отдыха во всех районах Акмолинской области.</p>
+      <form class="search" role="search" onsubmit="return false">
+        <div class="sf"><label for="what">Что ищете?</label><select id="what"><option>Передать показания, подключение, договор…</option><option>Передача показаний</option><option>Технические условия</option><option>Лицевой счёт</option><option>Вывоз ТБО</option></select></div>
+        <div class="sf"><label for="where">Где ищете?</label><select id="where"><option>Кокшетау, Косшы, Степногорск, районы…</option><option>Кокшетау</option><option>Косшы</option><option>Степногорск</option><option>Бурабайский район</option><option>Зерендинский район</option></select></div>
+        <button class="go"><svg class="ico"><use href="#i-search"/></svg>НАЙТИ</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="board">
+    <div class="card">
+      <div class="tiles" role="group" aria-label="Направления">
+        <button class="tile" aria-pressed="false"><svg class="ico"><use href="#i-water"/></svg>Вода и канализация</button>
+        <button class="tile" aria-pressed="true"><svg class="ico"><use href="#i-meter"/></svg>Показания счётчиков</button>
+        <button class="tile" aria-pressed="false"><svg class="ico"><use href="#i-bolt"/></svg>Электро&shy;энергия</button>
+        <button class="tile" aria-pressed="false"><svg class="ico"><use href="#i-heat"/></svg>Отопление</button>
+        <button class="tile" aria-pressed="false"><svg class="ico"><use href="#i-flame"/></svg>Газ</button>
+        <button class="tile" aria-pressed="false"><svg class="ico"><use href="#i-trash"/></svg>Вывоз ТБО</button>
+        <button class="tile" aria-pressed="false"><svg class="ico"><use href="#i-doc"/></svg>Договоры и счета</button>
+        <button class="tile" aria-pressed="false"><svg class="ico"><use href="#i-crane"/></svg>Строительство</button>
+        <button class="tile" aria-pressed="false"><svg class="ico"><use href="#i-chart"/></svg>Бизнесу</button>
+        <button class="tile" aria-pressed="false"><svg class="ico"><use href="#i-chat"/></svg>Обращения</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-h"><b>Новости области</b><a href="#">Все</a></div>
+      <div class="news">
+        <a href="#"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Lake_Burabai_2.jpg/330px-Lake_Burabai_2.jpg" alt="" loading="lazy"><span><b>В Бурабайском районе обновили график плановых отключений воды</b><time>18 октября 2026</time></span></a>
+        <a href="#"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Museum_of_History_of_Kokshetau_in_March_2025.jpg/330px-Museum_of_History_of_Kokshetau_in_March_2025.jpg" alt="" loading="lazy"><span><b>В Кокшетау стартовала промывка тепловых сетей перед зимой</b><time>15 октября 2026</time></span></a>
+        <a href="#"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Zerenda_June_07.jpg/330px-Zerenda_June_07.jpg" alt="" loading="lazy"><span><b>Показания счётчиков теперь принимают онлайн во всех районах</b><time>11 октября 2026</time></span></a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+  <section>
+    <div class="inner">
+      <div class="sec-h"><h2>Популярные услуги</h2><a href="#">Весь каталог</a></div>
+      <div class="list">
+        <div class="row"><span class="ic"><svg class="ico"><use href="#i-meter"/></svg></span><div><h3>Передача показаний приборов учёта воды</h3><div class="meta"><span class="free">Бесплатно</span><span>Физлицам</span><span>Водоканал Кокшетау (тест)</span></div></div><button class="btn">Заказать услугу</button></div>
+        <div class="row"><span class="ic"><svg class="ico"><use href="#i-plug"/></svg></span><div><h3>Технические условия на подключение к тепловым сетям</h3><div class="meta"><span class="free">Бесплатно</span><span>Юрлицам</span><span>Теплосети Акмолы (тест)</span></div></div><button class="btn">Заказать услугу</button></div>
+        <div class="row"><span class="ic"><svg class="ico"><use href="#i-doc"/></svg></span><div><h3>Переоформление лицевого счёта при смене собственника</h3><div class="meta"><span class="free">Бесплатно</span><span>Физлицам</span><span>Единый расчётный центр (тест)</span></div></div><button class="btn">Заказать услугу</button></div>
+        <div class="row"><span class="ic"><svg class="ico"><use href="#i-flame"/></svg></span><div><h3>Заключение договора газоснабжения</h3><div class="meta"><span class="free">Бесплатно</span><span>Физлицам</span><span>Газ Акмола (тест)</span></div></div><button class="btn">Заказать услугу</button></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="inner">
+      <div class="sec-h"><h2>Открой свою область</h2><a href="#">Туризм</a></div>
+      <div class="places">
+        <a class="pl" href="#"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/View_of_Burabay_lake_and_Kokshe_mountains.jpg/960px-View_of_Burabay_lake_and_Kokshe_mountains.jpg" alt="Озеро Бурабай и горы Кокше" loading="lazy"><div><b>Бурабай</b><span>Национальный парк, Бурабайский район</span></div></a>
+        <a class="pl" href="#"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Sunset_in_Korgalzhyn_Nature_Reserve.jpg/960px-Sunset_in_Korgalzhyn_Nature_Reserve.jpg" alt="Закат в Коргалжынском заповеднике" loading="lazy"><div><b>Коргалжын</b><span>Заповедник</span></div></a>
+        <a class="pl" href="#"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Zerenda_June_07.jpg/960px-Zerenda_June_07.jpg" alt="Зеренда летом" loading="lazy"><div><b>Зеренда</b><span>Озеро и базы отдыха</span></div></a>
+        <a class="pl" href="#"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Museum_of_History_of_Kokshetau_in_March_2025.jpg/960px-Museum_of_History_of_Kokshetau_in_March_2025.jpg" alt="Музей истории Кокшетау" loading="lazy"><div><b>Кокшетау</b><span>Музеи и история</span></div></a>
+        <a class="pl" href="#"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Lake_Burabai.jpg/960px-Lake_Burabai.jpg" alt="Озеро Бурабай" loading="lazy"><div><b>Озеро Бурабай</b><span>Пляжи и прогулки</span></div></a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="inner">
+      <div class="sec-h"><h2>Скоро на портале</h2></div>
+      <div class="soon">
+        <div><small>Скоро</small><b>Социальная поддержка</b><p>Льготы и пособия онлайн.</p></div>
+        <div><small>Скоро</small><b>Обращения 109</b><p>Связь с акиматом района.</p></div>
+        <div><small>Скоро</small><b>Транспорт</b><p>Межрайонные маршруты.</p></div>
+        <div><small>Скоро</small><b>Библиотеки</b><p>Бронирование книг.</p></div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <footer>
+    <div class="fgrid">
+      <div><b>aqmola</b><p>Тестовый портал услуг Акмолинской области. Не является государственным сервисом.</p></div>
+      <div><b>Жителям</b><a href="#">Услуги</a><a href="#">Мои заявки</a><a href="#">Районы</a></div>
+      <div><b>Бизнесу</b><a href="#">Услуги для юрлиц</a><a href="#">Кабинет оператора</a></div>
+      <div><b>Регион</b><a href="#">О регионе</a><a href="#">Новости</a><a href="#">Туризм</a></div>
+    </div>
+    <p class="credits">Фото: Wikimedia Commons, CC BY-SA 4.0:
+      <a href="https://commons.wikimedia.org/wiki/File:Zerenda_June_01.jpg">Saltanat-alikhanova</a>,
+      <a href="https://commons.wikimedia.org/wiki/File:View_of_Burabay_lake_and_Kokshe_mountains.jpg">Noiembrie</a>,
+      <a href="https://commons.wikimedia.org/wiki/File:Lake_Burabai.jpg">Kul-Tegin Makishev</a>,
+      <a href="https://commons.wikimedia.org/wiki/File:Sunset_in_Korgalzhyn_Nature_Reserve.jpg">Dildakhmet</a>,
+      <a href="https://commons.wikimedia.org/wiki/File:Museum_of_History_of_Kokshetau_in_March_2025.jpg">Kristianmusic</a>.</p>
+  </footer>
+</div>
+<script>
+document.querySelectorAll('[role=group]').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));}));
+</script>
+</body>
+</html>

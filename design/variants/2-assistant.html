@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вариант 2 — Помощник</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#3D9A2B; --green-2:#317D22; --green-pale:#EDF6E9; --lime:#8BC34A;
+  --navy:#0F2236; --navy-2:#1B3350; --text:#13202C; --muted:#5B6875; --line:#E4E9EE; --bg:#FFFFFF; --soft:#F5F7F9;
+}
+*{box-sizing:border-box;margin:0}
+body{font-family:Manrope,system-ui,sans-serif;color:var(--text);background:var(--bg);line-height:1.5;font-size:16px}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--lime);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.ico{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.demo{font-size:13px;text-align:center;padding:7px 12px;background:var(--green-pale);color:var(--green-2)}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:28px;height:72px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.02em}
+nav.main{display:flex;gap:24px;font-size:15px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav.main a:hover,nav.main a[aria-current]{color:var(--text)}
+.tools{margin-left:auto;display:flex;align-items:center;gap:10px}
+.icon-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:#fff;display:grid;place-items:center;color:var(--text)}
+.lang{display:flex;background:var(--soft);border-radius:999px;padding:3px}
+.lang button{border:0;background:none;font-size:13px;font-weight:700;padding:6px 10px;border-radius:999px;color:var(--muted)}
+.lang button[aria-pressed=true]{background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.cta-btn{background:var(--green);color:#fff;border:0;border-radius:999px;padding:11px 20px;font-weight:700;white-space:nowrap}
+.cta-btn:hover{background:var(--green-2)}
+.menu-btn{display:none}
+
+.hero{margin:16px;border-radius:32px;overflow:hidden;position:relative;min-height:600px;
+  background:#DDE7DA url("https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d5/Lake_Burabai.jpg/1920px-Lake_Burabai.jpg") center/cover no-repeat}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(255,255,255,.96) 0%,rgba(255,255,255,.88) 34%,rgba(255,255,255,.25) 62%,rgba(255,255,255,0) 80%)}
+.hero-in{position:relative;display:grid;grid-template-columns:1fr 380px;gap:40px;padding:64px 56px 120px;max-width:1300px;margin:0 auto}
+.hero h1{font-size:clamp(38px,5.2vw,66px);line-height:1.02;letter-spacing:-.035em;font-weight:800;color:var(--navy)}
+.hero .q{font-size:22px;font-weight:600;color:var(--navy-2);margin-top:18px}
+.search{margin-top:24px;display:flex;align-items:center;background:#fff;border-radius:999px;padding:6px 6px 6px 22px;box-shadow:0 10px 30px rgba(15,34,54,.12);max-width:560px}
+.search input{flex:1;border:0;font:inherit;font-size:16px;outline:none;min-width:0}
+.search button{width:52px;height:52px;border-radius:50%;border:0;background:var(--green);color:#fff;display:grid;place-items:center}
+.search button:hover{background:var(--green-2)}
+.place-pick{margin-top:14px;display:flex;align-items:center;gap:8px;font-size:15px;color:var(--muted)}
+.place-pick select{border:0;background:none;font:inherit;font-weight:700;color:var(--green-2);cursor:pointer}
+.aud{margin-top:22px;display:inline-flex;gap:6px}
+.aud button{border:1px solid var(--line);background:rgba(255,255,255,.8);border-radius:999px;padding:8px 16px;font-weight:600;font-size:14px;color:var(--muted)}
+.aud button[aria-pressed=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+.assist{background:#fff;border-radius:24px;padding:22px;box-shadow:0 20px 50px rgba(15,34,54,.16);align-self:start}
+.assist-h{display:flex;align-items:center;gap:10px}
+.spark{width:38px;height:38px;border-radius:12px;background:var(--green-pale);color:var(--green);display:grid;place-items:center}
+.assist-h b{display:block;font-size:17px}
+.assist-h small{font-size:12px;color:var(--muted)}
+.beta{margin-left:auto;font-size:11px;font-weight:800;color:var(--green-2);background:var(--green-pale);border-radius:6px;padding:3px 7px}
+.ask{margin-top:16px;display:flex;align-items:center;border:1px solid var(--line);border-radius:14px;padding:4px 4px 4px 14px}
+.ask input{flex:1;border:0;font:inherit;font-size:14px;outline:none;min-width:0}
+.ask button{width:36px;height:36px;border-radius:50%;border:0;background:var(--green);color:#fff;display:grid;place-items:center}
+.quick{list-style:none;padding:0;margin-top:12px}
+.quick a{display:grid;grid-template-columns:36px 1fr 16px;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line)}
+.quick .ic{width:36px;height:36px;border-radius:10px;background:var(--soft);color:var(--green-2);display:grid;place-items:center}
+.quick b{display:block;font-size:14px}
+.quick span{font-size:12px;color:var(--muted)}
+.quick .ico.chev{width:16px;height:16px;color:var(--muted)}
+
+.popular{position:relative;z-index:2;margin-top:-84px}
+.pop-h{display:inline-block;font-size:14px;font-weight:700;color:var(--navy);background:#fff;border-radius:999px;padding:5px 14px;margin-bottom:12px;box-shadow:0 4px 12px rgba(15,34,54,.1)}
+.pop-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.pop{background:#fff;border-radius:18px;padding:16px;display:flex;gap:12px;align-items:center;box-shadow:0 12px 30px rgba(15,34,54,.12)}
+.pop:hover{box-shadow:0 14px 34px rgba(61,154,43,.18)}
+.pop .ic{width:42px;height:42px;border-radius:12px;background:var(--green-pale);color:var(--green);display:grid;place-items:center;flex:none}
+.pop b{font-size:14px;display:block;line-height:1.25}
+.pop span{font-size:12px;color:var(--muted)}
+
+section{padding:72px 0 0}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.sec-h h2{font-size:clamp(24px,2.8vw,32px);font-weight:800;letter-spacing:-.02em;color:var(--navy)}
+.sec-h a{color:var(--green-2);font-weight:700;font-size:15px}
+
+.two{display:grid;grid-template-columns:1fr 1.25fr;gap:24px}
+.box{background:var(--soft);border-radius:24px;padding:24px}
+.apps{list-style:none;padding:0}
+.apps a{display:grid;grid-template-columns:40px 1fr auto;gap:14px;align-items:center;background:#fff;border-radius:16px;padding:14px;margin-bottom:10px}
+.apps .ic{width:40px;height:40px;border-radius:12px;background:var(--green-pale);color:var(--green);display:grid;place-items:center}
+.apps b{font-size:15px;display:block}
+.apps span{font-size:13px;color:var(--muted)}
+.st{font-size:12px;font-weight:700;border-radius:999px;padding:4px 10px;white-space:nowrap}
+.st.review{background:#FFF3D6;color:#8A5B00}.st.new{background:#E7F0FA;color:#245C99}.st.done{background:var(--green-pale);color:var(--green-2)}
+.events{display:grid;gap:10px}
+.event{display:grid;grid-template-columns:96px 1fr auto;gap:16px;align-items:center;background:#fff;border-radius:16px;padding:10px}
+.event img{width:96px;height:72px;border-radius:12px;object-fit:cover;background:var(--soft)}
+.event b{display:block;font-size:15px}
+.event span{font-size:13px;color:var(--muted)}
+.event .kind{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:#FDECEC;color:#A33A3A;white-space:nowrap}
+.event .kind.ok{background:var(--green-pale);color:var(--green-2)}
+
+.sits{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.sit{border:1px solid var(--line);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:16px;min-height:150px}
+.sit:hover{border-color:#BFE0B5;background:var(--green-pale)}
+.sit .ic{width:44px;height:44px;border-radius:12px;background:var(--green-pale);color:var(--green);display:grid;place-items:center}
+.sit:hover .ic{background:#fff}
+.sit b{font-size:16px;line-height:1.3;margin-top:auto}
+.sit span{font-size:13px;color:var(--muted)}
+
+.band{margin:80px 16px 0;background:var(--navy);border-radius:32px;color:#fff;padding:40px 0}
+.band-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.band-grid div{padding:6px 24px;border-left:1px solid rgba(255,255,255,.12)}
+.band-grid div:first-child{border-left:0}
+.band .ico{width:30px;height:30px;color:var(--lime);stroke-width:1.5}
+.band b{display:block;margin-top:12px;font-size:17px}
+.band p{font-size:14px;color:#AFC0D2;margin-top:6px}
+
+.places{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pl{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:4/3;background:var(--soft);color:#fff}
+.pl img{width:100%;height:100%;object-fit:cover;display:block}
+.pl div{position:absolute;inset:auto 0 0 0;padding:18px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.65))}
+.pl b{font-size:20px;display:block}
+.pl span{font-size:13px;opacity:.85}
+
+footer{margin-top:80px;border-top:1px solid var(--line);padding:40px 0 30px;font-size:14px;color:var(--muted)}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:28px}
+footer b{color:var(--text);display:block;margin-bottom:8px}
+footer a{display:block;padding:3px 0}
+.credits{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);font-size:12px}
+.credits a{display:inline;text-decoration:underline}
+
+.tabbar{display:none}
+
+@media (max-width:1280px){nav.main{display:none}.menu-btn{display:grid}}
+@media (max-width:1150px){
+  .hero-in{grid-template-columns:1fr;padding:48px 32px 110px}
+  .hero::before{background:linear-gradient(180deg,rgba(255,255,255,.95) 0%,rgba(255,255,255,.85) 55%,rgba(255,255,255,.4) 100%)}
+  .assist{max-width:520px}
+  .pop-row{grid-template-columns:repeat(3,1fr)}
+  .two{grid-template-columns:1fr}
+  .sits{grid-template-columns:repeat(2,1fr)}
+  .band-grid{grid-template-columns:repeat(2,1fr);row-gap:24px}.band-grid div:nth-child(odd){border-left:0}
+  .fgrid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:600px){
+  .wrap{padding:0 16px}
+  .bar{height:62px;gap:10px}
+  .cta-btn,.tools .icon-btn.search-i{display:none}
+  .lang button{padding:6px 8px}
+  .hero{margin:8px;border-radius:24px;min-height:0}
+  .hero-in{padding:32px 20px 100px}
+  .hero .q{font-size:18px}
+  .assist{display:none}
+  .popular{margin-top:-76px}
+  .pop-row{display:flex;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px 14px}
+  .pop-row::-webkit-scrollbar{display:none}
+  .pop{flex:0 0 220px}
+  .event{grid-template-columns:72px 1fr}.event img{width:72px;height:60px}.event .kind{grid-column:2;justify-self:start}
+  .sits{grid-template-columns:1fr 1fr;gap:10px}.sit{padding:16px;min-height:130px}.sit b{font-size:14px}
+  .band{margin:56px 8px 0;border-radius:24px}
+  .band-grid{grid-template-columns:1fr}.band-grid div{border-left:0!important}
+  .places{grid-template-columns:1fr}
+  .fgrid{grid-template-columns:1fr}
+  section{padding-top:52px}
+  body{padding-bottom:74px}
+  .tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:30;background:#fff;border-top:1px solid var(--line);padding:8px 0 calc(8px + env(safe-area-inset-bottom))}
+  .tabbar a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:600;color:var(--muted);min-height:44px;justify-content:center}
+  .tabbar a[aria-current]{color:var(--green)}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-meter" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 13l4-3M8 5l1 2M16 5l-1 2"/></symbol>
+  <symbol id="i-house" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M6 8h12v4a6 6 0 0 1-12 0zM12 18v3"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h5"/></symbol>
+  <symbol id="i-heat" viewBox="0 0 24 24"><path d="M5 20V9M10 20V6M15 20V9M20 20V6M3 20h19M5 9c1-2 3-2 5-3M15 9c1-2 3-2 5-3"/></symbol>
+  <symbol id="i-crane" viewBox="0 0 24 24"><path d="M4 21h16M7 21V4h2v17M9 5h11l-3 3M17 8v4M15 12h4v3h-4z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 21h18M6 17v-5M11 17V7M16 17v-8M20 5l-4 4-5-2-5 4"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4zM8 9h8M8 12h5"/></symbol>
+  <symbol id="i-water" viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3c1 4 6 6 6 11a6 6 0 0 1-12 0c0-3 2-4 3-6 1 2 2 2 3 2-1-3 0-5 0-7z"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l9 16H3zM12 10v4M12 17h.01"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6 7-11.5a7 7 0 0 0-14 0C5 15 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2zM9 4v14M15 6v14"/></symbol>
+  <symbol id="i-access" viewBox="0 0 24 24"><circle cx="12" cy="4.5" r="1.5"/><path d="M5 8l7 1 7-1M12 9v5l-3 7M12 14l3 7"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+</svg>
+
+<div class="demo">Тестовая версия портала. Организации и заявки вымышлены, личные данные не вводите.</div>
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#"><svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="17" fill="#EDF6E9"/><path d="M6 24l7-10 4 5 3-3 8 8z" fill="#3D9A2B"/><circle cx="23" cy="10" r="3" fill="#8BC34A"/></svg>Aqmola</a>
+    <nav class="main" aria-label="Основная"><a href="#" aria-current="page">Услуги</a><a href="#">Жителям</a><a href="#">Бизнесу</a><a href="#">Туризм</a><a href="#">Новости и события</a><a href="#">О регионе</a></nav>
+    <div class="tools">
+      <button class="icon-btn search-i" aria-label="Поиск"><svg class="ico"><use href="#i-search"/></svg></button>
+      <div class="lang" role="group" aria-label="Язык"><button aria-pressed="false">ҚАЗ</button><button aria-pressed="true">РУС</button><button aria-pressed="false">ENG</button></div>
+      <button class="cta-btn">Подать заявку</button>
+      <button class="icon-btn" aria-label="Профиль"><svg class="ico"><use href="#i-user"/></svg></button>
+      <button class="icon-btn menu-btn" aria-label="Меню"><svg class="ico"><use href="#i-list"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main>
+<div class="hero">
+  <div class="hero-in">
+    <div>
+      <h1 id="hello">Доброе утро,<br>Акмола.</h1>
+      <p class="q">Чем можем помочь сегодня?</p>
+      <form class="search" role="search" onsubmit="return false"><input aria-label="Поиск услуги" placeholder="Услуги, заявки, отключения…"><button aria-label="Найти"><svg class="ico"><use href="#i-search"/></svg></button></form>
+      <p class="place-pick"><svg class="ico" style="width:18px;height:18px"><use href="#i-pin"/></svg>Показываем услуги для
+        <select aria-label="Населённый пункт"><option>Кокшетау</option><option>Косшы</option><option>Степногорск</option><option>Бурабайского района</option><option>Зерендинского района</option><option>всей области</option></select></p>
+      <div class="aud" role="group" aria-label="Для кого"><button aria-pressed="true">Я житель</button><button aria-pressed="false">Я представляю компанию</button></div>
+    </div>
+    <aside class="assist" aria-labelledby="as-h">
+      <div class="assist-h"><span class="spark"><svg class="ico"><use href="#i-spark"/></svg></span><span><b id="as-h">Помощник Aqmola</b><small>Подскажет нужную услугу</small></span><span class="beta">ДЕМО</span></div>
+      <form class="ask" onsubmit="return false"><input aria-label="Вопрос помощнику" placeholder="Например: как подключить газ?"><button aria-label="Спросить"><svg class="ico" style="width:18px;height:18px"><use href="#i-send"/></svg></button></form>
+      <ul class="quick">
+        <li><a href="#"><span class="ic"><svg class="ico"><use href="#i-grid"/></svg></span><span><b>Найти услугу</b><span>По ситуации или организации</span></span><svg class="ico chev"><use href="#i-next"/></svg></a></li>
+        <li><a href="#"><span class="ic"><svg class="ico"><use href="#i-doc"/></svg></span><span><b>Проверить заявку</b><span>Статус по номеру DEMO</span></span><svg class="ico chev"><use href="#i-next"/></svg></a></li>
+        <li><a href="#"><span class="ic"><svg class="ico"><use href="#i-alert"/></svg></span><span><b>Плановые отключения</b><span>Вода, свет, тепло рядом с вами</span></span><svg class="ico chev"><use href="#i-next"/></svg></a></li>
+      </ul>
+    </aside>
+  </div>
+</div>
+
+<div class="wrap popular">
+  <p class="pop-h">Популярные услуги</p>
+  <div class="pop-row">
+    <a class="pop" href="#"><span class="ic"><svg class="ico"><use href="#i-meter"/></svg></span><span><b>Передать показания</b><span>Вода, свет, газ</span></span></a>
+    <a class="pop" href="#"><span class="ic"><svg class="ico"><use href="#i-plug"/></svg></span><span><b>Подключение</b><span>Технические условия</span></span></a>
+    <a class="pop" href="#"><span class="ic"><svg class="ico"><use href="#i-doc"/></svg></span><span><b>Лицевой счёт</b><span>Переоформление</span></span></a>
+    <a class="pop" href="#"><span class="ic"><svg class="ico"><use href="#i-alert"/></svg></span><span><b>Сообщить об аварии</b><span>Круглосуточно</span></span></a>
+    <a class="pop" href="#"><span class="ic"><svg class="ico"><use href="#i-trash"/></svg></span><span><b>Вывоз ТБО</b><span>Договор и график</span></span></a>
+  </div>
+</div>
+
+<section>
+  <div class="wrap two">
+    <div class="box">
+      <div class="sec-h"><h2>Мои заявки</h2><a href="#">Все</a></div>
+      <ul class="apps">
+        <li><a href="#"><span class="ic"><svg class="ico"><use href="#i-plug"/></svg></span><span><b>Техусловия на воду</b><span>DEMO-1042, Водоканал Кокшетау</span></span><span class="st review">В работе</span></a></li>
+        <li><a href="#"><span class="ic"><svg class="ico"><use href="#i-doc"/></svg></span><span><b>Переоформление лицевого счёта</b><span>DEMO-1038, Расчётный центр</span></span><span class="st new">Подана</span></a></li>
+        <li><a href="#"><span class="ic"><svg class="ico"><use href="#i-meter"/></svg></span><span><b>Показания счётчиков</b><span>DEMO-1031, Водоканал Кокшетау</span></span><span class="st done">Исполнена</span></a></li>
+      </ul>
+    </div>
+    <div class="box">
+      <div class="sec-h"><h2>Рядом с вами</h2><a href="#">Все события</a></div>
+      <div class="events">
+        <a class="event" href="#"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Lake_Burabai_2.jpg/330px-Lake_Burabai_2.jpg" alt="" loading="lazy"><span><b>Отключение холодной воды</b><span>ул. Тестовая, 22 октября, 10:00–16:00</span></span><span class="kind">Отключение</span></a>
+        <a class="event" href="#"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Museum_of_History_of_Kokshetau_in_March_2025.jpg/330px-Museum_of_History_of_Kokshetau_in_March_2025.jpg" alt="" loading="lazy"><span><b>Ярмарка выходного дня</b><span>Кокшетау, 26 октября, с 9:00</span></span><span class="kind ok">Событие</span></a>
+        <a class="event" href="#"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Zerenda_June_07.jpg/330px-Zerenda_June_07.jpg" alt="" loading="lazy"><span><b>Начало отопительного сезона</b><span>Вся область, с 1 октября</span></span><span class="kind ok">Новость</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-h"><h2>Жизненные ситуации</h2><a href="#">Все ситуации</a></div>
+    <div class="sits">
+      <a class="sit" href="#"><span class="ic"><svg class="ico"><use href="#i-meter"/></svg></span><span><b>Приборы учёта и показания</b><br><span>9 услуг</span></span></a>
+      <a class="sit" href="#"><span class="ic"><svg class="ico"><use href="#i-plug"/></svg></span><span><b>Подключение и технические условия</b><br><span>14 услуг</span></span></a>
+      <a class="sit" href="#"><span class="ic"><svg class="ico"><use href="#i-doc"/></svg></span><span><b>Договоры, лицевые счета и ЕПД</b><br><span>18 услуг</span></span></a>
+      <a class="sit" href="#"><span class="ic"><svg class="ico"><use href="#i-heat"/></svg></span><span><b>Подготовка к отопительному сезону</b><br><span>6 услуг</span></span></a>
+      <a class="sit" href="#"><span class="ic"><svg class="ico"><use href="#i-house"/></svg></span><span><b>Жилищно-коммунальное хозяйство</b><br><span>11 услуг</span></span></a>
+      <a class="sit" href="#"><span class="ic"><svg class="ico"><use href="#i-crane"/></svg></span><span><b>Строительство и согласования</b><br><span>7 услуг</span></span></a>
+      <a class="sit" href="#"><span class="ic"><svg class="ico"><use href="#i-chart"/></svg></span><span><b>Бизнес и инвестиции</b><br><span>8 услуг</span></span></a>
+      <a class="sit" href="#"><span class="ic"><svg class="ico"><use href="#i-chat"/></svg></span><span><b>Обращения и качество услуг</b><br><span>5 услуг</span></span></a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-h"><h2>Отдых в области</h2><a href="#">Туризм</a></div>
+    <div class="places">
+      <a class="pl" href="#"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/View_of_Burabay_lake_and_Kokshe_mountains.jpg/960px-View_of_Burabay_lake_and_Kokshe_mountains.jpg" alt="Озеро Бурабай и горы Кокше" loading="lazy"><div><b>Бурабай</b><span>Бурабайский район</span></div></a>
+      <a class="pl" href="#"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Sunset_in_Korgalzhyn_Nature_Reserve.jpg/960px-Sunset_in_Korgalzhyn_Nature_Reserve.jpg" alt="Закат в Коргалжынском заповеднике" loading="lazy"><div><b>Коргалжын</b><span>Коргалжынский район</span></div></a>
+      <a class="pl" href="#"><img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Zerenda_June_07.jpg/960px-Zerenda_June_07.jpg" alt="Зеренда летом" loading="lazy"><div><b>Зеренда</b><span>Зерендинский район</span></div></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<div class="band">
+  <div class="wrap band-grid">
+    <div><svg class="ico"><use href="#i-spark"/></svg><b>Понятный поиск</b><p>Ищите по ситуации, а не по названию организации.</p></div>
+    <div><svg class="ico"><use href="#i-user"/></svg><b>Персонально</b><p>Услуги и новости для вашего района.</p></div>
+    <div><svg class="ico"><use href="#i-eye"/></svg><b>Прозрачно</b><p>Статус каждой заявки по шагам.</p></div>
+    <div><svg class="ico"><use href="#i-map"/></svg><b>Вся область</b><p>17 районов и 3 города в одном окне.</p></div>
+    <div><svg class="ico"><use href="#i-access"/></svg><b>Для каждого</b><p>Три языка, крупный шрифт, любое устройство.</p></div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div><b>Aqmola</b><p>Тестовый портал услуг Акмолинской области. Не является государственным сервисом.</p></div>
+      <div><b>Жителям</b><a href="#">Услуги</a><a href="#">Мои заявки</a><a href="#">Отключения</a></div>
+      <div><b>Бизнесу</b><a href="#">Услуги для юрлиц</a><a href="#">Кабинет оператора</a></div>
+      <div><b>Регион</b><a href="#">О регионе</a><a href="#">Новости</a><a href="#">Туризм</a></div>
+    </div>
+    <p class="credits">Фото: Wikimedia Commons, CC BY-SA 4.0:
+      <a href="https://commons.wikimedia.org/wiki/File:Lake_Burabai.jpg">Kul-Tegin Makishev</a>,
+      <a href="https://commons.wikimedia.org/wiki/File:View_of_Burabay_lake_and_Kokshe_mountains.jpg">Noiembrie</a>,
+      <a href="https://commons.wikimedia.org/wiki/File:Zerenda_June_07.jpg">Saltanat-alikhanova</a>,
+      <a href="https://commons.wikimedia.org/wiki/File:Sunset_in_Korgalzhyn_Nature_Reserve.jpg">Dildakhmet</a>,
+      <a href="https://commons.wikimedia.org/wiki/File:Museum_of_History_of_Kokshetau_in_March_2025.jpg">Kristianmusic</a>.</p>
+  </div>
+</footer>
+
+<nav class="tabbar" aria-label="Разделы">
+  <a href="#" aria-current="page"><svg class="ico"><use href="#i-house"/></svg>Главная</a>
+  <a href="#"><svg class="ico"><use href="#i-grid"/></svg>Услуги</a>
+  <a href="#"><svg class="ico"><use href="#i-bell"/></svg>Рядом</a>
+  <a href="#"><svg class="ico"><use href="#i-user"/></svg>Профиль</a>
+</nav>
+
+<script>
+const h=new Date().getHours();
+document.getElementById('hello').innerHTML=(h<5?'Доброй ночи':h<12?'Доброе утро':h<18?'Добрый день':'Добрый вечер')+',<br>Акмола.';
+document.querySelectorAll('[role=group]').forEach(g=>g.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;g.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));}));
+</script>
+</body>
+</html>

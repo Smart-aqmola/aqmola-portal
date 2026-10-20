@@ -1,0 +1,74 @@
+.wrap {
+  position: relative;
+}
+
+.button {
+  display: inline-grid;
+  place-items: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border: 0;
+  border-radius: 50%;
+  background: rgb(127 127 127 / 18%);
+  color: inherit;
+}
+
+.panel {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  right: 0;
+  z-index: 40;
+  display: grid;
+  gap: var(--space-2);
+  width: min(300px, calc(100vw - 2 * var(--gutter)));
+  padding: var(--space-4);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-card);
+}
+
+.title {
+  font-size: var(--text-base);
+  font-weight: var(--weight-medium);
+}
+
+.fieldset {
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+
+.fieldset legend {
+  margin-bottom: var(--space-1);
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+}
+
+.option {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  min-height: var(--tap-target);
+  font-size: var(--text-sm);
+}
+
+.option input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-accent);
+}
+
+.reset {
+  justify-self: start;
+  min-height: var(--tap-target);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-accent-text);
+  font-size: var(--text-sm);
+  text-decoration: underline;
+}

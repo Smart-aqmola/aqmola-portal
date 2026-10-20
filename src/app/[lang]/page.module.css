@@ -1,0 +1,90 @@
+.hero {
+  position: relative;
+  color: var(--color-on-dark);
+  background: var(--color-ink);
+  border-radius: 0 0 var(--space-7) var(--space-7);
+  /* Room for the header that lies on top of the photo. */
+  padding-top: calc(var(--header-height) + var(--space-7));
+  padding-bottom: var(--space-7);
+  overflow: hidden;
+  --color-focus: #8fd3ea;
+}
+
+/* The photo fills only the top band, so a tall hero never crops it into a narrow strip. */
+.band {
+  position: absolute;
+  inset: 0 0 auto;
+  height: min(100%, 980px);
+}
+
+.photo {
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+/* Darkens the photo for readable white text and melts into the dark hero below it. */
+.shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgb(10 30 40 / 52%) 0%,
+    rgb(10 30 40 / 28%) 35%,
+    rgb(10 30 40 / 62%) 72%,
+    var(--color-ink) 100%
+  );
+}
+
+.heroContent {
+  position: relative;
+}
+
+.title {
+  max-width: 14ch;
+  font-size: var(--text-display);
+  font-weight: var(--weight-light);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  max-width: 34rem;
+  margin-top: var(--space-4);
+  font-size: var(--text-lg);
+}
+
+.sections {
+  display: grid;
+  gap: var(--space-8);
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-8);
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--space-7);
+  align-items: start;
+}
+
+@media (max-width: 1150px) {
+  .columns {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding-top: calc(var(--header-height) + var(--space-5));
+    border-radius: 0 0 var(--space-6) var(--space-6);
+  }
+
+  .band {
+    height: min(100%, 760px);
+  }
+
+  .sections {
+    gap: var(--space-7);
+  }
+}

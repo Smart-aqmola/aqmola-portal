@@ -1,0 +1,24 @@
+.button {
+  display: inline-grid;
+  place-items: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-soft);
+  transition: color 0.15s;
+}
+
+.button:hover {
+  color: var(--color-danger);
+}
+
+.button[aria-pressed="true"] {
+  color: var(--color-danger);
+}
+
+.button[aria-pressed="true"] svg {
+  fill: currentcolor;
+}

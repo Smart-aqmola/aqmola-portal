@@ -1,0 +1,452 @@
+{
+  "meta": {
+    "title": "Aqmola — Akmola Region services portal (test)",
+    "description": "A test portal for utility and city services in the Akmola Region."
+  },
+  "demo": {
+    "banner": "Test version of the portal. Organizations and applications are fictional, please do not enter personal data."
+  },
+  "brand": {
+    "name": "Aqmola",
+    "tagline": "Akmola Region services portal"
+  },
+  "nav": {
+    "label": "Main navigation",
+    "home": "Home",
+    "services": "Services",
+    "applications": "My applications",
+    "news": "News",
+    "tourism": "Tourism",
+    "about": "About the region"
+  },
+  "header": {
+    "signIn": "Sign in",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "language": "Language",
+    "skipToContent": "Skip to content",
+    "account": "Account"
+  },
+  "footer": {
+    "about": "A test portal for Akmola Region services. Not an official government service.",
+    "residents": "For residents",
+    "business": "For business",
+    "region": "Region",
+    "services": "Services",
+    "applications": "My applications",
+    "situations": "Life situations",
+    "businessServices": "Services for companies",
+    "operator": "Operator account",
+    "aboutRegion": "About the region",
+    "news": "News",
+    "tourism": "Tourism",
+    "rights": "© 2026 Aqmola, test data"
+  },
+  "home": {
+    "hero": {
+      "title": "The whole region awaits.",
+      "lead": "Utility and city services in 17 districts and 3 cities of the Akmola Region: online, no queues."
+    },
+    "search": {
+      "label": "Find a service",
+      "queryLabel": "What do you need",
+      "queryPlaceholder": "Service name or number",
+      "territoryLabel": "Where",
+      "allTerritories": "Whole region",
+      "audienceLabel": "For whom",
+      "resident": "Residents",
+      "business": "Business",
+      "submit": "Search"
+    },
+    "situations": {
+      "title": "Life situations",
+      "scrollMore": "Show more situations",
+      "popularIn": "Popular services: {name}",
+      "allServices": "All services"
+    },
+    "service": {
+      "free": "Free",
+      "online": "Online",
+      "visit": "Visit required",
+      "days": "{n} business day(s)",
+      "resident": "Residents",
+      "business": "Business",
+      "both": "Residents and business",
+      "order": "Order service",
+      "details": "Details",
+      "code": "No. {code}",
+      "new": "New"
+    },
+    "applications": {
+      "title": "My applications",
+      "text": "Sign in as a demo resident to submit an application and follow its status.",
+      "statuses": {
+        "submitted": "Submitted",
+        "inReview": "In progress",
+        "completed": "Completed"
+      },
+      "button": "Open my applications"
+    },
+    "news": {
+      "title": "Region news",
+      "all": "All news"
+    },
+    "tourism": {
+      "title": "Where to go in the region",
+      "all": "All tourism",
+      "facts": {
+        "nature": "Nature",
+        "lake": "Lake",
+        "reserve": "Reserve",
+        "museum": "Museum",
+        "city": "City",
+        "rest": "Rest"
+      }
+    },
+    "comingSoon": {
+      "title": "Coming soon",
+      "badge": "In development"
+    },
+    "contact": {
+      "title": "Still have questions?",
+      "demoNote": "Demo form: the message is not sent anywhere. Do not enter real personal data.",
+      "name": "Name",
+      "message": "Your question",
+      "submit": "Send",
+      "sent": "Thank you! This is a demo form, the message was not sent."
+    },
+    "credits": {
+      "label": "Photo"
+    }
+  },
+  "catalog": {
+    "title": "Services",
+    "lead": "Find a service by name, number, life situation or provider.",
+    "search": {
+      "label": "Search and filters",
+      "queryLabel": "Service name or number",
+      "queryPlaceholder": "For example: water readings or 1001",
+      "submit": "Show"
+    },
+    "filters": {
+      "audience": "For whom",
+      "resident": "Residents",
+      "business": "Business",
+      "territory": "Where",
+      "allTerritories": "Whole region",
+      "situation": "Life situation",
+      "allSituations": "All situations",
+      "organization": "Provider",
+      "allOrganizations": "All providers",
+      "reset": "Reset filters"
+    },
+    "categories": {
+      "label": "Service categories",
+      "all": "All"
+    },
+    "results": {
+      "found": "Services found: {n}",
+      "empty": "Nothing found",
+      "emptyHint": "Change the search or reset the filters.",
+      "heading": "List of services"
+    },
+    "pagination": {
+      "label": "Catalog pages",
+      "prev": "Previous",
+      "next": "Next",
+      "page": "Page {n}"
+    },
+    "favorites": {
+      "add": "Add to favorites",
+      "remove": "Remove from favorites"
+    }
+  },
+  "serviceDetails": {
+    "breadcrumbs": {
+      "label": "You are here"
+    },
+    "order": "Order service",
+    "testNote": "Test service: the description, steps and documents are examples.",
+    "steps": {
+      "title": "How to get the service",
+      "items": {
+        "login": "Sign in to the demo account",
+        "data": "Fill in the applicant and property details",
+        "documents": "Attach the documents",
+        "review": "Check the entered data",
+        "sign": "Confirm the application",
+        "visit": "A specialist will come or you will be invited to the office",
+        "result": "Follow the status in “My applications”"
+      }
+    },
+    "documents": {
+      "title": "Documents you will need",
+      "items": {
+        "identity": "Identity document",
+        "organization": "Organization details",
+        "proxy": "Document proving the representative's authority",
+        "meterPhoto": "Photo of the meter with current readings",
+        "plan": "Plan of the plot and the building",
+        "property": "Property document: extract or contract",
+        "account": "Account or contract number",
+        "problemPhoto": "Photo of the problem, if any"
+      }
+    },
+    "facts": {
+      "title": "About the service",
+      "provider": "Provider",
+      "audience": "For whom",
+      "channel": "How it is provided",
+      "online": "Online",
+      "visit": "A visit or a specialist on site is needed",
+      "cost": "Cost",
+      "free": "Free",
+      "term": "Response time",
+      "days": "up to {n} business day(s)",
+      "area": "Where available",
+      "allRegion": "Whole region",
+      "updated": "Last changed",
+      "fullTitle": "Full name",
+      "code": "Service number"
+    },
+    "related": "More services: {name}"
+  },
+  "status": {
+    "submitted": "Submitted",
+    "in_progress": "In progress",
+    "done": "Completed",
+    "rejected": "Rejected"
+  },
+  "signIn": {
+    "title": "Demo sign-in",
+    "lead": "Real sign-in (digital signature, SMS, eGov) is not connected. Pick a test profile to try submitting an application.",
+    "resident": {
+      "title": "Sign in as a resident",
+      "text": "Test individual “Demo Resident”. Can order services for residents."
+    },
+    "business": {
+      "title": "Sign in as a business",
+      "text": "Test company “Demo Business LLP”. Can order services for business."
+    },
+    "signedAs": "You are signed in as {name}",
+    "continue": "Continue",
+    "toApplications": "My applications",
+    "signOut": "Sign out",
+    "note": "All data stays in your browser and is never sent anywhere.",
+    "operator": {
+      "title": "Sign in as an operator",
+      "text": "Test organization staff member “Demo Operator”. Sees the applications of their organization and changes their status.",
+      "organization": "Organization"
+    },
+    "toOperator": "Operator cabinet"
+  },
+  "apply": {
+    "title": "Service application",
+    "breadcrumb": "Application",
+    "signInRequired": {
+      "title": "Sign in to the demo cabinet",
+      "text": "Applications are submitted on behalf of a test resident or a test company.",
+      "button": "Sign in"
+    },
+    "wrongRole": {
+      "title": "This service is not for your profile",
+      "text": "The service is meant for: {audience}. You are signed in as {name}. Sign in with another profile.",
+      "button": "Change profile"
+    },
+    "stepOf": "Step {n} of {total}",
+    "progress": "Application steps",
+    "steps": {
+      "object": "Object",
+      "documents": "Documents",
+      "review": "Review",
+      "sign": "Signing"
+    },
+    "applicant": "Applicant",
+    "service": "Service",
+    "object": {
+      "title": "Where the service is needed",
+      "territory": "City or district",
+      "territoryPlaceholder": "Choose",
+      "address": "Object address",
+      "addressHint": "Invent a test address, for example “Testovaya St, 1”. Do not enter real addresses."
+    },
+    "documents": {
+      "title": "Documents",
+      "lead": "No files are uploaded: mark a test document as attached.",
+      "attach": "Attach a test file",
+      "attached": "Attached",
+      "none": "This service needs no documents."
+    },
+    "review": {
+      "title": "Check the application",
+      "comment": "Comment (optional)",
+      "commentHint": "Up to {max} characters. Do not enter personal data.",
+      "address": "Address",
+      "territory": "City or district",
+      "documents": "Documents"
+    },
+    "sign": {
+      "title": "Signing",
+      "lead": "A digital signature would go here. In the demo, signing is a single checkbox.",
+      "consent": "I understand this is a demo: the application will not reach any organization",
+      "submit": "Sign and submit"
+    },
+    "back": "Back",
+    "next": "Next",
+    "errors": {
+      "required": "Fill in this field",
+      "short": "Too short",
+      "long": "Too long",
+      "missing": "Attach all documents",
+      "consent": "Tick the box to continue"
+    },
+    "notFound": "Service not found"
+  },
+  "applications": {
+    "title": "My applications",
+    "lead": "Applications submitted in this browser as “{name}”.",
+    "signInRequired": {
+      "title": "Sign in to see your applications",
+      "text": "Applications are stored in the browser and tied to a test profile.",
+      "button": "Sign in"
+    },
+    "empty": {
+      "title": "No applications yet",
+      "text": "Pick a service in the catalog and submit a test application.",
+      "button": "Open the catalog"
+    },
+    "list": "Applications",
+    "open": "Open",
+    "submittedOn": "Submitted {date}",
+    "detail": {
+      "back": "All applications",
+      "status": "Status",
+      "service": "Service",
+      "number": "Number",
+      "created": "Application submitted. This is a demo, nobody will process it.",
+      "history": "History",
+      "address": "Address",
+      "territory": "City or district",
+      "comment": "Comment",
+      "documents": "Attached documents",
+      "owner": "Applicant",
+      "notFound": "No such application in this browser",
+      "notFoundText": "It may have been submitted under another profile, or the browser data was cleared."
+    },
+    "otherRole": "The operator sees applications in their own cabinet."
+  },
+  "operator": {
+    "title": "Operator cabinet",
+    "lead": "Applications of “{org}”. Statuses only move forward: Submitted → In progress → Completed or Rejected.",
+    "signInRequired": {
+      "title": "Operator sign-in needed",
+      "text": "Pick a test organization on the sign-in page.",
+      "button": "Sign in"
+    },
+    "notOperator": "This section is for operators only. Sign in as an operator.",
+    "filter": "Filter by status",
+    "all": "All",
+    "count": "Applications: {n}",
+    "empty": {
+      "title": "This organization has no applications yet",
+      "text": "Residents and businesses submit applications in this same browser. Or add a few test applications to try the cabinet.",
+      "button": "Add test applications"
+    },
+    "noneInFilter": "No applications with this status.",
+    "change": {
+      "title": "Change status",
+      "note": "Comment for the applicant (optional)",
+      "noteHint": "Up to {max} characters.",
+      "finalNote": "The application is closed, its status cannot be changed.",
+      "to": {
+        "in_progress": "Take into work",
+        "done": "Mark as completed",
+        "rejected": "Reject"
+      },
+      "stale": "The application was just changed. Reload the page and try again.",
+      "forbidden": "This status change is not allowed.",
+      "changed": "Status changed"
+    },
+    "from": "From"
+  },
+  "newsPage": {
+    "title": "News",
+    "lead": "News from the regional portal and the districts. All texts are test ones, the events are made up.",
+    "search": {
+      "label": "Search the news",
+      "queryLabel": "Search the news",
+      "placeholder": "For example, water or heating",
+      "submit": "Search"
+    },
+    "topicsLabel": "News topics",
+    "topics": {
+      "all": "All topics",
+      "utilities": "Utilities",
+      "services": "Portal services",
+      "city": "City and district"
+    },
+    "tabs": {
+      "label": "News order",
+      "latest": "Latest",
+      "popular": "Popular"
+    },
+    "found": "News found: {n}",
+    "views": "Views: {n}",
+    "reset": "Reset",
+    "empty": {
+      "title": "No news found",
+      "text": "Change the query or pick another topic."
+    },
+    "article": {
+      "back": "All news",
+      "other": "Other news",
+      "testNote": "This is a test news item: the events in it are made up."
+    },
+    "listTitle": "List of news"
+  },
+  "tourismPage": {
+    "title": "Tourism",
+    "lead": "Places of the Akmola Region: lakes, reserves, cities. Descriptions are test ones, photos are from Wikimedia Commons.",
+    "territory": "District or city",
+    "others": "More places",
+    "services": "Services in this district",
+    "servicesText": "Service catalog for “{territory}”.",
+    "servicesButton": "Open the catalog",
+    "back": "All tourism",
+    "testNote": "The description is a test one: it will be replaced with a checked text before launch."
+  },
+  "aboutPage": {
+    "title": "About the region",
+    "lead": "A short note on the Akmola Region and how this portal is organized.",
+    "structure": {
+      "title": "Cities and districts",
+      "text": "The portal covers {cities} cities of regional significance and {districts} districts.",
+      "cities": "Cities of regional significance",
+      "districts": "Districts"
+    },
+    "services": {
+      "title": "Services for the whole region",
+      "text": "Services are chosen by district and life situation: water, heating, electricity, gas, documents.",
+      "button": "Open the catalog"
+    },
+    "tourism": {
+      "title": "Where to go",
+      "text": "Lakes, reserves and cities of the region.",
+      "button": "See the places"
+    },
+    "testNote": "The facts are test ones. The list of cities and districts will be checked against the official administrative division."
+  },
+  "display": {
+    "open": "Display settings",
+    "title": "Site appearance",
+    "theme": {
+      "label": "Theme",
+      "system": "Same as system",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "contrast": "High contrast",
+    "large": "Large text",
+    "reset": "Reset settings"
+  }
+}

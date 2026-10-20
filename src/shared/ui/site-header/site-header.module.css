@@ -1,0 +1,193 @@
+.header {
+  --pill-bg: var(--color-accent-soft);
+  --pill-fg: var(--color-text);
+  position: relative;
+  z-index: 20;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-line);
+}
+
+/* Over a photo hero (home page): transparent bar with white text. */
+.header[data-overlay="true"] {
+  --pill-bg: #fff;
+  --pill-fg: #10242e;
+  --color-focus: #8fd3ea;
+  position: absolute;
+  inset: 0 0 auto;
+  color: var(--color-on-dark);
+  background: transparent;
+  border-bottom-color: transparent;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  height: var(--header-height);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.brandPill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 8px 18px 8px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  letter-spacing: -0.01em;
+}
+
+.tagline {
+  max-width: 11rem;
+  font-size: var(--text-xs);
+  line-height: 1.25;
+  opacity: 0.85;
+}
+
+.nav {
+  margin-inline-start: auto;
+}
+
+.navList {
+  display: flex;
+  gap: 30px;
+  padding: 0;
+  list-style: none;
+  white-space: nowrap;
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  border-bottom: 2px solid transparent;
+  font-size: var(--text-base);
+  opacity: 0.85;
+}
+
+.navLink:hover {
+  opacity: 1;
+}
+
+.navLink[aria-current="page"] {
+  opacity: 1;
+  border-bottom-color: currentcolor;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.signIn span {
+  white-space: nowrap;
+}
+
+.menuButton {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border: 0;
+  border-radius: 50%;
+  background: rgb(127 127 127 / 18%);
+  color: inherit;
+}
+
+@media (max-width: 1150px) {
+  .menuButton {
+    display: inline-flex;
+  }
+
+  .tools {
+    margin-inline-start: auto;
+  }
+
+  .nav {
+    position: absolute;
+    top: 100%;
+    inset-inline: 0;
+    display: none;
+    margin: 0;
+    padding: var(--space-3) var(--gutter) var(--space-5);
+    background: var(--color-surface);
+    color: var(--color-text);
+    box-shadow: var(--shadow-card);
+  }
+
+  .nav[data-open="true"] {
+    display: block;
+  }
+
+  .navList {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .navLink {
+    display: flex;
+    width: 100%;
+    min-height: 52px;
+    border-bottom: 1px solid var(--color-line);
+    font-size: var(--text-lg);
+    opacity: 1;
+  }
+
+  .navLink[aria-current="page"] {
+    color: var(--color-accent-text);
+  }
+}
+
+@media (max-width: 600px) {
+  .bar {
+    gap: var(--space-2);
+  }
+
+  .brandPill {
+    padding: 6px 10px 6px 6px;
+    font-size: var(--text-base);
+  }
+
+  .tagline {
+    display: none;
+  }
+
+  .signInText {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .tools {
+    gap: var(--space-1);
+  }
+
+  /* Icon-only sign in button; two classes beat the Button base styles regardless of CSS order. */
+  .tools .signIn {
+    width: var(--tap-target);
+    padding: 0;
+  }
+}
+
+/* Large text makes the bar wider: drop the tagline and tighten the links so it still fits. */
+:root[data-text="large"] .tagline {
+  display: none;
+}
+
+:root[data-text="large"] .navList {
+  gap: 18px;
+}

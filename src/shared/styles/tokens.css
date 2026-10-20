@@ -1,0 +1,161 @@
+/* Design tokens from design/variants/1-panorama.html. Breakpoints (not usable in var()):
+   600px phone, 800px tablet, 1150px laptop. */
+:root {
+  --color-accent: #1c7c9c;
+  --color-accent-strong: #156680;
+  /* Accent as the colour of text and links; the accent tokens above are for backgrounds. */
+  --color-accent-text: #156680;
+  --color-accent-soft: #e6f2f6;
+  --color-ink: #10242e;
+  --color-text: #18262d;
+  --color-muted: #5d6c73;
+  --color-line: #e3e9ec;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f4f7f8;
+  --color-focus: #156680;
+  --color-on-dark: #ffffff;
+  --color-danger: #b3374a;
+
+  --status-new-bg: #e7f0fa;
+  --status-new-fg: #245c99;
+  --status-work-bg: #fff3d6;
+  --status-work-fg: #8a5b00;
+  --status-done-bg: #e3f3ea;
+  --status-done-fg: #1f6b43;
+
+  --font-sans: var(--font-onest), system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2.25rem;
+  --text-display: clamp(2.75rem, 7.4vw, 6.5rem);
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 16px 40px rgb(16 36 46 / 14%);
+  --shadow-soft: 0 10px 30px rgb(16 36 46 / 8%);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 72px;
+
+  --container-max: 1280px;
+  --gutter: 32px;
+  --header-height: 96px;
+  --tap-target: 44px;
+}
+
+@media (max-width: 600px) {
+  :root {
+    --gutter: 16px;
+    --header-height: 72px;
+  }
+}
+
+/* Dark theme: chosen on purpose (data-theme="dark") or followed from the system when nothing is chosen. */
+:root[data-theme="dark"] {
+  --color-accent-text: #7cc7de;
+  --color-accent-soft: #16303a;
+  --color-ink: #1d3a49;
+  --color-text: #e8f0f3;
+  --color-muted: #a3b5bc;
+  --color-line: #2b3d46;
+  --color-surface: #0d1a20;
+  --color-surface-soft: #15262e;
+  --color-focus: #8fd3ea;
+  --color-danger: #ff9aa9;
+  --status-new-bg: #172c42;
+  --status-new-fg: #9cc5f2;
+  --status-work-bg: #3a2e10;
+  --status-work-fg: #f2c66b;
+  --status-done-bg: #12301f;
+  --status-done-fg: #8fd6ae;
+  --shadow-card: 0 16px 40px rgb(0 0 0 / 50%);
+  --shadow-soft: 0 10px 30px rgb(0 0 0 / 35%);
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-accent-text: #7cc7de;
+    --color-accent-soft: #16303a;
+    --color-ink: #1d3a49;
+    --color-text: #e8f0f3;
+    --color-muted: #a3b5bc;
+    --color-line: #2b3d46;
+    --color-surface: #0d1a20;
+    --color-surface-soft: #15262e;
+    --color-focus: #8fd3ea;
+    --color-danger: #ff9aa9;
+    --status-new-bg: #172c42;
+    --status-new-fg: #9cc5f2;
+    --status-work-bg: #3a2e10;
+    --status-work-fg: #f2c66b;
+    --status-done-bg: #12301f;
+    --status-done-fg: #8fd6ae;
+    --shadow-card: 0 16px 40px rgb(0 0 0 / 50%);
+    --shadow-soft: 0 10px 30px rgb(0 0 0 / 35%);
+    color-scheme: dark;
+  }
+}
+
+/* High contrast: stronger text, lines and focus ring. */
+:root[data-contrast="high"] {
+  --color-text: #000000;
+  --color-muted: #36434a;
+  --color-line: #5d6c73;
+  --color-accent: #0b566f;
+  --color-accent-strong: #083f52;
+  --color-accent-text: #083f52;
+  --color-ink: #05141b;
+  --color-focus: #083f52;
+  --color-danger: #8a1f30;
+  --status-new-fg: #0f3d73;
+  --status-work-fg: #5c3c00;
+  --status-done-fg: #0f4a2c;
+}
+
+:root[data-theme="dark"][data-contrast="high"] {
+  --color-text: #ffffff;
+  --color-muted: #d3dee3;
+  --color-line: #8fa3ab;
+  --color-surface: #000000;
+  --color-surface-soft: #0b1419;
+  --color-accent: #0b566f;
+  --color-accent-strong: #08455a;
+  --color-accent-text: #a9e0f0;
+  --color-accent-soft: #0f2a35;
+  --color-ink: #0a2430;
+  --color-focus: #ffe066;
+  --color-danger: #ffb3bf;
+  --status-new-bg: #10253d;
+  --status-new-fg: #bcd9fb;
+  --status-work-bg: #33260a;
+  --status-work-fg: #ffd98a;
+  --status-done-bg: #0e2b1b;
+  --status-done-fg: #a8e6c3;
+}
+
+/* Large text: every size is in rem, so one change scales the whole interface. */
+:root[data-text="large"] {
+  font-size: 125%;
+}
+
+:root[data-contrast="high"] :focus-visible {
+  outline-width: 4px;
+}

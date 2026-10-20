@@ -1,0 +1,125 @@
+/* Designed to sit on the dark photo of the hero: white text, tabs with an underline. */
+.title {
+  margin-top: var(--space-8);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-light);
+  line-height: 1.1;
+}
+
+.tabsWrap {
+  position: relative;
+  margin-top: var(--space-4);
+}
+
+.tabs {
+  display: flex;
+  gap: var(--space-1);
+  overflow-x: auto;
+  padding-right: 60px;
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 132px;
+  padding: var(--space-2) var(--space-3) var(--space-3);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--color-on-dark);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+  opacity: 0.75;
+}
+
+.tab:hover {
+  opacity: 1;
+}
+
+.tab[aria-selected="true"] {
+  opacity: 1;
+  border-bottom-color: currentcolor;
+}
+
+.more {
+  position: absolute;
+  right: 0;
+  top: 40%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border: 0;
+  background: none;
+  color: var(--color-on-dark);
+}
+
+.panel {
+  margin-top: var(--space-6);
+}
+
+.panelHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.panelTitle {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-light);
+}
+
+.all {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  font-size: var(--text-sm);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.cards {
+  display: flex;
+  gap: var(--space-5);
+  margin: 0 calc(var(--gutter) * -1);
+  padding: var(--space-4) var(--gutter) var(--space-6);
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.cards::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  flex: 0 0 min(380px, 82vw);
+  scroll-snap-align: start;
+}
+
+@media (max-width: 600px) {
+  .title {
+    margin-top: var(--space-7);
+    font-size: 1.75rem;
+  }
+
+  .tab {
+    min-width: 100px;
+  }
+
+  .cards {
+    gap: var(--space-4);
+  }
+}
