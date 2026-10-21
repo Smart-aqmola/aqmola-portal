@@ -96,3 +96,28 @@ describe("theme switches", () => {
     expect(css).toContain(':root[data-text="large"]');
   });
 });
+
+describe("cards stand out from the page in the dark themes", () => {
+  const themes: [string, Tokens][] = [
+    ["dark", dark],
+    ["dark high contrast", darkHigh],
+  ];
+  for (const [name, tokens] of themes) {
+    it(`${name}: the page is darker than a card and a card has a visible border`, () => {
+      expect(tokens["--color-page"], "page").toMatch(/^#[0-9a-f]{6}$/i);
+      expect(luminance(tokens["--color-page"])).toBeLessThan(luminance(tokens["--color-surface"]));
+      expect(tokens["--color-card-border"]).toBe("var(--color-line)");
+      // The border is the line colour: it must be seen against the page.
+      expect(contrast(tokens["--color-line"], tokens["--color-page"])).toBeGreaterThanOrEqual(1.5);
+    });
+
+    it(`${name}: text is readable on the page`, () => {
+      expect(contrast(tokens["--color-text"], tokens["--color-page"])).toBeGreaterThanOrEqual(7);
+    });
+  }
+
+  it("light themes keep the white page and need no card border", () => {
+    expect(base["--color-page"]).toBe("var(--color-surface)");
+    expect(base["--color-card-border"]).toBe("transparent");
+  });
+});

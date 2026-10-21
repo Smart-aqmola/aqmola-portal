@@ -12,6 +12,9 @@
   --color-line: #e3e9ec;
   --color-surface: #ffffff;
   --color-surface-soft: #f4f7f8;
+  /* The page behind the cards. Light: the same white. Dark: darker than the cards, or they melt into it. */
+  --color-page: var(--color-surface);
+  --color-card-border: transparent;
   --color-focus: #156680;
   --color-on-dark: #ffffff;
   --color-danger: #b3374a;
@@ -77,6 +80,8 @@
   --color-line: #2b3d46;
   --color-surface: #0d1a20;
   --color-surface-soft: #15262e;
+  --color-page: #070f13;
+  --color-card-border: var(--color-line);
   --color-focus: #8fd3ea;
   --color-danger: #ff9aa9;
   --status-new-bg: #172c42;
@@ -100,6 +105,8 @@
     --color-line: #2b3d46;
     --color-surface: #0d1a20;
     --color-surface-soft: #15262e;
+    --color-page: #070f13;
+    --color-card-border: var(--color-line);
     --color-focus: #8fd3ea;
     --color-danger: #ff9aa9;
     --status-new-bg: #172c42;
@@ -134,8 +141,9 @@
   --color-text: #ffffff;
   --color-muted: #d3dee3;
   --color-line: #8fa3ab;
-  --color-surface: #000000;
-  --color-surface-soft: #0b1419;
+  --color-surface: #0b1419;
+  --color-surface-soft: #16242c;
+  --color-page: #000000;
   --color-accent: #0b566f;
   --color-accent-strong: #08455a;
   --color-accent-text: #a9e0f0;
