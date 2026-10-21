@@ -146,6 +146,33 @@ test.describe("home page", () => {
     await page.getByRole("button", { name: "Отправить" }).click();
     await expect(page.getByRole("status")).toContainText("сообщение не было отправлено");
   });
+
+  test("blocks below the first screen fade in when they are scrolled to", async ({ page }) => {
+    await page.goto("/ru");
+    const news = page.getByRole("heading", { name: "Новости области" });
+    // Hidden after the page loads, because the news block starts below the fold.
+    await expect(news.locator("xpath=ancestor::*[@data-reveal][1]")).toHaveAttribute(
+      "data-reveal",
+      "hidden",
+    );
+
+    await news.scrollIntoViewIfNeeded();
+    await expect(news.locator("xpath=ancestor::*[@data-reveal][1]")).toHaveAttribute(
+      "data-reveal",
+      "shown",
+    );
+  });
+
+  test("shows everything straight away when the person asked for less motion", async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({ reducedMotion: "reduce" });
+    const page = await context.newPage();
+    await page.goto("/ru");
+    await expect(page.getByRole("heading", { name: "Новости области" })).toBeVisible();
+    await expect(page.locator("[data-reveal]")).toHaveCount(0);
+    await context.close();
+  });
 });
 
 test.describe("mobile menu", () => {

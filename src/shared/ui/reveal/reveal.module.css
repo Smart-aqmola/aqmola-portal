@@ -1,0 +1,11 @@
+/* Set from the component after load, so the server-sent page is always fully visible. */
+.reveal[data-reveal="hidden"] {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.reveal[data-reveal="shown"] {
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
+}

@@ -142,7 +142,8 @@
     },
     "categories": {
       "label": "Service categories",
-      "all": "All"
+      "all": "All",
+      "scrollMore": "More categories"
     },
     "results": {
       "found": "Services found: {n}",
@@ -158,7 +159,9 @@
     },
     "favorites": {
       "add": "Add to favorites",
-      "remove": "Remove from favorites"
+      "remove": "Remove from favorites",
+      "added": "Added to favorites",
+      "removed": "Removed from favorites"
     }
   },
   "serviceDetails": {

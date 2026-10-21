@@ -1,0 +1,44 @@
+.wrap {
+  position: relative;
+}
+
+.list {
+  display: flex;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .list {
+    scroll-behavior: smooth;
+  }
+}
+
+.more {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-soft);
+  transition:
+    transform 0.15s ease-out,
+    border-color 0.15s;
+}
+
+.more:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-50%) translateX(2px);
+}

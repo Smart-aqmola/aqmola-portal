@@ -83,6 +83,34 @@ test.describe("catalog", () => {
     await expect(page.getByRole("combobox", { name: "Жизненная ситуация" })).toHaveValue("meters");
   });
 
+  test("tells with a message that a service was added to and removed from favorites", async ({
+    page,
+  }) => {
+    await page.goto("/ru/services");
+    const toasts = page.getByRole("log");
+    await page.getByRole("button", { name: "Добавить в избранное" }).first().click();
+    await expect(toasts).toContainText("Добавлено в избранное");
+
+    await page.getByRole("button", { name: "Убрать из избранного" }).first().click();
+    await expect(toasts).toContainText("Убрано из избранного");
+    await expect(toasts).toBeEmpty({ timeout: 6000 });
+  });
+
+  test("scrolls the category chips with the arrow and hides it at the end", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/ru/services");
+    const arrow = page.getByRole("button", { name: "Ещё категории" });
+    const list = page.getByRole("navigation", { name: "Категории услуг" }).getByRole("list");
+    await expect(arrow).toBeVisible();
+
+    const before = await list.evaluate((element) => element.scrollLeft);
+    await arrow.click();
+    await expect.poll(() => list.evaluate((element) => element.scrollLeft)).toBeGreaterThan(before);
+
+    await list.evaluate((element) => element.scrollTo({ left: element.scrollWidth }));
+    await expect(arrow).toHaveCount(0);
+  });
+
   test("speaks Kazakh", async ({ page }) => {
     await page.goto("/kk/services");
     await expect(page.getByRole("heading", { level: 1, name: "Қызметтер" })).toBeVisible();

@@ -10,6 +10,7 @@ import { loadHome } from "@/features/home/load-home";
 import { hasLocale } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
 import { PhotoCredits } from "@/shared/ui/photo-credits/photo-credits";
+import { Reveal } from "@/shared/ui/reveal/reveal";
 import styles from "./page.module.css";
 
 export default async function HomePage({ params }: PageProps<"/[lang]">) {
@@ -28,7 +29,9 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         <div className={`container ${styles.heroContent}`}>
           <h1 className={styles.title}>{t.hero.title}</h1>
           <p className={styles.lead}>{t.hero.lead}</p>
-          <HomeSearch lang={lang} labels={t.search} territories={home.territories} />
+          <div className={styles.search}>
+            <HomeSearch lang={lang} labels={t.search} territories={home.territories} />
+          </div>
           <SituationServices
             lang={lang}
             title={t.situations.title}
@@ -41,19 +44,23 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       </section>
 
       <div className={`container ${styles.sections}`}>
-        <div className={styles.columns}>
-          <NewsList lang={lang} title={t.news.title} allLabel={t.news.all} items={home.news} />
-          <ApplicationsPrompt lang={lang} labels={t.applications} />
-        </div>
+        <Reveal>
+          <div className={styles.columns}>
+            <NewsList lang={lang} title={t.news.title} allLabel={t.news.all} items={home.news} />
+            <ApplicationsPrompt lang={lang} labels={t.applications} />
+          </div>
+        </Reveal>
 
-        <div className={styles.columns}>
-          <ContactForm labels={t.contact} />
-          <ComingSoon
-            title={t.comingSoon.title}
-            badge={t.comingSoon.badge}
-            items={home.comingSoon}
-          />
-        </div>
+        <Reveal>
+          <div className={styles.columns}>
+            <ContactForm labels={t.contact} />
+            <ComingSoon
+              title={t.comingSoon.title}
+              badge={t.comingSoon.badge}
+              items={home.comingSoon}
+            />
+          </div>
+        </Reveal>
 
         <PhotoCredits label={t.credits.label} credits={home.credits} />
       </div>

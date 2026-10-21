@@ -12,6 +12,7 @@ import { getDictionary } from "@/shared/i18n/get-dictionary";
 import { Button } from "@/shared/ui/button/button";
 import newsStyles from "@/features/content/ui/news.module.css";
 import styles from "@/shared/styles/page.module.css";
+import { PageSkeleton } from "@/shared/ui/skeleton/page-skeleton";
 
 type Props = PageProps<"/[lang]/news">;
 
@@ -26,7 +27,7 @@ export default function NewsPage({ params, searchParams }: Props) {
   return (
     <div className={`container ${styles.page}`}>
       {/* The address is read at request time, so the list streams in behind this placeholder. */}
-      <Suspense fallback={<div className={styles.loading} aria-hidden="true" />}>
+      <Suspense fallback={<PageSkeleton />}>
         <News params={params} searchParams={searchParams} />
       </Suspense>
     </div>

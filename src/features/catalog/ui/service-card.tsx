@@ -5,7 +5,7 @@ import { format } from "@/shared/i18n/format";
 import { Button } from "@/shared/ui/button/button";
 import { Card } from "@/shared/ui/card/card";
 import { Icon } from "@/shared/ui/icon/icon";
-import { FavoriteButton } from "@/features/favorites/ui/favorite-button";
+import { FavoriteButton, type FavoriteLabels } from "@/features/favorites/ui/favorite-button";
 import { categoryIcons } from "./icons";
 import type { ServiceCardData } from "./service-card-data";
 import styles from "./service-card.module.css";
@@ -15,7 +15,7 @@ type ServiceCardProps = {
   lang: Locale;
   labels: Dictionary["home"]["service"];
   /** Shows the heart that saves the service in this browser when given. */
-  favoriteLabels?: { add: string; remove: string };
+  favoriteLabels?: FavoriteLabels;
 };
 
 export function ServiceCard({ service, lang, labels, favoriteLabels }: ServiceCardProps) {

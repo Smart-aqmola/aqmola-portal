@@ -5,6 +5,7 @@ import { catalogHref } from "@/features/catalog/domain/catalog-params";
 import { loadCatalog } from "@/features/catalog/load-catalog";
 import { CatalogFilters } from "@/features/catalog/ui/catalog-filters";
 import { CatalogResults } from "@/features/catalog/ui/catalog-results";
+import { CatalogSkeleton } from "@/features/catalog/ui/catalog-skeleton";
 import { CategoryChips } from "@/features/catalog/ui/category-chips";
 import { Pagination } from "@/features/catalog/ui/pagination";
 import { hasLocale } from "@/shared/i18n/config";
@@ -24,7 +25,7 @@ export default function ServicesPage({ params, searchParams }: Props) {
   return (
     <div className={`container ${styles.page}`}>
       {/* The address is read at request time, so the page streams in behind this placeholder. */}
-      <Suspense fallback={<div className={styles.loading} aria-hidden="true" />}>
+      <Suspense fallback={<CatalogSkeleton />}>
         <Catalog params={params} searchParams={searchParams} />
       </Suspense>
     </div>

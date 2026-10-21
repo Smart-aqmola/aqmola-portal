@@ -44,6 +44,16 @@
   opacity: 1;
 }
 
+@media (hover: hover) {
+  .tab svg {
+    transition: transform 0.2s ease-out;
+  }
+
+  .tab:hover svg {
+    transform: translateY(-4px);
+  }
+}
+
 .tab[aria-selected="true"] {
   opacity: 1;
   border-bottom-color: currentcolor;

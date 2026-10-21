@@ -1,0 +1,34 @@
+/* Fixed to the bottom, above the page. Clicks go through the empty space around the messages. */
+.region {
+  position: fixed;
+  inset: auto 0 var(--space-5);
+  z-index: 60;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  padding-inline: var(--gutter);
+  pointer-events: none;
+}
+
+.toast {
+  max-width: min(420px, 100%);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-pill);
+  background: var(--color-ink);
+  color: var(--color-on-dark);
+  font-size: var(--text-sm);
+  box-shadow: var(--shadow-card);
+  animation: toast-in 0.25s ease-out;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

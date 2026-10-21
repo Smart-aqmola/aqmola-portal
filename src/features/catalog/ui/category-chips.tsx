@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Locale } from "@/shared/i18n/config";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { Icon } from "@/shared/ui/icon/icon";
+import { ScrollRow } from "@/shared/ui/scroll-row/scroll-row";
 import { catalogHref, type CatalogParams } from "../domain/catalog-params";
 import type { CatalogData } from "../load-catalog";
 import { categoryIcons } from "./icons";
@@ -21,7 +22,7 @@ export function CategoryChips({ lang, labels, params, categories }: CategoryChip
 
   return (
     <nav aria-label={labels.label}>
-      <ul className={styles.list}>
+      <ScrollRow label={labels.scrollMore} className={styles.list}>
         <li>
           <Link
             href={catalogHref(lang, base)}
@@ -46,7 +47,7 @@ export function CategoryChips({ lang, labels, params, categories }: CategoryChip
             </Link>
           </li>
         ))}
-      </ul>
+      </ScrollRow>
     </nav>
   );
 }
