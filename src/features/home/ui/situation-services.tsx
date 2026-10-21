@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useId, useRef, useState, type KeyboardEvent } from "react";
 import { situationIcons } from "@/features/catalog/ui/icons";
 import { ServiceCard } from "@/features/catalog/ui/service-card";
+import type { FavoriteLabels } from "@/features/favorites/ui/favorite-button";
 import type { Locale } from "@/shared/i18n/config";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { format } from "@/shared/i18n/format";
@@ -17,7 +18,7 @@ type SituationServicesProps = {
   groups: SituationGroup[];
   labels: Dictionary["home"]["situations"];
   serviceLabels: Dictionary["home"]["service"];
-  favoriteLabels: { add: string; remove: string };
+  favoriteLabels: FavoriteLabels;
 };
 
 /** Row of life situations; the selected one shows its popular services as cards. */

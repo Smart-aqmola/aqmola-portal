@@ -13,6 +13,11 @@ const photo: Photo = {
 };
 
 describe("photoAt", () => {
+  it("leaves a photo kept on our own site as it is", () => {
+    const local: Photo = { ...photo, url: "/photos/zerenda.jpg" };
+    expect(photoAt(local, 1920).url).toBe("/photos/zerenda.jpg");
+  });
+
   it("asks Wikimedia for another thumbnail width", () => {
     expect(photoAt(photo, 1920).url).toBe(
       "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Zerenda_June_07.jpg/1920px-Zerenda_June_07.jpg",

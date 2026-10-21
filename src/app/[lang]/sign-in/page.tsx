@@ -7,6 +7,7 @@ import { loadOrganizationOptions } from "@/features/applications/load-territorie
 import { hasLocale } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
+import { PageSkeleton } from "@/shared/ui/skeleton/page-skeleton";
 
 type Props = PageProps<"/[lang]/sign-in">;
 
@@ -21,7 +22,7 @@ export default function SignInPage({ params, searchParams }: Props) {
   return (
     <div className={`container ${styles.page}`}>
       {/* `next` comes from the address, so it is read at request time behind a placeholder. */}
-      <Suspense fallback={<div className={styles.loading} aria-hidden="true" />}>
+      <Suspense fallback={<PageSkeleton blocks={2} />}>
         <SignIn params={params} searchParams={searchParams} />
       </Suspense>
     </div>

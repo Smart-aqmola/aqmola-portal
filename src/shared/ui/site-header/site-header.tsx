@@ -53,7 +53,7 @@ export function SiteHeader({ lang, dict }: SiteHeaderProps) {
               <path d="M2 22l8-12 5 6 3-4 8 10z" fill="#1c7c9c" />
               <circle cx="20" cy="7" r="3" fill="#e9b23c" />
             </svg>
-            {dict.brand.name}
+            <span className={styles.brandName}>{dict.brand.name}</span>
           </span>
           <span className={styles.tagline}>{dict.brand.tagline}</span>
         </Link>

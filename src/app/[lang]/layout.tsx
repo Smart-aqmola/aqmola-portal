@@ -8,6 +8,7 @@ import { getDictionary } from "@/shared/i18n/get-dictionary";
 import { DemoBanner } from "@/shared/ui/demo-banner/demo-banner";
 import { SiteFooter } from "@/shared/ui/site-footer/site-footer";
 import { SiteHeader } from "@/shared/ui/site-header/site-header";
+import { ToastProvider } from "@/shared/ui/toast/toast-provider";
 import "@/shared/styles/tokens.css";
 import "@/shared/styles/globals.css";
 
@@ -41,20 +42,22 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
         <script dangerouslySetInnerHTML={{ __html: noFlashScript }} />
       </head>
       <body>
-        <a className="skip-link" href="#content">
-          {dict.header.skipToContent}
-        </a>
-        <DemoBanner text={dict.demo.banner} />
-        <div className="shell">
-          {/* On pages whose address is only known at request time the header streams in. */}
-          <Suspense
-            fallback={<div style={{ height: "var(--header-height)" }} aria-hidden="true" />}
-          >
-            <SiteHeader lang={lang} dict={dict} />
-          </Suspense>
-          <main id="content">{children}</main>
-        </div>
-        <SiteFooter lang={lang} dict={dict} />
+        <ToastProvider>
+          <a className="skip-link" href="#content">
+            {dict.header.skipToContent}
+          </a>
+          <DemoBanner text={dict.demo.banner} />
+          <div className="shell">
+            {/* On pages whose address is only known at request time the header streams in. */}
+            <Suspense
+              fallback={<div style={{ height: "var(--header-height)" }} aria-hidden="true" />}
+            >
+              <SiteHeader lang={lang} dict={dict} />
+            </Suspense>
+            <main id="content">{children}</main>
+          </div>
+          <SiteFooter lang={lang} dict={dict} />
+        </ToastProvider>
       </body>
     </html>
   );

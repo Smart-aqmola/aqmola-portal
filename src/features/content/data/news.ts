@@ -1,11 +1,10 @@
 import type { NewsItem, Photo } from "../domain/types";
 import { newsTranslations, withAlt } from "./content-translations";
+import { localPhotoUrl } from "./photo-files";
 
-const THUMB = "https://thumb.wikimedia.org/wikipedia/commons/thumb";
-
-function photo(path: string, file: string, author: string, alt: string): Photo {
+function photo(file: string, author: string, alt: string): Photo {
   return {
-    url: `${THUMB}/${path}/960px-${file}`,
+    url: localPhotoUrl(file),
     alt: { ru: alt },
     credit: {
       author,
@@ -16,23 +15,12 @@ function photo(path: string, file: string, author: string, alt: string): Photo {
 }
 
 const museum = photo(
-  "e/e0/Museum_of_History_of_Kokshetau_in_March_2025.jpg",
   "Museum_of_History_of_Kokshetau_in_March_2025.jpg",
   "Kristianmusic",
   "Музей истории Кокшетау",
 );
-const zerenda = photo(
-  "b/bd/Zerenda_June_07.jpg",
-  "Zerenda_June_07.jpg",
-  "Saltanat-alikhanova",
-  "Зеренда летом",
-);
-const burabay = photo(
-  "3/3b/Lake_Burabai_2.jpg",
-  "Lake_Burabai_2.jpg",
-  "Kul-Tegin Makishev",
-  "Озеро Бурабай",
-);
+const zerenda = photo("Zerenda_June_07.jpg", "Saltanat-alikhanova", "Зеренда летом");
+const burabay = photo("Lake_Burabai_2.jpg", "Kul-Tegin Makishev", "Озеро Бурабай");
 
 // Test data: every headline is invented. Dates are fixed so tests stay stable.
 const baseNews: readonly NewsItem[] = [

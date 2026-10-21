@@ -29,6 +29,17 @@
   box-shadow: var(--shadow-card);
 }
 
+/* On a phone the panel hangs from the header, not from the button, so it stays on screen wherever the button sits. */
+@media (max-width: 600px) {
+  .wrap {
+    position: static;
+  }
+
+  .panel {
+    right: var(--gutter);
+  }
+}
+
 .title {
   font-size: var(--text-base);
   font-weight: var(--weight-medium);

@@ -1,0 +1,80 @@
+.skeleton {
+  min-height: 60vh;
+}
+
+.block {
+  border-radius: var(--radius-md);
+  background: var(--color-surface-soft);
+}
+
+/* The pulse repeats forever, so it runs only for people who have not asked for less motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .block {
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.title {
+  width: min(520px, 70%);
+  height: clamp(40px, 7vw, 84px);
+}
+
+.lead {
+  width: min(420px, 60%);
+  height: 24px;
+  margin-top: var(--space-3);
+}
+
+.filters {
+  height: 150px;
+  margin-top: var(--space-6);
+  border-radius: var(--radius-lg);
+}
+
+.chips {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  overflow: hidden;
+}
+
+.chip {
+  flex: none;
+  width: 130px;
+  height: var(--tap-target);
+  border-radius: var(--radius-pill);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+}
+
+.card {
+  height: 360px;
+  border-radius: var(--radius-lg);
+}
+
+@media (max-width: 1150px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    height: 300px;
+  }
+}

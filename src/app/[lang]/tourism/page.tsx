@@ -32,6 +32,7 @@ export default async function TourismPage({ params }: Props) {
       <div style={{ marginTop: "var(--space-6)" }}>
         <PlacesGrid
           lang={lang}
+          priorityFirst
           factLabels={dict.home.tourism.facts}
           places={places.map((place) => ({
             slug: place.slug,

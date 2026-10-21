@@ -27,6 +27,12 @@
   }
 }
 
+/* Large text makes the words wider than the tap area, so they would run into one another.
+   The header has room for a gap there: the brand name is hidden at this size. */
+:root[data-text="large"] .switcher {
+  gap: var(--space-2);
+}
+
 .link[aria-current="true"] {
   opacity: 1;
   text-decoration: underline;

@@ -24,10 +24,6 @@
   font-size: var(--text-lg);
 }
 
-.loading {
-  min-height: 40vh;
-}
-
 @media (max-width: 600px) {
   .title {
     font-size: var(--text-2xl);

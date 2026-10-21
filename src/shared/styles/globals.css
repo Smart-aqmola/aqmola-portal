@@ -43,6 +43,14 @@ textarea {
   color: inherit;
 }
 
+/* iPhone Safari zooms the whole page when a focused field has text under 16px.
+   The selectors are stronger than a component's own class, so no field can slip below. */
+@media (pointer: coarse) {
+  :is(input, select, textarea):not([type="checkbox"]):not([type="radio"]):not([type="hidden"]) {
+    font-size: max(1rem, 16px);
+  }
+}
+
 button {
   cursor: pointer;
 }

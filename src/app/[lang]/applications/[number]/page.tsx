@@ -8,6 +8,7 @@ import { hasLocale } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
 import { Breadcrumbs } from "@/shared/ui/breadcrumbs/breadcrumbs";
 import styles from "@/features/applications/ui/page.module.css";
+import { PageSkeleton } from "@/shared/ui/skeleton/page-skeleton";
 
 type Props = PageProps<"/[lang]/applications/[number]">;
 
@@ -22,7 +23,7 @@ export default function ApplicationPage({ params, searchParams }: Props) {
   return (
     <div className={`container ${styles.page}`}>
       {/* Applications live in the browser, so the number and the "just created" flag are read at request time. */}
-      <Suspense fallback={<div className={styles.loading} aria-hidden="true" />}>
+      <Suspense fallback={<PageSkeleton />}>
         <Detail params={params} searchParams={searchParams} />
       </Suspense>
     </div>

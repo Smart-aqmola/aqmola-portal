@@ -129,6 +129,45 @@ test.describe("display settings", () => {
       expect(overflow, path).toBeLessThanOrEqual(0);
     }
   });
+
+  test("large text keeps the language links apart from each other", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/ru/services");
+    await page.getByRole("button", { name: "Настройки вида" }).click();
+    await page.getByRole("checkbox", { name: "Крупный шрифт" }).check();
+    await page.goto("/ru");
+    const links = page.getByRole("group", { name: "Язык" }).getByRole("link");
+    const boxes = await links.evaluateAll((elements) =>
+      elements.map((element) => {
+        // The text itself, not the tap area around it.
+        const range = document.createRange();
+        range.selectNodeContents(element);
+        const { left, right } = range.getBoundingClientRect();
+        return { left, right };
+      }),
+    );
+    for (let index = 1; index < boxes.length; index += 1) {
+      expect(
+        boxes[index].left - boxes[index - 1].right,
+        `gap before link ${index}`,
+      ).toBeGreaterThanOrEqual(4);
+    }
+  });
+
+  test("large text keeps every header control inside a phone screen", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/ru/services");
+    await page.getByRole("button", { name: "Настройки вида" }).click();
+    await page.getByRole("checkbox", { name: "Крупный шрифт" }).check();
+    await page.goto("/ru");
+    const controls = page.locator("header").getByRole("link").or(page.locator("header button"));
+    for (const control of await controls.all()) {
+      const box = await control.boundingBox();
+      if (!box) continue; // hidden, for example the collapsed menu links
+      const name = (await control.getAttribute("aria-label")) ?? (await control.innerText());
+      expect(box.x + box.width, name).toBeLessThanOrEqual(375);
+    }
+  });
 });
 
 test("large text keeps the header inside a laptop screen", async ({ page }) => {

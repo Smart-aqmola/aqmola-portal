@@ -6,6 +6,26 @@
   height: 100%;
 }
 
+/* A light lift on pointer devices; the icon in the cover leans in a little. */
+@media (hover: hover) {
+  .card {
+    transition: transform 0.2s ease-out;
+  }
+
+  .card:hover,
+  .card:focus-within {
+    transform: translateY(-3px);
+  }
+
+  .cover > svg {
+    transition: transform 0.25s ease-out;
+  }
+
+  .card:hover .cover > svg {
+    transform: scale(1.1);
+  }
+}
+
 .cover {
   position: relative;
   display: grid;

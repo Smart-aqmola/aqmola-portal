@@ -66,9 +66,9 @@ describe("loadHome", () => {
     expect(await loadHome("ru")).not.toHaveProperty("places");
   });
 
-  it("uses a large hero photo and lists each author once", async () => {
+  it("uses the large Burabay photo kept on our own site and lists each author once", async () => {
     const home = await loadHome("ru");
-    expect(home.hero.url).toContain("/1920px-");
+    expect(home.hero.url).toBe("/photos/burabay-kokshe.jpg");
     expect(home.hero.credit.author).toBeTruthy();
     const sources = home.credits.map((credit) => credit.sourceUrl);
     expect(new Set(sources).size).toBe(sources.length);

@@ -2,10 +2,6 @@
   padding-block: var(--space-6) var(--space-8);
 }
 
-.loading {
-  min-height: 60vh;
-}
-
 .title {
   font-size: var(--text-display);
   font-weight: var(--weight-light);

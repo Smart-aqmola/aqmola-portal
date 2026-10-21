@@ -146,6 +146,74 @@ test.describe("home page", () => {
     await page.getByRole("button", { name: "Отправить" }).click();
     await expect(page.getByRole("status")).toContainText("сообщение не было отправлено");
   });
+
+  test("blocks below the first screen fade in when they are scrolled to", async ({ page }) => {
+    await page.goto("/ru");
+    const news = page.getByRole("heading", { name: "Новости области" });
+    // Hidden after the page loads, because the news block starts below the fold.
+    await expect(news.locator("xpath=ancestor::*[@data-reveal][1]")).toHaveAttribute(
+      "data-reveal",
+      "hidden",
+    );
+
+    await news.scrollIntoViewIfNeeded();
+    await expect(news.locator("xpath=ancestor::*[@data-reveal][1]")).toHaveAttribute(
+      "data-reveal",
+      "shown",
+    );
+  });
+
+  test("photos come from our own site, not from another server", async ({ page, baseURL }) => {
+    const outside: string[] = [];
+    page.on("request", (request) => {
+      const url = new URL(request.url());
+      if (url.origin !== new URL(baseURL!).origin && url.protocol.startsWith("http")) {
+        outside.push(url.href);
+      }
+    });
+    for (const path of ["/ru", "/ru/news", "/ru/tourism", "/ru/tourism/burabay"]) {
+      await page.goto(path);
+      await page.waitForLoadState("networkidle");
+      // Scroll through the page so lazy images are requested too.
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await page.waitForLoadState("networkidle");
+      const broken = await page.evaluate(
+        () =>
+          [...document.images].filter((image) => image.complete && image.naturalWidth === 0).length,
+      );
+      expect(broken, `${path}: broken images`).toBe(0);
+    }
+    expect(outside).toEqual([]);
+  });
+
+  test("the word in the hero line changes by itself", async ({ page }) => {
+    await page.goto("/ru");
+    const word = page.getByTestId("rotating-word");
+    await expect(word).toHaveText("вода");
+    await expect(word).not.toHaveText("вода", { timeout: 6000 });
+  });
+
+  test("the hero word stays put when the person asked for less motion", async ({ browser }) => {
+    const context = await browser.newContext({ reducedMotion: "reduce" });
+    const page = await context.newPage();
+    await page.goto("/ru");
+    const word = page.getByTestId("rotating-word");
+    await expect(word).toHaveText("вода");
+    await page.waitForTimeout(3500);
+    await expect(word).toHaveText("вода");
+    await context.close();
+  });
+
+  test("shows everything straight away when the person asked for less motion", async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({ reducedMotion: "reduce" });
+    const page = await context.newPage();
+    await page.goto("/ru");
+    await expect(page.getByRole("heading", { name: "Новости области" })).toBeVisible();
+    await expect(page.locator("[data-reveal]")).toHaveCount(0);
+    await context.close();
+  });
 });
 
 test.describe("mobile menu", () => {

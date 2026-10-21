@@ -44,6 +44,16 @@
   opacity: 1;
 }
 
+@media (hover: hover) {
+  .tab svg {
+    transition: transform 0.2s ease-out;
+  }
+
+  .tab:hover svg {
+    transform: translateY(-4px);
+  }
+}
+
 .tab[aria-selected="true"] {
   opacity: 1;
   border-bottom-color: currentcolor;
@@ -97,6 +107,8 @@
   list-style: none;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  /* Without this a snapped card sits flush with the screen edge, ignoring the padding (seen in Safari). */
+  scroll-padding-inline: var(--gutter);
   scrollbar-width: none;
 }
 

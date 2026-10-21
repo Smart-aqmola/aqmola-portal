@@ -148,6 +148,23 @@ describe("PlacesGrid", () => {
       expect(screen.getByText(fact)).toBeInTheDocument();
   });
 
+  it("loads photos lazily, but the first one first when the grid is at the top of the page", () => {
+    const two: HomePlace[] = [places[0], { ...places[0], slug: "zerenda", name: "Зеренда" }];
+    const { rerender } = render(
+      <PlacesGrid lang="ru" factLabels={ru.home.tourism.facts} places={two} />,
+    );
+    for (const image of screen.getAllByRole("img")) {
+      expect(image).toHaveAttribute("loading", "lazy");
+    }
+
+    rerender(
+      <PlacesGrid lang="ru" factLabels={ru.home.tourism.facts} places={two} priorityFirst />,
+    );
+    const [first, second] = screen.getAllByRole("img");
+    expect(first).toHaveAttribute("fetchpriority", "high");
+    expect(second).toHaveAttribute("loading", "lazy");
+  });
+
   it("links the place and the whole tourism section", () => {
     render(
       <PlacesGrid
