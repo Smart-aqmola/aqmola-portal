@@ -31,6 +31,8 @@
 | `/applications`, `/<номер>` | `applications/…`           | Заявки жителя и страница заявки с историей                  |
 | `/operator`, `/<номер>`     | `operator/…`               | Заявки организации, смена статуса                           |
 | `/sign-in`                  | `sign-in/page.tsx`         | Вход по телефону и коду, заглушки eGov/ЭЦП, демо-профили    |
+| `/contracts/new`            | `contracts/new/page.tsx`   | Договор: выбор объекта, услуги и поставщика                 |
+| `/contracts/<id>`           | `contracts/[id]/page.tsx`  | Мастер заявления, затем статус, договор и история           |
 | `/organizations`            | `organizations/page.tsx`   | Организации по направлениям, где работают, ссылка на услуги |
 | `/help`                     | `help/page.tsx`            | Частые вопросы и ответы                                     |
 | `/sign-up`                  | `sign-up/page.tsx`         | Регистрация жителя: данные, код из SMS (демо)               |
@@ -70,6 +72,7 @@
 | `aqmola:applications` | Заявки и история статусов        | `features/applications/domain/storage.ts` |
 | `aqmola:profiles`     | Зарегистрированные жители        | `features/account/domain/storage.ts`      |
 | `aqmola:properties`   | Объекты недвижимости жителей     | `features/account/domain/storage.ts`      |
+| `aqmola:contracts`    | Заявления на договоры            | `features/contracts/domain/storage.ts`    |
 | `aqmola:favorites`    | Избранные услуги                 | `features/favorites/domain/favorites.ts`  |
 | `aqmola:display`      | Тема, контраст, крупный шрифт    | `features/display/domain/settings.ts`     |
 

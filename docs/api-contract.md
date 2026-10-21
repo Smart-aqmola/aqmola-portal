@@ -54,6 +54,9 @@
 - Черновик сохраняется отдельно (18.4): `draft: { payload, updatedAt }`.
 - Статусы (ТЗ 5.4): `draft`, `not_sent`, `registered`, `under_review`, `docs_check_required`, `returned_for_revision`, `awaiting_applicant_signature`, `awaiting_provider_signature`, `inspection_required`, `technical_conditions_required`, `concluded`, `active`, `suspended`, `terminated`, `refused`.
 - Договор считается заключённым только в статусе `concluded` или дальше, и не раньше подписания (4.21, 4.16).
+- Подписи: `signatures.application` (заявитель подписал заявление), `signatures.contractApplicant`, `signatures.contractProvider` (договор). Фронт ставит демо-отметку; настоящую ЭЦП проверяет сервер (4.12–4.14). При правке заявления подпись заявления снимается.
+- `remarks` — замечания поставщика при возврате или отказе (4.17–4.18). Повторная подача возвращённого заявления сохраняет `number` (4.19). Статус `not_sent` — заявление подписано, но не ушло из-за недоступности внешней системы (14.7); фронт сам его не ставит.
+- Переходы поставщика: `registered → under_review → {docs_check_required | returned_for_revision | inspection_required | technical_conditions_required | refused | awaiting_applicant_signature}`; заявитель: `draft | returned_for_revision → registered`, `awaiting_applicant_signature → awaiting_provider_signature`; поставщик: `awaiting_provider_signature → concluded → active → {suspended | terminated}`.
 
 ### Attachment — файл (4.7, 18.5)
 

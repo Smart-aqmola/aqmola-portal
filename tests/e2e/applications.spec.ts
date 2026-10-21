@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test.describe("demo application", () => {
   test("a resident signs in, applies and sees the application in the list", async ({ page }) => {
-    await page.goto("/ru/services/gas-contract");
+    await page.goto("/ru/services/water-meter-readings");
     await page.getByRole("link", { name: "Заказать услугу" }).first().click();
 
     // Not signed in yet: the wizard sends to the demo sign-in and brings back.
@@ -11,7 +11,7 @@ test.describe("demo application", () => {
     await expect(page).toHaveURL(/sign-in\?next=/);
     await page.getByRole("button", { name: "Войти как житель" }).click();
 
-    await expect(page).toHaveURL(/\/ru\/services\/gas-contract\/apply$/);
+    await expect(page).toHaveURL(/\/ru\/services\/water-meter-readings\/apply$/);
     await page.getByLabel("Город или район").selectOption({ label: "Кокшетау" });
     await page.getByLabel(/Адрес объекта/).fill("ул. Тестовая, 1");
     await page.getByRole("button", { name: "Далее" }).click();

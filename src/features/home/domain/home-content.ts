@@ -46,7 +46,7 @@ export type PortalSection = {
  * as "soon" instead of a link that leads nowhere; each stage of the plan fills in its own path.
  */
 export const portalSections: readonly PortalSection[] = [
-  { id: "contractNew", path: null, icon: "doc" },
+  { id: "contractNew", path: "/contracts/new", icon: "doc" },
   { id: "meters", path: null, icon: "meter" },
   { id: "billing", path: null, icon: "chart" },
   { id: "applications", path: "/applications", icon: "files" },

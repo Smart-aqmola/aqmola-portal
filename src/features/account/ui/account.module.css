@@ -378,3 +378,9 @@
 .unserved {
   color: var(--color-danger);
 }
+
+.providerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}

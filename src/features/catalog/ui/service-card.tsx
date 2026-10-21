@@ -6,6 +6,7 @@ import { Button } from "@/shared/ui/button/button";
 import { Card } from "@/shared/ui/card/card";
 import { Icon } from "@/shared/ui/icon/icon";
 import { FavoriteButton, type FavoriteLabels } from "@/features/favorites/ui/favorite-button";
+import { orderPath } from "@/features/contracts/domain/contract-services";
 import type { DocumentKey } from "../domain/service-details";
 import { categoryIcons } from "./icons";
 import type { ServiceCardData } from "./service-card-data";
@@ -83,7 +84,7 @@ export function ServiceCard({
       )}
 
       <div className={styles.actions}>
-        <Button href={`${base}/apply`}>{labels.order}</Button>
+        <Button href={orderPath(lang, service.slug)}>{labels.order}</Button>
         <Link href={base} className={styles.details}>
           {labels.details}
         </Link>

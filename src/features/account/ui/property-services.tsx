@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Sector } from "@/features/catalog/domain/types";
 import type { Locale } from "@/shared/i18n/config";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
+import { serviceSlugFor } from "@/features/contracts/domain/contract-services";
 import { canOfferContract, servicesAtAddress, type ProviderInfo } from "../domain/availability";
 import { canOrderServices, type Property } from "../domain/property";
 import styles from "./account.module.css";
@@ -52,13 +53,22 @@ export function PropertyServices({
                     <li key={provider.id} className={styles.provider}>
                       <span>{provider.name}</span>
                       {confirmed && (
-                        <Link
-                          href={`/${lang}/services?organization=${provider.id}&territory=${property.territoryId}`}
-                          className={styles.open}
-                        >
-                          {labels.providerLink}
-                          <span className="visually-hidden"> — {provider.name}</span>
-                        </Link>
+                        <span className={styles.providerLinks}>
+                          <Link
+                            href={`/${lang}/contracts/new?property=${property.id}&service=${serviceSlugFor(service.sector, provider.id)}`}
+                            className={styles.open}
+                          >
+                            {labels.order}
+                            <span className="visually-hidden"> — {provider.name}</span>
+                          </Link>
+                          <Link
+                            href={`/${lang}/services?organization=${provider.id}&territory=${property.territoryId}`}
+                            className={styles.open}
+                          >
+                            {labels.providerLink}
+                            <span className="visually-hidden"> — {provider.name}</span>
+                          </Link>
+                        </span>
                       )}
                     </li>
                   ))}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { catalogHref } from "@/features/catalog/domain/catalog-params";
 import { listServiceSlugs, loadService } from "@/features/catalog/load-service";
+import { orderPath } from "@/features/contracts/domain/contract-services";
 import { ServiceCard } from "@/features/catalog/ui/service-card";
 import { DocumentsList, FactsPanel, StepsList } from "@/features/catalog/ui/service-info";
 import { FavoriteButton } from "@/features/favorites/ui/favorite-button";
@@ -74,7 +75,7 @@ export default async function ServicePage({ params }: Props) {
             <h1 className={styles.title}>{card.title}</h1>
             <p className={styles.summary}>{card.summary}</p>
             <div className={styles.actions}>
-              <Button href={`/${lang}/services/${card.slug}/apply`} size="lg">
+              <Button href={orderPath(lang, card.slug)} size="lg">
                 {dict.serviceDetails.order}
               </Button>
               <FavoriteButton slug={card.slug} labels={dict.catalog.favorites} />

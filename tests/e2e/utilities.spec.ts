@@ -16,7 +16,7 @@ test.describe("utility services and portal sections", () => {
     await expect(contract).toContainText("Документы:");
     await expect(contract.getByRole("link", { name: "Заказать услугу" })).toHaveAttribute(
       "href",
-      "/ru/services/heat-contract/apply",
+      "/ru/contracts/new?service=heat-contract",
     );
 
     const verification = cards.filter({ hasText: "Поверка счётчика" });

@@ -78,6 +78,17 @@ describe("PropertyServices", () => {
     );
   });
 
+  it("offers to make a contract with each provider of a confirmed object", () => {
+    renderServices(property({}, true));
+    const link = within(row("Водоснабжение и водоотведение")).getByRole("link", {
+      name: /Оформить договор/,
+    });
+    expect(link).toHaveAttribute(
+      "href",
+      "/ru/contracts/new?property=p-1&service=water-contract-resident",
+    );
+  });
+
   it("refuses a utility the village has no network for and offers no way to order it", () => {
     renderServices(property({ addressId: "atbasar-marinovka" }, true), {
       "atbasar-marinovka": ["gas", "heat"],
@@ -88,7 +99,7 @@ describe("PropertyServices", () => {
       expect(within(item).getByText(/Договор оформить нельзя/)).toBeVisible();
       expect(within(item).queryByRole("link")).not.toBeInTheDocument();
     }
-    expect(within(row("Электроснабжение")).getByRole("link")).toBeVisible();
+    expect(within(row("Электроснабжение")).getAllByRole("link")).toHaveLength(2);
   });
 
   it("says when the area has no provider at all", () => {
