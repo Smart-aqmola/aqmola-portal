@@ -14,10 +14,7 @@ describe("LanguageSwitcher", () => {
       "href",
       "/kk/services",
     );
-    expect(within(group).getByRole("link", { name: "ENG" })).toHaveAttribute(
-      "href",
-      "/en/services",
-    );
+    expect(within(group).queryByRole("link", { name: "ENG" })).not.toBeInTheDocument();
     expect(within(group).getByRole("link", { name: "РУС" })).toHaveAttribute(
       "href",
       "/ru/services",
@@ -29,13 +26,12 @@ describe("LanguageSwitcher", () => {
     render(<LanguageSwitcher lang="kk" label="Тіл" />);
     expect(screen.getByRole("link", { name: "ҚАЗ" })).toHaveAttribute("aria-current", "true");
     expect(screen.getByRole("link", { name: "РУС" })).not.toHaveAttribute("aria-current");
-    expect(screen.getByRole("link", { name: "ENG" })).not.toHaveAttribute("aria-current");
   });
 
   it("declares the language of each link", () => {
     usePathname.mockReturnValue("/ru");
     render(<LanguageSwitcher lang="ru" label="Язык" />);
     expect(screen.getByRole("link", { name: "ҚАЗ" })).toHaveAttribute("hreflang", "kk");
-    expect(screen.getByRole("link", { name: "ENG" })).toHaveAttribute("lang", "en");
+    expect(screen.getByRole("link", { name: "ҚАЗ" })).toHaveAttribute("lang", "kk");
   });
 });

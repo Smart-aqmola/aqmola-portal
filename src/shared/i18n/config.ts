@@ -2,6 +2,9 @@ export const locales = ["ru", "kk", "en"] as const;
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = "ru";
 
+/** English pages still work by address, but the switcher shows only the languages the brief asks for. */
+export const switcherLocales: readonly Locale[] = ["ru", "kk"];
+
 export const localeLabels: Record<Locale, { short: string; native: string }> = {
   ru: { short: "РУС", native: "Русский" },
   kk: { short: "ҚАЗ", native: "Қазақша" },

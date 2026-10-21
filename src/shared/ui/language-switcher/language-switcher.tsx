@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { localeLabels, localizePath, locales, type Locale } from "@/shared/i18n/config";
+import { localeLabels, localizePath, switcherLocales, type Locale } from "@/shared/i18n/config";
 import styles from "./language-switcher.module.css";
 
 type LanguageSwitcherProps = {
@@ -15,7 +15,7 @@ export function LanguageSwitcher({ lang, label }: LanguageSwitcherProps) {
 
   return (
     <div className={styles.switcher} role="group" aria-label={label}>
-      {locales.map((locale) => (
+      {switcherLocales.map((locale) => (
         <Link
           key={locale}
           href={localizePath(pathname, locale)}
