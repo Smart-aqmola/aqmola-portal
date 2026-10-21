@@ -24,7 +24,10 @@ import {
   type Property,
   type StoredFile,
 } from "../domain/property";
+import type { Sector } from "@/features/catalog/domain/types";
+import type { ProviderInfo } from "../domain/availability";
 import { AccountGate } from "./account-gate";
+import { PropertyServices } from "./property-services";
 import { useProperties } from "./use-properties";
 import { VerificationBadge } from "./verification-badge";
 import styles from "./account.module.css";
@@ -34,6 +37,8 @@ type PropertyDetailProps = {
   id: string;
   labels: Dictionary["properties"];
   territories: { id: string; name: string }[];
+  providers: readonly ProviderInfo[];
+  missing: Record<string, readonly Sector[]>;
 };
 
 export function PropertyDetail(props: PropertyDetailProps) {
@@ -56,6 +61,8 @@ function Detail({
   ownerId,
   labels,
   territories,
+  providers,
+  missing,
 }: PropertyDetailProps & { ownerId: string }) {
   const { mine, replace } = useProperties(ownerId);
   const property = mine.find((item) => item.id === id);
@@ -116,6 +123,13 @@ function Detail({
       </section>
 
       <VerifyPanel property={property} labels={labels} onChange={replace} />
+      <PropertyServices
+        lang={lang}
+        property={property}
+        providers={providers}
+        missing={missing}
+        labels={t.services}
+      />
     </>
   );
 }

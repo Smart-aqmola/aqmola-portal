@@ -338,3 +338,43 @@
   white-space: normal;
   text-align: center;
 }
+
+/* Utilities at the address. A utility nobody provides is marked in writing, not by colour only. */
+.sectors {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.sector {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.sector[data-state="no_network"],
+.sector[data-state="no_provider"] {
+  box-shadow: inset 4px 0 0 var(--color-danger);
+}
+
+.providers {
+  display: grid;
+  gap: var(--space-1);
+  padding: 0;
+  list-style: none;
+}
+
+.provider {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.unserved {
+  color: var(--color-danger);
+}

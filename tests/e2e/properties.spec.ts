@@ -36,12 +36,51 @@ test.describe("objects of the resident", () => {
     ).toBeVisible();
     await expect(page.getByText("Не подтверждён").first()).toBeVisible();
 
+    // Before confirmation the providers are listed, but there is no way to order from them.
+    await expect(page.getByRole("heading", { name: "Электроснабжение" })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Услуги поставщика/ })).toHaveCount(0);
+
     await page.getByRole("button", { name: "Подтвердить через госсервис" }).click();
     await expect(page.getByRole("heading", { name: "Объект подтверждён" })).toBeVisible();
+
+    // Kokshetau: water, heat, gas, waste and two electricity companies.
+    await expect(page.getByRole("link", { name: /Услуги поставщика/ })).toHaveCount(6);
+    await page.getByRole("link", { name: /Услуги поставщика — Водоканал/ }).click();
+    await expect(page).toHaveURL(/\/ru\/services\?organization=akmola-water&territory=kokshetau/);
 
     await page.goto("/ru/properties");
     await expect(page.getByRole("article")).toHaveCount(1);
     await expect(page.getByText("Подтверждён", { exact: true })).toBeVisible();
+  });
+
+  test("a village without gas says the contract cannot be made and offers no way to order", async ({
+    page,
+  }) => {
+    await signInAsResident(page);
+    await page.goto("/ru/properties/new");
+    const search = page.getByRole("combobox", { name: "Поиск адреса" });
+    await search.fill("мариновка");
+    await search.press("ArrowDown");
+    await search.press("Enter");
+    await page.getByLabel(/^Дом/).fill("3");
+    await page.getByLabel(/^Тип объекта/).selectOption("house");
+    await page.getByLabel(/^Ваша роль/).selectOption("owner");
+    await page.getByRole("button", { name: "Сохранить объект" }).click();
+    await expect(page).toHaveURL(/\/ru\/properties\/[a-z0-9-]{36}$/);
+    await page.getByRole("button", { name: "Подтвердить через госсервис" }).click();
+    await expect(page.getByRole("heading", { name: "Объект подтверждён" })).toBeVisible();
+
+    const gas = page.getByRole("listitem").filter({
+      has: page.getByRole("heading", { name: "Газоснабжение" }),
+    });
+    await expect(gas).toContainText("Не предоставляется");
+    await expect(gas).toContainText("Договор оформить нельзя.");
+    await expect(gas.getByRole("link")).toHaveCount(0);
+
+    const electricity = page.getByRole("listitem").filter({
+      has: page.getByRole("heading", { name: "Электроснабжение" }),
+    });
+    await expect(electricity.getByRole("link").first()).toBeVisible();
   });
 
   test("sends documents, refuses a wrong file and waits for the employee", async ({ page }) => {

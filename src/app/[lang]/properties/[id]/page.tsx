@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { loadMissingNetworks, loadProviders } from "@/features/account/load-providers";
 import { PropertyDetail } from "@/features/account/ui/property-detail";
 import { loadTerritoryOptions } from "@/features/applications/load-territories";
 import { hasLocale } from "@/shared/i18n/config";
@@ -35,7 +36,11 @@ export default function PropertyPage({ params }: Props) {
 async function Detail({ params }: { params: Props["params"] }) {
   const { lang, id } = await params;
   if (!hasLocale(lang) || !ID.test(id)) notFound();
-  const [dict, territories] = await Promise.all([getDictionary(lang), loadTerritoryOptions(lang)]);
+  const [dict, territories, providers] = await Promise.all([
+    getDictionary(lang),
+    loadTerritoryOptions(lang),
+    loadProviders(lang),
+  ]);
 
   return (
     <>
@@ -48,7 +53,14 @@ async function Detail({ params }: { params: Props["params"] }) {
         ]}
       />
       <div className={styles.narrow}>
-        <PropertyDetail lang={lang} id={id} labels={dict.properties} territories={territories} />
+        <PropertyDetail
+          lang={lang}
+          id={id}
+          labels={dict.properties}
+          territories={territories}
+          providers={providers}
+          missing={loadMissingNetworks()}
+        />
       </div>
     </>
   );

@@ -8,6 +8,14 @@ import { PROPERTIES_KEY, parseProperties } from "../domain/storage";
 import { PropertyDetail } from "./property-detail";
 
 const territories = [{ id: "kokshetau", name: "Кокшетау" }];
+const providers = [
+  {
+    id: "akmola-water",
+    name: "Водоканал Акмолы",
+    sector: "water" as const,
+    territories: "all" as const,
+  },
+];
 
 function seed(ownerId = "demo-resident"): Property {
   const property = createProperty(
@@ -35,7 +43,14 @@ const stored = () => parseProperties(window.localStorage.getItem(PROPERTIES_KEY)
 function renderDetail(id = "p-1") {
   return render(
     <ToastProvider>
-      <PropertyDetail lang="ru" id={id} labels={ru.properties} territories={territories} />
+      <PropertyDetail
+        lang="ru"
+        id={id}
+        labels={ru.properties}
+        territories={territories}
+        providers={providers}
+        missing={{}}
+      />
     </ToastProvider>,
   );
 }
