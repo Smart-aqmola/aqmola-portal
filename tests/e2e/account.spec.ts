@@ -10,7 +10,8 @@ async function register(page: Page) {
   await page.getByRole("button", { name: "Получить код" }).click();
   await page.getByLabel(/Код из SMS/).fill("123456");
   await page.getByRole("button", { name: "Подтвердить и создать кабинет" }).click();
-  await expect(page).toHaveURL(/\/ru\/applications$/);
+  // A new resident starts with the objects page.
+  await expect(page).toHaveURL(/\/ru\/properties$/);
 }
 
 test.describe("registration and phone sign in", () => {

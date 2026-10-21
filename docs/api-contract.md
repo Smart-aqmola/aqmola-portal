@@ -31,7 +31,7 @@
 
 `id`, `ownerUserId`, `territoryId` (регион, район, город), `localityId` (населённый пункт), `street`, `house`, `flat?`, `type` (квартира, частный дом, нежилое помещение, иной), `personalAccount?` (лицевой счёт), `ownerInfo` (собственник или законный пользователь), `verification` (см. ниже), `addressId?` (ссылка на справочник адресов), `createdAt`.
 
-- `verification.status`: `pending_check` | `confirmed` | `rejected` (предложение; ТЗ 3.6 описывает проверку, но не перечисляет статусы).
+- `verification.status`: `unverified` (только что добавлен) | `pending_check` | `confirmed` | `rejected` (предложение; ТЗ 3.6 описывает проверку, но не перечисляет статусы). Из `unverified` и `rejected` можно запросить подтверждение; `pending_check` решает сотрудник. Фронт хранит у загруженных документов только имя и размер.
 - `verification.method`: `state_integration` | `document` (3.4).
 - `verification.documents[]`: ссылки на загруженные файлы.
 

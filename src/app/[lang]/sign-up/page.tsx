@@ -39,7 +39,8 @@ async function SignUp({
   if (!hasLocale(lang)) notFound();
   const [dict, query] = await Promise.all([getDictionary(lang), searchParams]);
   const raw = query.next;
-  const next = safeNextPath(lang, typeof raw === "string" ? raw : undefined);
+  // A new resident starts by adding an object, unless they came here from somewhere specific.
+  const next = typeof raw === "string" ? safeNextPath(lang, raw) : `/${lang}/properties`;
 
   return (
     <>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { AccountNav } from "@/features/account/ui/account-nav";
 import { ApplicationsList } from "@/features/applications/ui/applications-list";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
@@ -27,6 +28,7 @@ export default async function ApplicationsPage({ params }: Props) {
     <div className={`container ${styles.page}`}>
       <h1 className={styles.title}>{dict.applications.title}</h1>
       <div className={styles.narrow}>
+        <AccountNav lang={lang} labels={dict.account.nav} current="applications" />
         <ApplicationsList lang={lang} dict={dict} />
       </div>
     </div>
