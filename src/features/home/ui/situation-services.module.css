@@ -107,6 +107,8 @@
   list-style: none;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  /* Without this a snapped card sits flush with the screen edge, ignoring the padding (seen in Safari). */
+  scroll-padding-inline: var(--gutter);
   scrollbar-width: none;
 }
 
