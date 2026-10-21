@@ -4,3 +4,4 @@ generated/
 .pnpm-store/
 .env
 .postgres/
+.local-sms/

@@ -13,6 +13,9 @@ import { ApiOperation, ApiTags, DocumentBuilder, SwaggerModule } from "@nestjs/s
 import { Database } from "./database";
 import { CatalogService } from "./catalog.service";
 import { CatalogQuery, TerritoryQuery } from "./catalog.dto";
+import { AuthController, SessionGuard } from "./auth/auth.controller";
+import { AuthService } from "./auth/auth.service";
+import { LocalSms } from "./auth/local-sms";
 
 @ApiTags("Catalog")
 @Controller()
@@ -72,13 +75,27 @@ class HealthController {
 }
 
 @Module({
-  controllers: [CatalogController, HealthController],
-  providers: [Database, CatalogService],
+  controllers: [CatalogController, HealthController, AuthController],
+  providers: [Database, CatalogService, AuthService, LocalSms, SessionGuard],
 })
 class AppModule {}
 
 export async function createApp() {
-  const app = await NestFactory.create(AppModule, { logger: ["error", "warn", "log"] });
+  const app = await NestFactory.create(AppModule, {
+    logger: ["error", "warn", "log"],
+    bodyParser: true,
+  });
+  app.use(
+    (
+      request: { originalUrl: string },
+      response: { setHeader(name: string, value: string): void },
+      next: () => void,
+    ) => {
+      if (request.originalUrl.startsWith("/api/v1/auth"))
+        response.setHeader("Cache-Control", "no-store");
+      next();
+    },
+  );
   app.setGlobalPrefix("api/v1");
   app.useGlobalPipes(
     new ValidationPipe({ transform: true, whitelist: true, forbidNonWhitelisted: true }),
@@ -89,8 +106,9 @@ export async function createApp() {
     .setTitle("Aqmola API")
     .setVersion("0.1.0")
     .setDescription(
-      "Local catalog foundation. Fictional demo data. Authentication is not implemented yet.",
+      "Local catalog and phone authentication API. Development SMS delivery writes local files. Identity is self-declared until government verification is connected.",
     )
+    .addBearerAuth()
     .build();
   SwaggerModule.setup("api/docs", app, SwaggerModule.createDocument(app, config));
   return app;
