@@ -16,7 +16,7 @@ const READING_TONES: Record<ReadingStatus, Tone> = {
   processed: "done",
 };
 
-const REQUEST_TONES: Record<RequestStatus, Tone> = {
+export const REQUEST_TONES: Record<RequestStatus, Tone> = {
   registered: "new",
   in_progress: "work",
   info_requested: "problem",

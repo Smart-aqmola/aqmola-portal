@@ -4,6 +4,7 @@ import {
   emptyMeterInput,
   isActive,
   parseReading,
+  sectorOfResource,
   readingProblem,
   validateMeter,
   withEvent,
@@ -145,5 +146,15 @@ describe("meter state", () => {
     const next = withEvent(meter, { kind: "verified", at: "2023-01-01" });
     expect(next.history.map((event) => event.at)).toEqual(["2023-01-01", "2024-05-01"]);
     expect(meter.history).toHaveLength(1);
+  });
+});
+
+describe("sectorOfResource", () => {
+  it("gives both kinds of water to the water supplier and the rest to their own utility", () => {
+    expect(sectorOfResource("cold_water")).toBe("water");
+    expect(sectorOfResource("hot_water")).toBe("water");
+    expect(sectorOfResource("gas")).toBe("gas");
+    expect(sectorOfResource("heat")).toBe("heat");
+    expect(sectorOfResource("electricity")).toBe("electricity");
   });
 });

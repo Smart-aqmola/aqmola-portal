@@ -111,9 +111,11 @@
 
 ### Appeal — обращение или жалоба (11.1–11.8)
 
-`id`, `number`, `category`, `subcategory`, `propertyId`, `address`, `description`, `contact`, `incidentStart?`, `incidentDuration?`, `attachments[]`, `responsibleOrganizationId`, `status` (см. ниже), `history[]` (переписка), `dueAt` (срок рассмотрения, 11.5).
+`id`, `number` (`DEMO-OBR-ГГГГ-NNNNN`), `category` (13 тем ТЗ 11.1: `no_service`, `power_cut`, `water_cut`, `no_heat`, `gas_problem`, `waste_late`, `quality`, `wrong_charges`, `wrong_readings`, `late_payment`, `contract_refused`, `late_request`, `other`), `subcategory` (список зависит от категории, справочник обращений), `sector?` (услуга: берётся из темы или выбирается человеком, обязательна для тем про начисления, показания, платежи, договоры и заявки), `propertyId?`, `address`, `description` (10–1000 знаков), `contactPhone`, `contactEmail?`, `attachments[]`, `violation?` (`date`, `time?`, `duration?`, `unit`: `hours` | `days`; спрашивается для тем про отсутствие и качество услуги, 11.3), `organizationId` (ответственная организация, 11.4), `external?` (`number` в системе электронных обращений, когда обращение идёт в неё, 11.6), `status`, `events[]` (переписка и смены статуса: `at`, `actor`: `applicant` | `executor`, `status?`, `text?`; 11.8), `dueAt` (срок рассмотрения, 11.5).
 
-- Статусы (ТЗ 11.7): `registered`, `sent_to_executor`, `accepted`, `info_required`, `under_review`, `response_prepared`, `done`, `closed`, `redirected`, `refused`.
+- Статусы (ТЗ 11.7): `registered`, `sent_to_executor`, `accepted`, `info_required`, `in_review`, `answer_ready`, `executed`, `closed`, `redirected`, `refused`. При создании обращение сразу получает `registered` и `sent_to_executor`.
+- Ответственная организация: поставщик услуги по адресу объекта; если услуги нет или адрес не определён, обращение идёт в региональное управление ЖКХ и регистрируется в системе электронных обращений. Организация может перенаправить обращение туда (`redirected`).
+- Вопрос, ответ, отказ и перенаправление требуют текста для человека. Ответ человека на вопрос возвращает обращение в `in_review`. Закрыть (`closed`) может человек после `answer_ready` или `executed`; в закрытое сообщения не добавляются.
 
 ### Notification — уведомление (16.1–16.4)
 

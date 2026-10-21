@@ -26,6 +26,8 @@ const pages = [
   "/ru/billing/receipt",
   "/ru/billing/pay",
   "/ru/billing/payments",
+  "/ru/appeals",
+  "/ru/appeals/new",
   "/ru/news",
   "/ru/news/heating-season-started",
   "/ru/tourism",

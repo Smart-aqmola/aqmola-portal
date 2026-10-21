@@ -1,9 +1,9 @@
 import type { ContractStatus } from "../domain/contract";
 import styles from "./contracts.module.css";
 
-type Tone = "new" | "work" | "done" | "problem";
+export type Tone = "new" | "work" | "done" | "problem";
 
-const TONES: Record<ContractStatus, Tone> = {
+export const CONTRACT_TONES: Record<ContractStatus, Tone> = {
   draft: "new",
   not_sent: "new",
   registered: "work",
@@ -24,7 +24,7 @@ const TONES: Record<ContractStatus, Tone> = {
 /** Colour alone is not enough, so the status is always written out. */
 export function StatusBadge({ status, label }: { status: ContractStatus; label: string }) {
   return (
-    <span className={styles.badge} data-tone={TONES[status]}>
+    <span className={styles.badge} data-tone={CONTRACT_TONES[status]}>
       {label}
     </span>
   );

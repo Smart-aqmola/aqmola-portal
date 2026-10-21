@@ -1,6 +1,13 @@
+import type { ContractSector } from "@/features/account/domain/availability";
+
 /** Resources that have a meter in the home (spec 6.3). Sewerage and waste have no meters. */
 export const meterResources = ["electricity", "cold_water", "hot_water", "heat", "gas"] as const;
 export type MeterResource = (typeof meterResources)[number];
+
+/** The utility whose provider looks after a meter: both kinds of water belong to the water supplier. */
+export function sectorOfResource(resource: MeterResource): ContractSector {
+  return resource === "cold_water" || resource === "hot_water" ? "water" : resource;
+}
 
 export const meterTypes = ["mechanical", "electronic", "smart"] as const;
 export type MeterType = (typeof meterTypes)[number];
