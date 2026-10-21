@@ -1,5 +1,6 @@
 import type { Locale } from "@/shared/i18n/config";
 import { localize } from "@/shared/i18n/localized";
+import { documentsFor, type DocumentKey } from "../domain/service-details";
 import type { Audience, Sector, Service, SituationId } from "../domain/types";
 
 /** Everything a service card shows, already localized, so the card needs no repository. */
@@ -12,6 +13,10 @@ export type ServiceCardData = {
   categoryId: Sector;
   situationId: SituationId;
   free: boolean;
+  /** Cost in tenge when the service is paid (spec 1.3). */
+  price?: number;
+  /** What the applicant has to prepare (spec 1.3). */
+  documents: DocumentKey[];
   workingDays: number;
   channel: Service["channel"];
   audience: Audience | "both";
@@ -34,6 +39,8 @@ export function toServiceCardData(
     categoryId: service.categoryId,
     situationId: service.situationId,
     free: service.free,
+    ...(service.price ? { price: service.price } : {}),
+    documents: documentsFor(service),
     workingDays: service.workingDays,
     channel: service.channel,
     audience: service.audiences.length > 1 ? "both" : service.audiences[0],

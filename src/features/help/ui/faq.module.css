@@ -1,0 +1,27 @@
+.list {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.item {
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-soft);
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  padding: var(--space-3) var(--space-5);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+}
+
+.question:focus-visible {
+  border-radius: var(--radius-lg);
+}
+
+.answer {
+  padding: 0 var(--space-5) var(--space-4);
+  color: var(--color-muted);
+}

@@ -6,6 +6,7 @@ import { Button } from "@/shared/ui/button/button";
 import { Card } from "@/shared/ui/card/card";
 import { Icon } from "@/shared/ui/icon/icon";
 import { FavoriteButton, type FavoriteLabels } from "@/features/favorites/ui/favorite-button";
+import type { DocumentKey } from "../domain/service-details";
 import { categoryIcons } from "./icons";
 import type { ServiceCardData } from "./service-card-data";
 import styles from "./service-card.module.css";
@@ -16,9 +17,17 @@ type ServiceCardProps = {
   labels: Dictionary["home"]["service"];
   /** Shows the heart that saves the service in this browser when given. */
   favoriteLabels?: FavoriteLabels;
+  /** Names of the documents; the card lists what to prepare when given (spec 1.3). */
+  documentNames?: Record<DocumentKey, string>;
 };
 
-export function ServiceCard({ service, lang, labels, favoriteLabels }: ServiceCardProps) {
+export function ServiceCard({
+  service,
+  lang,
+  labels,
+  favoriteLabels,
+  documentNames,
+}: ServiceCardProps) {
   const base = `/${lang}/services/${service.slug}`;
   const audience = { resident: labels.resident, business: labels.business, both: labels.both }[
     service.audience
@@ -37,7 +46,15 @@ export function ServiceCard({ service, lang, labels, favoriteLabels }: ServiceCa
 
       <div className={styles.head}>
         <h3 className={styles.title}>{service.title}</h3>
-        {service.free && <span className={styles.free}>{labels.free}</span>}
+        {service.free ? (
+          <span className={styles.free}>{labels.free}</span>
+        ) : (
+          service.price && (
+            <span className={styles.price}>
+              {format(labels.price, { n: new Intl.NumberFormat(lang).format(service.price) })}
+            </span>
+          )
+        )}
       </div>
       <p className={styles.organization}>{service.organization}</p>
 
@@ -57,6 +74,13 @@ export function ServiceCard({ service, lang, labels, favoriteLabels }: ServiceCa
       </ul>
 
       <p className={styles.summary}>{service.summary}</p>
+      {documentNames && (
+        <p className={styles.docs}>
+          {format(labels.documents, {
+            list: service.documents.map((key) => documentNames[key]).join(", "),
+          })}
+        </p>
+      )}
 
       <div className={styles.actions}>
         <Button href={`${base}/apply`}>{labels.order}</Button>

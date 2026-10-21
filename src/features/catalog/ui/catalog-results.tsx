@@ -8,7 +8,7 @@ import styles from "./catalog-results.module.css";
 
 type CatalogResultsProps = {
   lang: Locale;
-  dict: Pick<Dictionary, "catalog" | "home">;
+  dict: Pick<Dictionary, "catalog" | "home" | "serviceDetails">;
   data: Pick<CatalogData, "cards" | "total">;
 };
 
@@ -40,6 +40,7 @@ export function CatalogResults({ lang, dict, data }: CatalogResultsProps) {
                   lang={lang}
                   labels={dict.home.service}
                   favoriteLabels={favorites}
+                  documentNames={dict.serviceDetails.documents.items}
                 />
               </li>
             ))}

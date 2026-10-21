@@ -5,8 +5,10 @@ import { ComingSoon } from "@/features/home/ui/coming-soon";
 import { ContactForm } from "@/features/home/ui/contact-form";
 import { HomeSearch } from "@/features/home/ui/home-search";
 import { NewsList } from "@/features/home/ui/news-list";
+import { PortalSections } from "@/features/home/ui/portal-sections";
 import { RotatingWords } from "@/features/home/ui/rotating-words";
 import { SituationServices } from "@/features/home/ui/situation-services";
+import { UtilityServices } from "@/features/home/ui/utility-services";
 import { loadHome } from "@/features/home/load-home";
 import { hasLocale } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
@@ -43,11 +45,27 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
             labels={t.situations}
             serviceLabels={t.service}
             favoriteLabels={dict.catalog.favorites}
+            documentNames={dict.serviceDetails.documents.items}
           />
         </div>
       </section>
 
       <div className={`container ${styles.sections}`}>
+        <Reveal>
+          <PortalSections lang={lang} labels={t.portal} />
+        </Reveal>
+
+        <Reveal>
+          <UtilityServices
+            lang={lang}
+            labels={t.utility}
+            services={home.utilityServices}
+            serviceLabels={t.service}
+            favoriteLabels={dict.catalog.favorites}
+            documentNames={dict.serviceDetails.documents.items}
+          />
+        </Reveal>
+
         <Reveal>
           <div className={styles.columns}>
             <NewsList lang={lang} title={t.news.title} allLabel={t.news.all} items={home.news} />

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { HOME_UTILITY_SLUGS } from "./domain/home-content";
 import { loadHome } from "./load-home";
 
 describe("loadHome", () => {
@@ -9,6 +10,31 @@ describe("loadHome", () => {
       expect(group.services, group.id).toHaveLength(3);
       expect(group.count, group.id).toBeGreaterThanOrEqual(3);
     }
+  });
+
+  it("lists the fifteen utility services of the specification in the order of the list", async () => {
+    const { utilityServices } = await loadHome("ru");
+    expect(utilityServices).toHaveLength(15);
+    expect(utilityServices.map((service) => service.slug)).toEqual([...HOME_UTILITY_SLUGS]);
+    for (const service of utilityServices) {
+      expect(service.organization, service.slug).not.toBe("");
+      expect(service.documents.length, service.slug).toBeGreaterThan(0);
+    }
+  });
+
+  it("carries the price of the paid utility services and marks the rest free", async () => {
+    const { utilityServices } = await loadHome("ru");
+    const bySlug = Object.fromEntries(utilityServices.map((service) => [service.slug, service]));
+    expect(bySlug["meter-verification"]).toMatchObject({ free: false, price: 4500 });
+    expect(bySlug["gas-contract"]).toMatchObject({ free: true });
+    expect(bySlug["gas-contract"]).not.toHaveProperty("price");
+  });
+
+  it("names the utility services in the visitor's language", async () => {
+    const { utilityServices } = await loadHome("kk");
+    expect(utilityServices.find((s) => s.slug === "heat-contract")?.title).toBe(
+      "Жылумен жабдықтау шартын жасасу",
+    );
   });
 
   it("shows popular services first inside each group", async () => {

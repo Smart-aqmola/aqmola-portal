@@ -20,6 +20,7 @@ const card: ServiceCardData = {
   categoryId: "gas",
   situationId: "contracts",
   free: true,
+  documents: ["identity"],
   workingDays: 5,
   channel: "online",
   audience: "resident",

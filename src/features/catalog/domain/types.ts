@@ -77,6 +77,8 @@ export type Service = {
   fullTitle?: Localized;
   summary: Localized;
   free: boolean;
+  /** Cost in tenge for a paid service (spec 1.3); absent when the service is free. */
+  price?: number;
   /** Working days the provider needs to answer. */
   workingDays: number;
   channel: ServiceChannel;

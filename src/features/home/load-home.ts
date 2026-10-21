@@ -2,6 +2,7 @@ import { getCatalogRepository } from "@/features/catalog/data";
 import type { CatalogRepository } from "@/features/catalog/domain/repository";
 import type { SituationId } from "@/features/catalog/domain/types";
 import { toServiceCardData, type ServiceCardData } from "@/features/catalog/ui/service-card-data";
+import { HOME_UTILITY_SLUGS } from "./domain/home-content";
 import { getContentRepository } from "@/features/content/data";
 import { photoAt, uniqueCredits } from "@/features/content/domain/photo";
 import type { ContentRepository } from "@/features/content/domain/repository";
@@ -37,6 +38,8 @@ export type HomeData = {
   hero: HomePhoto;
   territories: { id: string; name: string }[];
   situations: SituationGroup[];
+  /** The utility services of the specification (1.2), in the order they are shown. */
+  utilityServices: ServiceCardData[];
   news: HomeNews[];
   comingSoon: { id: string; title: string; summary: string }[];
   credits: PhotoCredit[];
@@ -93,6 +96,14 @@ export async function loadHome(
     }),
   );
 
+  const utilityServices = (
+    await Promise.all(HOME_UTILITY_SLUGS.map((slug) => catalog.getService(slug)))
+  ).flatMap((service) =>
+    service
+      ? [toServiceCardData(service, organizationName.get(service.organizationId) ?? "", lang)]
+      : [],
+  );
+
   if (!heroPlace) throw new Error("The home page needs the 'burabay' place for its hero photo");
 
   return {
@@ -102,6 +113,7 @@ export async function loadHome(
       name: localize(territory.name, lang),
     })),
     situations: groups,
+    utilityServices,
     news: news.map((item) => ({
       slug: item.slug,
       date: item.date,

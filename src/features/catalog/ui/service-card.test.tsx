@@ -13,6 +13,7 @@ const service: ServiceCardData = {
   categoryId: "water",
   situationId: "meters",
   free: true,
+  documents: ["identity"],
   workingDays: 1,
   channel: "online",
   audience: "resident",
@@ -40,6 +41,33 @@ describe("ServiceCard", () => {
   it("does not claim a free service when it costs money", () => {
     renderCard({ free: false });
     expect(screen.queryByText("Бесплатно")).not.toBeInTheDocument();
+  });
+
+  it("shows the cost of a paid service", () => {
+    renderCard({ free: false, price: 6500 });
+    expect(screen.queryByText("Бесплатно")).not.toBeInTheDocument();
+    expect(screen.getByText(/6\s?500 ₸/)).toBeInTheDocument();
+  });
+
+  it("lists the documents to prepare when it knows their names", () => {
+    render(
+      <ServiceCard
+        service={{ ...service, documents: ["identity", "meterPhoto"] }}
+        lang="ru"
+        labels={ru.home.service}
+        documentNames={ru.serviceDetails.documents.items}
+      />,
+    );
+    expect(
+      screen.getByText(
+        "Документы: Документ, удостоверяющий личность, Фото прибора учёта с текущими показаниями",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("does not list documents when the names are not given", () => {
+    renderCard();
+    expect(screen.queryByText(/^Документы:/)).not.toBeInTheDocument();
   });
 
   it("shows how the service is provided, how long it takes and who it is for", () => {

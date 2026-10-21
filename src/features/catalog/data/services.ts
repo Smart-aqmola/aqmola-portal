@@ -446,6 +446,81 @@ const baseServices: readonly BaseService[] = [
     "Подписка на уведомления о плановых отключениях",
     "Получайте сообщения об отключениях воды, света и тепла по вашему адресу.",
   ),
+
+  // The utility services named in the technical specification (1.2). Added at the end so the
+  // codes of the services above do not move.
+  service(
+    "water-contract-resident",
+    "contracts",
+    "akmola-water",
+    resident,
+    5,
+    "Заключение договора на водоснабжение и водоотведение",
+    "Оформите договор с водоканалом по вашему адресу без визита в офис.",
+  ),
+  service(
+    "heat-contract",
+    "contracts",
+    "akmola-heat",
+    resident,
+    5,
+    "Заключение договора на теплоснабжение",
+    "Подайте заявление на договор с теплоснабжающей организацией по адресу объекта.",
+  ),
+  service(
+    "meter-installation-replacement",
+    "meters",
+    "akmola-water",
+    both,
+    10,
+    "Установка и замена счётчика",
+    "Запишитесь на установку нового прибора учёта или замену неисправного.",
+  ),
+  service(
+    "meter-unsealing",
+    "meters",
+    "akmola-water",
+    resident,
+    5,
+    "Снятие пломбы с прибора учёта",
+    "Подайте заявку, если пломбу нужно снять для ремонта или замены прибора.",
+  ),
+  service(
+    "meter-verification",
+    "meters",
+    "akmola-water",
+    both,
+    10,
+    "Поверка счётчика",
+    "Назначьте дату поверки прибора учёта и приложите документы о прошлой поверке.",
+  ),
+  service(
+    "unified-receipt",
+    "contracts",
+    "billing-center",
+    resident,
+    1,
+    "Получение единой квитанции",
+    "Одна квитанция по всем коммунальным услугам вашего объекта за выбранный месяц.",
+  ),
+  service(
+    "utility-payment",
+    "contracts",
+    "billing-center",
+    resident,
+    1,
+    "Оплата коммунальных услуг",
+    "Оплатите услуги одной суммой или выберите, за какие платить. Карту вводите только на странице банка.",
+  ),
+  service(
+    "recalculation-request",
+    "contracts",
+    "billing-center",
+    resident,
+    10,
+    "Подача заявления на перерасчёт",
+    "Если начисление не совпадает с показаниями или услуги не было, подайте заявление на перерасчёт.",
+  ),
 ];
 
 const popularSlugs = new Set([
@@ -475,7 +550,16 @@ const frontOfficeSlugs = new Set([
   "heat-unit-check",
   "gas-connection",
   "osi-registration",
+  "meter-installation-replacement",
+  "meter-unsealing",
+  "meter-verification",
 ]);
+
+// Test prices in tenge for the few paid services; everything else is free. Not real tariffs.
+const prices: Record<string, number> = {
+  "meter-installation-replacement": 6500,
+  "meter-verification": 4500,
+};
 
 // Official long names, only for services where the short card title leaves something out.
 const fullTitles: Record<string, string> = {
@@ -523,6 +607,8 @@ export const services: readonly Service[] = baseServices.map((base, index) => {
     categoryId,
     ...(fullTitle ? { fullTitle: { ru: fullTitle, kk: kk.fullTitle, en: en.fullTitle } } : {}),
     channel,
+    free: !(base.slug in prices),
+    ...(base.slug in prices ? { price: prices[base.slug] } : {}),
     popular: popularSlugs.has(base.slug),
     isNew: newSlugs.has(base.slug),
     updatedAt: updatedAt[base.slug] ?? "2026-10-15",

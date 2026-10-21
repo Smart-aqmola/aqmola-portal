@@ -463,4 +463,91 @@ export const serviceTranslations: Record<string, { kk: Texts; en: Texts }> = {
       summary: "Get messages about water, power and heat outages at your address.",
     },
   },
+  "water-contract-resident": {
+    kk: {
+      title: "Сумен жабдықтау және су бұру шартын жасасу",
+      summary: "Кеңсеге бармай-ақ мекенжайыңыз бойынша сутоппен шарт жасаңыз.",
+    },
+    en: {
+      title: "Signing a water supply and sewage contract",
+      summary:
+        "Sign a contract with the water utility for your address without visiting an office.",
+    },
+  },
+  "heat-contract": {
+    kk: {
+      title: "Жылумен жабдықтау шартын жасасу",
+      summary: "Объект мекенжайы бойынша жылу беруші ұйыммен шарт жасасуға өтініш беріңіз.",
+    },
+    en: {
+      title: "Signing a heating supply contract",
+      summary: "Apply for a contract with the heating company for your property address.",
+    },
+  },
+  "meter-installation-replacement": {
+    kk: {
+      title: "Есептегішті орнату және ауыстыру",
+      summary: "Жаңа есептегішті орнатуға немесе ақаулысын ауыстыруға жазылыңыз.",
+    },
+    en: {
+      title: "Installing or replacing a meter",
+      summary: "Book the installation of a new meter or the replacement of a faulty one.",
+    },
+  },
+  "meter-unsealing": {
+    kk: {
+      title: "Есептеу құралынан пломбаны алу",
+      summary: "Пломбаны жөндеу немесе құралды ауыстыру үшін алу керек болса, өтініш беріңіз.",
+    },
+    en: {
+      title: "Removing a seal from a meter",
+      summary: "Apply if the seal must be removed for repair or for replacing the meter.",
+    },
+  },
+  "meter-verification": {
+    kk: {
+      title: "Есептегішті тексеру (поверка)",
+      summary: "Есептеу құралын тексеру күнін белгілеңіз және алдыңғы тексеру құжаттарын тіркеңіз.",
+    },
+    en: {
+      title: "Meter verification",
+      summary:
+        "Choose a date to verify the meter and attach the papers of the previous verification.",
+    },
+  },
+  "unified-receipt": {
+    kk: {
+      title: "Бірыңғай түбіртек алу",
+      summary:
+        "Таңдалған ай үшін объектіңіздің барлық коммуналдық қызметтері бойынша бір түбіртек.",
+    },
+    en: {
+      title: "Getting the unified receipt",
+      summary: "One receipt for all utility services of your property for the chosen month.",
+    },
+  },
+  "utility-payment": {
+    kk: {
+      title: "Коммуналдық қызметтерге төлеу",
+      summary:
+        "Қызметтерді бір сомамен төлеңіз немесе қайсысына төлейтініңізді таңдаңыз. Картаны тек банк бетінде енгізіңіз.",
+    },
+    en: {
+      title: "Paying for utilities",
+      summary:
+        "Pay for services in one sum or choose which to pay. Enter your card only on the bank's page.",
+    },
+  },
+  "recalculation-request": {
+    kk: {
+      title: "Қайта есептеуге өтініш беру",
+      summary:
+        "Есептеу көрсеткіштерге сәйкес келмесе немесе қызмет көрсетілмесе, қайта есептеуге өтініш беріңіз.",
+    },
+    en: {
+      title: "Applying for a recalculation",
+      summary:
+        "If a charge does not match the readings or the service was not provided, apply for a recalculation.",
+    },
+  },
 };

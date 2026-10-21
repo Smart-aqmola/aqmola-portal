@@ -15,6 +15,7 @@ function card(slug: string, title: string): ServiceCardData {
     categoryId: "water",
     situationId: "meters",
     free: true,
+    documents: ["identity"],
     workingDays: 3,
     channel: "online",
     audience: "resident",
@@ -50,6 +51,7 @@ function renderTabs() {
       labels={ru.home.situations}
       serviceLabels={ru.home.service}
       favoriteLabels={ru.catalog.favorites}
+      documentNames={ru.serviceDetails.documents.items}
     />,
   );
 }

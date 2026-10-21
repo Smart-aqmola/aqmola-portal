@@ -19,6 +19,7 @@ type SituationServicesProps = {
   labels: Dictionary["home"]["situations"];
   serviceLabels: Dictionary["home"]["service"];
   favoriteLabels: FavoriteLabels;
+  documentNames: Dictionary["serviceDetails"]["documents"]["items"];
 };
 
 /** Row of life situations; the selected one shows its popular services as cards. */
@@ -29,6 +30,7 @@ export function SituationServices({
   labels,
   serviceLabels,
   favoriteLabels,
+  documentNames,
 }: SituationServicesProps) {
   const id = useId();
   const [selected, setSelected] = useState(0);
@@ -115,6 +117,7 @@ export function SituationServices({
                 lang={lang}
                 labels={serviceLabels}
                 favoriteLabels={favoriteLabels}
+                documentNames={documentNames}
               />
             </li>
           ))}

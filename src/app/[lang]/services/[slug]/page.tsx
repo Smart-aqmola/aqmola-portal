@@ -102,6 +102,7 @@ export default async function ServicePage({ params }: Props) {
                   lang={lang}
                   labels={dict.home.service}
                   favoriteLabels={dict.catalog.favorites}
+                  documentNames={dict.serviceDetails.documents.items}
                 />
               </li>
             ))}

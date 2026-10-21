@@ -16,6 +16,7 @@ const details: ServiceDetails = {
     categoryId: "water",
     situationId: "meters",
     free: true,
+    documents: ["identity"],
     workingDays: 5,
     channel: "front-office",
     audience: "resident",
