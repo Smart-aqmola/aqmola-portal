@@ -44,7 +44,7 @@ export function HomeSearch({ lang, labels, territories }: HomeSearchProps) {
         <label className={styles.field}>
           <Icon name="pin" />
           <span className="visually-hidden">{labels.territoryLabel}</span>
-          <select name="territory" defaultValue="">
+          <select name="territory" defaultValue="" data-plain>
             <option value="">{labels.allTerritories}</option>
             {territories.map((territory) => (
               <option key={territory.id} value={territory.id}>
