@@ -96,6 +96,19 @@ test.describe("catalog", () => {
     await expect(toasts).toBeEmpty({ timeout: 6000 });
   });
 
+  test("keeps the breadcrumbs on one line on a phone, cutting a long title", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/ru/services/water-meter-readings/apply");
+    const trail = page.getByRole("navigation", { name: "Вы здесь" });
+    const box = await trail.boundingBox();
+    // One row of links, not three rows with large gaps between them.
+    expect(box!.height).toBeLessThanOrEqual(56);
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+  });
+
   test("scrolls the category chips with the arrow and hides it at the end", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("/ru/services");

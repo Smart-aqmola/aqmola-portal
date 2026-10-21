@@ -54,7 +54,7 @@
     "search": {
       "label": "Поиск услуги",
       "queryLabel": "Что нужно сделать",
-      "queryPlaceholder": "Название услуги или её номер",
+      "queryPlaceholder": "Услуга или её номер",
       "territoryLabel": "Где",
       "allTerritories": "Вся область",
       "audienceLabel": "Для кого",
@@ -129,7 +129,7 @@
     "search": {
       "label": "Поиск и фильтры",
       "queryLabel": "Название или номер услуги",
-      "queryPlaceholder": "Например: показания воды или 1001",
+      "queryPlaceholder": "Например, показания воды",
       "submit": "Показать"
     },
     "filters": {
