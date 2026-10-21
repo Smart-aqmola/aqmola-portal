@@ -31,3 +31,8 @@ export function useProperties(ownerId: string | null) {
 
   return { mine, count: all.length, add, replace };
 }
+
+/** Every object in this browser, for the cabinet of an organization (spec 12.3). */
+export function useAllProperties() {
+  return useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot);
+}

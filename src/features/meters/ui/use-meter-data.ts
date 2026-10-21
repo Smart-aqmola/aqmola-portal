@@ -101,3 +101,40 @@ export function useMeterData(ownerId: string | null) {
     allRequests,
   };
 }
+
+/** Every meter, reading and request in this browser, for the cabinet of an organization (spec 12.2). */
+export function useAllMeterData() {
+  const meters = useSyncExternalStore(
+    metersStore.subscribe,
+    metersStore.getSnapshot,
+    metersStore.getServerSnapshot,
+  );
+  const readings = useSyncExternalStore(
+    readingsStore.subscribe,
+    readingsStore.getSnapshot,
+    readingsStore.getServerSnapshot,
+  );
+  const requests = useSyncExternalStore(
+    requestsStore.subscribe,
+    requestsStore.getSnapshot,
+    requestsStore.getServerSnapshot,
+  );
+
+  const saveMeters = useCallback((changes: { updated: Meter[]; created: Meter[] }) => {
+    const changed = new Map(changes.updated.map((item) => [item.id, item]));
+    const next = metersStore.getSnapshot().map((item) => changed.get(item.id) ?? item);
+    metersStore.write([...changes.created, ...next].slice(0, MAX_METERS));
+  }, []);
+  const replaceReading = useCallback((changed: Reading) => {
+    readingsStore.write(
+      readingsStore.getSnapshot().map((item) => (item.id === changed.id ? changed : item)),
+    );
+  }, []);
+  const replaceRequest = useCallback((changed: MeterRequest) => {
+    requestsStore.write(
+      requestsStore.getSnapshot().map((item) => (item.id === changed.id ? changed : item)),
+    );
+  }, []);
+
+  return { meters, readings, requests, saveMeters, replaceReading, replaceRequest };
+}

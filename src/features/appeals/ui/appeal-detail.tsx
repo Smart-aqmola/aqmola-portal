@@ -270,14 +270,17 @@ function Reply({
 }
 
 /** Plays the organization so the whole path of an appeal can be seen (spec 11.7). */
-function ExecutorPanel({
+export function ExecutorPanel({
   dict,
   appeal,
   onChange,
+  onDone,
 }: {
   dict: AppealsAreaProps["dict"];
   appeal: Appeal;
   onChange: (appeal: Appeal) => void;
+  /** Told after a step was made, for the audit log of the organization (spec 12.7). */
+  onDone?: (step: { from: AppealStatus; to: AppealStatus; note?: string }) => void;
 }) {
   const t = dict.appeals.detail.provider;
   const toast = useToast();
@@ -314,6 +317,7 @@ function ExecutorPanel({
       return;
     }
     onChange(result.appeal);
+    onDone?.({ from: appeal.status, to: action, note: text.trim() || undefined });
     setAction("");
     setText("");
     toast.show(t.applied);

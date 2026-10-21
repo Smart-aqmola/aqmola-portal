@@ -19,6 +19,7 @@ import {
   type RequestResult,
   type RequestStatus,
 } from "../domain/meter-request";
+import type { Meter } from "../domain/meter";
 import { MetersArea, type MetersContext, type MetersDict } from "./meters-area";
 import { actText, day, fileSize, meterLabel, stamp } from "./meter-texts";
 import { slotText } from "./requests-list";
@@ -250,7 +251,13 @@ function Detail({
         </ul>
       </section>
 
-      <ProviderPanel dict={dict} request={request} context={context} />
+      <RequestProviderPanel
+        dict={dict}
+        request={request}
+        meters={data.meters}
+        onRequest={data.replaceRequest}
+        onMeters={data.saveMeters}
+      />
     </>
   );
 }
@@ -258,18 +265,25 @@ function Detail({
 type PanelAction = RequestStatus | "";
 
 /** Plays the provider (the executor) so the whole path of a request can be seen (spec 8.8). */
-function ProviderPanel({
+export function RequestProviderPanel({
   dict,
   request,
-  context,
+  meters,
+  onRequest,
+  onMeters,
+  onDone,
 }: {
   dict: MetersDict;
   request: MeterRequest;
-  context: MetersContext;
+  /** The meters of the person, to change when the work is done (spec 8.11). */
+  meters: readonly Meter[];
+  onRequest: (request: MeterRequest) => void;
+  onMeters: (changes: { updated: Meter[]; created: Meter[] }) => void;
+  /** Told after a step was made, for the audit log of the organization (spec 12.7). */
+  onDone?: (step: { from: RequestStatus; to: RequestStatus; note?: string }) => void;
 }) {
   const t = dict.meters.requestDetail.provider;
   const toast = useToast();
-  const { data } = context;
   const form = requestForms[request.kind];
   const [action, setAction] = useState<PanelAction>("");
   const [note, setNote] = useState("");
@@ -349,10 +363,11 @@ function ProviderPanel({
       );
       return;
     }
-    data.replaceRequest(changed.request);
+    onRequest(changed.request);
     if (action === "done") {
-      data.saveMeters(completeRequest(changed.request, data.meters, crypto.randomUUID(), now));
+      onMeters(completeRequest(changed.request, meters, crypto.randomUUID(), now));
     }
+    onDone?.({ from: request.status, to: action, note: step.note?.trim() || undefined });
     setAction("");
     setNote("");
     toast.show(t.applied);

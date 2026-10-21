@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  assignAccount,
   contractStatuses,
   contractText,
   createDraft,
@@ -516,5 +517,36 @@ describe("signedAt", () => {
       },
     };
     expect(signedAt(both)).toBe("2026-10-23T09:00:00.000Z");
+  });
+});
+
+describe("assignAccount", () => {
+  const sent = (): ContractApplication => ({
+    ...draft(),
+    status: "registered",
+    number: "DEMO-DOG-2026-00001",
+  });
+
+  it("gives or links a personal account and raises the version", () => {
+    const result = assignAccount(sent(), " 12345678 ", later);
+    if (!result.ok) throw new Error("account");
+    expect(result.application.personalAccount).toBe("12345678");
+    expect(result.application.version).toBe(sent().version + 1);
+    expect(result.application.history).toEqual(sent().history);
+  });
+
+  it("refuses an account of a wrong shape", () => {
+    for (const text of ["", "12", "1234567890123", "12ab5678"]) {
+      expect(assignAccount(sent(), text, later), text).toEqual({ ok: false, reason: "invalid" });
+    }
+  });
+
+  it("refuses to change an application that is a draft or closed for good", () => {
+    for (const status of ["draft", "refused", "terminated"] as const) {
+      expect(assignAccount({ ...sent(), status }, "12345678", later)).toEqual({
+        ok: false,
+        reason: "closed",
+      });
+    }
   });
 });

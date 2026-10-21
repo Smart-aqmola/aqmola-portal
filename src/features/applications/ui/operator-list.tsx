@@ -6,6 +6,7 @@ import type { Locale } from "@/shared/i18n/config";
 import { format } from "@/shared/i18n/format";
 import { formatDate } from "@/shared/i18n/format-date";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
+import { OperatorNav } from "@/features/organization/ui/operator-area";
 import { Button } from "@/shared/ui/button/button";
 import { buildSamples, countByStatus, forOrganization } from "../domain/operator";
 import { statuses, type ApplicationStatus } from "../domain/status";
@@ -17,7 +18,7 @@ import panel from "./panel.module.css";
 
 type Props = {
   lang: Locale;
-  dict: Pick<Dictionary, "operator" | "applications" | "status">;
+  dict: Pick<Dictionary, "operator" | "applications" | "status" | "cabinet">;
   organizations: { id: string; name: string }[];
   /** A few services of each organization, used to make test applications. */
   sampleServices: Record<string, { slug: string; title: string }[]>;
@@ -62,6 +63,7 @@ export function OperatorList({ lang, dict, organizations, sampleServices }: Prop
 
   return (
     <div className={styles.detail}>
+      <OperatorNav lang={lang} labels={dict.cabinet.nav} current="applications" />
       <p className={styles.meta}>{format(t.lead, { org: organization?.name ?? organizationId })}</p>
 
       {mine.length === 0 ? (

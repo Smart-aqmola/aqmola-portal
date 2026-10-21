@@ -29,3 +29,12 @@ export function useAppeals(ownerId: string | null) {
 
   return { mine, add, replace, everyone };
 }
+
+/** Every appeal in this browser, for the cabinet of an organization (spec 12.2). */
+export function useAllAppeals() {
+  const all = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot);
+  const replace = useCallback((changed: Appeal) => {
+    store.write(store.getSnapshot().map((item) => (item.id === changed.id ? changed : item)));
+  }, []);
+  return { all, replace };
+}

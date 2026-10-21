@@ -541,3 +541,27 @@ export function signedAt(app: Pick<ContractApplication, "signatures">): string |
   if (!contractApplicant || !contractProvider) return undefined;
   return contractApplicant.at > contractProvider.at ? contractApplicant.at : contractProvider.at;
 }
+
+export type AccountResult =
+  { ok: true; application: ContractApplication } | { ok: false; reason: "invalid" | "closed" };
+
+/**
+ * The provider gives the applicant a personal account or links one that exists (spec 12.4). It can
+ * be done until the application is closed for good; the history of statuses is not touched.
+ */
+export function assignAccount(app: ContractApplication, account: string, now: Date): AccountResult {
+  const clean = account.trim();
+  if (!ACCOUNT.test(clean)) return { ok: false, reason: "invalid" };
+  if (app.status === "draft" || app.status === "refused" || app.status === "terminated") {
+    return { ok: false, reason: "closed" };
+  }
+  return {
+    ok: true,
+    application: {
+      ...app,
+      personalAccount: clean,
+      version: app.version + 1,
+      updatedAt: now.toISOString(),
+    },
+  };
+}

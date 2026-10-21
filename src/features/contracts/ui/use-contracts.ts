@@ -34,3 +34,12 @@ export function useContracts(ownerId: string | null) {
 
   return { mine, add, replace, takeNumber };
 }
+
+/** Every application in this browser, for the cabinet of an organization (spec 12.2). */
+export function useAllContracts() {
+  const all = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot);
+  const replace = useCallback((changed: ContractApplication) => {
+    store.write(store.getSnapshot().map((item) => (item.id === changed.id ? changed : item)));
+  }, []);
+  return { all, replace };
+}

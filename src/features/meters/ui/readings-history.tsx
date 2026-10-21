@@ -215,20 +215,23 @@ function ReadingCard({
         </ul>
       </details>
 
-      <ProviderPanel dict={dict} reading={reading} onChange={onChange} />
+      <ReadingProviderPanel dict={dict} reading={reading} onChange={onChange} />
     </article>
   );
 }
 
 /** Plays the provider so the whole path of a reading can be seen. There is nothing like it in the real portal. */
-function ProviderPanel({
+export function ReadingProviderPanel({
   dict,
   reading,
   onChange,
+  onDone,
 }: {
   dict: MetersDict;
   reading: Reading;
   onChange: (reading: Reading) => void;
+  /** Told after a step was made, for the audit log of the organization (spec 12.7). */
+  onDone?: (step: { from: ReadingStatus; to: ReadingStatus; note?: string }) => void;
 }) {
   const t = dict.meters.readings.provider;
   const toast = useToast();
@@ -255,6 +258,7 @@ function ProviderPanel({
       return;
     }
     onChange(result.reading);
+    onDone?.({ from: reading.status, to: action, note: note.trim() || undefined });
     setAction("");
     setNote("");
     toast.show(t.done);

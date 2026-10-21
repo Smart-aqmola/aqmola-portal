@@ -33,3 +33,8 @@ export function usePayments(ownerId: string | null) {
 
   return { mine, add, replace, everyone };
 }
+
+/** Every payment in this browser, for the cabinet of an organization (spec 12.2). */
+export function useAllPayments() {
+  return useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot);
+}

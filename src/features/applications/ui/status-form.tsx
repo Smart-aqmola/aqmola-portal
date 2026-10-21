@@ -4,9 +4,11 @@ import { useState } from "react";
 import { format } from "@/shared/i18n/format";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { Button } from "@/shared/ui/button/button";
+import { useAudit } from "@/features/organization/ui/use-audit";
 import { MAX_COMMENT, changeStatus, type Application } from "../domain/application";
 import { allowedNextStatuses } from "../domain/status";
 import { useApplications } from "./use-applications";
+import { useSession } from "./use-session";
 import panel from "./panel.module.css";
 
 type Props = {
@@ -17,6 +19,8 @@ type Props = {
 /** Buttons for the statuses the rules allow next, with an optional note for the applicant. */
 export function StatusForm({ application, labels }: Props) {
   const { replace } = useApplications();
+  const { session } = useSession();
+  const { log } = useAudit();
   const [note, setNote] = useState("");
   const [message, setMessage] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
   const next = allowedNextStatuses(application.status);
@@ -46,6 +50,17 @@ export function StatusForm({ application, labels }: Props) {
       return;
     }
     replace(result.application);
+    log({
+      organizationId: application.organizationId,
+      actor: session?.name ?? "",
+      entity: "service_application",
+      entityId: application.number,
+      number: application.number,
+      action: "status",
+      from: application.status,
+      to,
+      note: trimmed || undefined,
+    });
     setNote("");
     setMessage({ kind: "ok", text: labels.changed });
   }
