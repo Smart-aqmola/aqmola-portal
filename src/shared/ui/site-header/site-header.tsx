@@ -7,6 +7,7 @@ import { useSession } from "@/features/applications/ui/use-session";
 import type { Locale } from "@/shared/i18n/config";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { DisplaySettings } from "@/features/display/ui/display-settings";
+import { NotificationBell } from "@/features/notifications/ui/notification-bell";
 import { Button } from "../button/button";
 import { Icon } from "../icon/icon";
 import { LanguageSwitcher } from "../language-switcher/language-switcher";
@@ -14,7 +15,7 @@ import styles from "./site-header.module.css";
 
 type SiteHeaderProps = {
   lang: Locale;
-  dict: Pick<Dictionary, "brand" | "nav" | "header" | "display">;
+  dict: Pick<Dictionary, "brand" | "nav" | "header" | "display" | "notifications">;
 };
 
 export function SiteHeader({ lang, dict }: SiteHeaderProps) {
@@ -80,6 +81,7 @@ export function SiteHeader({ lang, dict }: SiteHeaderProps) {
         <div className={styles.tools}>
           <LanguageSwitcher lang={lang} label={dict.header.language} />
           <DisplaySettings labels={dict.display} />
+          <NotificationBell lang={lang} labels={dict.notifications.bell} />
           <Button
             variant="ghost"
             href={

@@ -2260,5 +2260,75 @@
         }
       }
     }
+  },
+  "notifications": {
+    "title": "Хабарландырулар",
+    "lead": "Объектілеріңіз, өтінімдеріңіз, шарттарыңыз, есептегіштеріңіз, төлемдеріңіз және өтініштеріңізбен не болып жатқаны. Хабарландырулар кабинетке келеді; өтініште таңдасаңыз, пошта немесе SMS арқылы да жіберіледі.",
+    "signInRequired": {
+      "title": "Хабарландыруларды көру үшін кіріңіз",
+      "text": "Хабарландырулар жеке кабинетіңізге байланысты.",
+      "button": "Кіру"
+    },
+    "operatorNote": "Оператор кабинеті тұрғындардың хабарландыруларын көрсетпейді.",
+    "bell": {
+      "label": "Хабарландырулар",
+      "withCount": "Хабарландырулар, оқылмағаны: {n}"
+    },
+    "empty": {
+      "title": "Хабарландырулар әлі жоқ",
+      "text": "Кабинетте бір нәрсе болғанда пайда болады: объект қосылса, өтінім күйі өзгерсе, жауап келсе."
+    },
+    "filter": "Көрсету",
+    "filters": {
+      "all": "Барлығы",
+      "unread": "Оқылмаған ({n})"
+    },
+    "count": "Табылды: {n}",
+    "markRead": "Барлығын оқылды деп белгілеу",
+    "marked": "Барлық хабарландыру оқылды",
+    "new": "Жаңа",
+    "open": "Ашу",
+    "demoNote": "Демода пошта мен SMS жіберілмейді: хабарландыру сізге қалай жететіні көрсетілген.",
+    "channel": {
+      "label": "Тәсілі",
+      "cabinet": "Кабинетте",
+      "email": "Электрондық пошта арқылы",
+      "sms": "SMS арқылы"
+    },
+    "delivery": {
+      "label": "Жеткізу",
+      "delivered": "Жеткізілді"
+    },
+    "when": "{date}, {time}",
+    "events": {
+      "registered": "Сіз порталда тіркелдіңіз. Қызметтерге тапсырыс беру үшін жылжымайтын мүлік объектісін қосыңыз.",
+      "property_added": "Объект қосылды: {address}. Пайдалану құқығын растаңыз.",
+      "property_confirmed": "Объект расталды: {address}. Енді ол бойынша қызметтерге тапсырыс беруге болады.",
+      "property_rejected": "Объект қабылданбады: {address}. {note}",
+      "application_submitted": "{number} өтінімі берілді: {title}.",
+      "application_status": "{number} өтінімінің күйі өзгерді: {status}. {note}",
+      "contract_submitted": "{number} шартқа өтініш берілді: {title}.",
+      "contract_returned": "{number} өтініші пысықтауға қайтарылды. {note}",
+      "contract_to_sign": "{number} өтініш бойынша шарт қол қоюға жіберілді.",
+      "contract_concluded": "{number} өтініш бойынша шарт жасалды.",
+      "contract_status": "{number} өтінішінің күйі өзгерді: {status}. {note}",
+      "reading_due": "Көрсеткіш беру уақыты келді: {meter}.",
+      "reading_registered": "{number} көрсеткіші тіркелді.",
+      "reading_rejected": "{number} көрсеткіші қабылданбады. {note}",
+      "reading_status": "{number} көрсеткішінің күйі: {status}. {note}",
+      "verification_soon": "Тексеру мерзімі жақында аяқталады: {meter}, {date} дейін. Тексеруге өтінім беріңіз.",
+      "meter_request_registered": "{number} өтінімі тіркелді: {title}.",
+      "meter_request_scheduled": "{number} өтінімі бойынша уақыт тағайындалды: {when}. Маман: {assignee}.",
+      "meter_request_rescheduled": "{number} өтінімі бойынша уақыт өзгерді: {when}. {note}",
+      "meter_request_done": "{number} өтінімі орындалып, жабылды. Актіні жүктеп алуға болады.",
+      "meter_request_status": "{number} өтінімінің күйі: {status}. {note}",
+      "payment_processing": "{number} төлемі өңделуде.",
+      "payment_paid": "{number} төлемі алынып, өңделді.",
+      "payment_status": "{number} төлемінің күйі: {status}.",
+      "appeal_registered": "{number} өтініші тіркелді.",
+      "appeal_question": "{number} өтініші бойынша ұйым нақтылауды сұрайды: {note}",
+      "appeal_answer": "{number} өтінішіне жауап: {note}",
+      "appeal_status": "{number} өтінішінің күйі: {status}. {note}"
+    }
   }
 }

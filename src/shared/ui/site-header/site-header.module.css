@@ -93,6 +93,13 @@
   white-space: nowrap;
 }
 
+/* A long name is cut with an ellipsis instead of pushing the other tools off the bar. */
+.signIn .signInText {
+  max-width: 12rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .menuButton {
   display: none;
   align-items: center;
@@ -211,4 +218,21 @@
 
 :root[data-text="large"] .navList {
   gap: 18px;
+}
+
+/* On a laptop the large-text bar has no room for the name next to the bell: the icon stays, the name is read aloud. */
+@media (max-width: 1400px) {
+  :root[data-text="large"] .signInText {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  :root[data-text="large"] .tools .signIn {
+    width: var(--tap-target);
+    padding: 0;
+  }
 }

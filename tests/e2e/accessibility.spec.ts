@@ -28,6 +28,7 @@ const pages = [
   "/ru/billing/payments",
   "/ru/appeals",
   "/ru/appeals/new",
+  "/ru/notifications",
   "/ru/news",
   "/ru/news/heating-season-started",
   "/ru/tourism",

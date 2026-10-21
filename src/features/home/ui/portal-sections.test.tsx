@@ -40,11 +40,26 @@ describe("PortalSections", () => {
     );
   });
 
-  it("marks a section that is not built as soon, and does not link to nowhere", () => {
+  it("links every section now that all of them are built", () => {
     render(<PortalSections lang="ru" labels={ru.home.portal} />);
-    const notBuilt = portalSections.filter((section) => section.path === null);
-    expect(screen.getAllByText("Скоро")).toHaveLength(notBuilt.length);
-    const tile = screen.getByText("Уведомления").closest("li") as HTMLElement;
+    expect(portalSections.every((section) => section.path !== null)).toBe(true);
+    expect(screen.queryByText("Скоро")).toBeNull();
+    expect(screen.getAllByRole("link")).toHaveLength(portalSections.length);
+  });
+
+  it("marks a section that is not built as soon, and does not link to nowhere", () => {
+    render(
+      <PortalSections
+        lang="ru"
+        labels={ru.home.portal}
+        sections={[
+          { id: "meters", path: null, icon: "meter" },
+          { id: "help", path: "/help", icon: "search" },
+        ]}
+      />,
+    );
+    expect(screen.getAllByText("Скоро")).toHaveLength(1);
+    const tile = screen.getByText("Счётчики").closest("li") as HTMLElement;
     expect(within(tile).queryByRole("link")).not.toBeInTheDocument();
   });
 });

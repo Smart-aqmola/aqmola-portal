@@ -61,6 +61,7 @@ const icons = {
   tree: <path d="M12 3l5 7h-3l4 6H6l4-6H7zM12 16v5" />,
   bed: <path d="M3 18V7M3 14h18v4M21 14v-2a3 3 0 0 0-3-3h-7v5M7 11h.01" />,
   menu: <path d="M4 7h16M4 12h16M4 17h16" />,
+  bell: <path d="M6 17v-6a6 6 0 0 1 12 0v6l2 2H4zM10 21h4" />,
   close: <path d="M6 6l12 12M18 6L6 18" />,
   plus: <path d="M12 5v14M5 12h14" />,
 } satisfies Record<string, ReactNode>;

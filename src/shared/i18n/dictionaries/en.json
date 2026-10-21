@@ -2260,5 +2260,75 @@
         }
       }
     }
+  },
+  "notifications": {
+    "title": "Уведомления",
+    "lead": "Всё, что происходит с вашими объектами, заявками, договорами, счётчиками, платежами и обращениями. Уведомления приходят в кабинет; по почте или SMS они идут, если вы выбрали такой способ в заявлении.",
+    "signInRequired": {
+      "title": "Войдите, чтобы увидеть уведомления",
+      "text": "Уведомления привязаны к вашему личному кабинету.",
+      "button": "Войти"
+    },
+    "operatorNote": "Кабинет оператора не показывает уведомления жителей.",
+    "bell": {
+      "label": "Уведомления",
+      "withCount": "Уведомления, непрочитанных: {n}"
+    },
+    "empty": {
+      "title": "Уведомлений пока нет",
+      "text": "Они появятся, когда в кабинете что-то произойдёт: добавится объект, изменится статус заявки, придёт ответ."
+    },
+    "filter": "Показать",
+    "filters": {
+      "all": "Все",
+      "unread": "Непрочитанные ({n})"
+    },
+    "count": "Найдено: {n}",
+    "markRead": "Отметить все прочитанными",
+    "marked": "Все уведомления прочитаны",
+    "new": "Новое",
+    "open": "Открыть",
+    "demoNote": "Почта и SMS в демо не отправляются: показано, как уведомление дошло бы до вас.",
+    "channel": {
+      "label": "Способ",
+      "cabinet": "В кабинете",
+      "email": "По электронной почте",
+      "sms": "По SMS"
+    },
+    "delivery": {
+      "label": "Доставка",
+      "delivered": "Доставлено"
+    },
+    "when": "{date}, {time}",
+    "events": {
+      "registered": "Вы зарегистрированы на портале. Добавьте объект недвижимости, чтобы заказывать услуги.",
+      "property_added": "Добавлен объект: {address}. Подтвердите право пользования.",
+      "property_confirmed": "Объект подтверждён: {address}. Теперь по нему можно заказывать услуги.",
+      "property_rejected": "Объект отклонён: {address}. {note}",
+      "application_submitted": "Заявка {number} подана: {title}.",
+      "application_status": "Статус заявки {number} изменён: {status}. {note}",
+      "contract_submitted": "Заявление на договор {number} подано: {title}.",
+      "contract_returned": "Заявление {number} возвращено на доработку. {note}",
+      "contract_to_sign": "Договор по заявлению {number} направлен вам на подписание.",
+      "contract_concluded": "Договор по заявлению {number} заключён.",
+      "contract_status": "Статус заявления {number} изменён: {status}. {note}",
+      "reading_due": "Пора передать показания: {meter}.",
+      "reading_registered": "Показания {number} зарегистрированы.",
+      "reading_rejected": "Показания {number} отклонены. {note}",
+      "reading_status": "Статус показаний {number}: {status}. {note}",
+      "verification_soon": "Скоро заканчивается срок поверки: {meter}, до {date}. Подайте заявку на поверку.",
+      "meter_request_registered": "Заявка {number} зарегистрирована: {title}.",
+      "meter_request_scheduled": "По заявке {number} назначено время: {when}. Специалист: {assignee}.",
+      "meter_request_rescheduled": "По заявке {number} изменено время: {when}. {note}",
+      "meter_request_done": "Заявка {number} выполнена и закрыта. Акт можно скачать.",
+      "meter_request_status": "Статус заявки {number}: {status}. {note}",
+      "payment_processing": "Платёж {number} обрабатывается.",
+      "payment_paid": "Платёж {number} получен и обработан.",
+      "payment_status": "Статус платежа {number}: {status}.",
+      "appeal_registered": "Обращение {number} зарегистрировано.",
+      "appeal_question": "По обращению {number} организация просит уточнить: {note}",
+      "appeal_answer": "Ответ на обращение {number}: {note}",
+      "appeal_status": "Статус обращения {number}: {status}. {note}"
+    }
   }
 }
