@@ -5,10 +5,11 @@ export const auditEntities = [
   "meter_request",
   "reading",
   "appeal",
+  "config",
 ] as const;
 export type AuditEntity = (typeof auditEntities)[number];
 
-export const auditActions = ["status", "account"] as const;
+export const auditActions = ["status", "account", "config"] as const;
 export type AuditAction = (typeof auditActions)[number];
 
 /** One line of the journal: who, when, what and from what to what. Lines are never changed or deleted. */

@@ -4,6 +4,7 @@ import { useCallback, useMemo, useState, useSyncExternalStore } from "react";
 import { useProfiles } from "@/features/account/ui/use-profiles";
 import { useProperties } from "@/features/account/ui/use-properties";
 import { useAppeals } from "@/features/appeals/ui/use-appeals";
+import { isStaffRole } from "@/features/applications/domain/application";
 import { ownerIdOf, type DemoSession } from "@/features/applications/domain/storage";
 import { useApplications } from "@/features/applications/ui/use-applications";
 import { usePayments } from "@/features/billing/ui/use-payments";
@@ -22,7 +23,7 @@ const NONE: AppNotification[] = [];
  * get them; a guest and an operator get none.
  */
 export function useNotifications(session: DemoSession | null) {
-  const wanted = session !== null && session.role !== "operator";
+  const wanted = session !== null && !isStaffRole(session.role);
   const ownerId = wanted ? ownerIdOf(session) : null;
   const { mine: properties } = useProperties(ownerId);
   const { applications } = useApplications();

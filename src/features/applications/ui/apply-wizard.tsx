@@ -12,6 +12,7 @@ import {
   MAX_COMMENT,
   canApply,
   createApplication,
+  isStaffRole,
   stepNames,
   validateStep,
   type ApplicationForm,
@@ -70,7 +71,7 @@ export function ApplyWizard({ lang, service, territories, dict }: ApplyWizardPro
   const applyPath = `/${lang}/services/${service.slug}/apply`;
   const signInHref = `/${lang}/sign-in?next=${encodeURIComponent(applyPath)}`;
 
-  if (!session || session.role === "operator") {
+  if (!session || isStaffRole(session.role)) {
     return (
       <section className={styles.card}>
         <h2 className={styles.heading}>{t.signInRequired.title}</h2>
@@ -125,7 +126,7 @@ export function ApplyWizard({ lang, service, territories, dict }: ApplyWizardPro
   function submit() {
     const found = validateStep("sign", form, service.documents);
     setErrors(found);
-    if (Object.keys(found).length > 0 || owner.role === "operator") return;
+    if (Object.keys(found).length > 0 || isStaffRole(owner.role)) return;
     const created = add((number) =>
       createApplication({
         serviceSlug: service.slug,

@@ -31,6 +31,7 @@ function statusName(entry: AuditEntry, key: string | undefined, dict: OperatorDi
     meter_request: dict.meters.requestStatus,
     reading: dict.meters.status,
     appeal: dict.appeals.status,
+    config: {},
   };
   return names[entry.entity][key] ?? key;
 }

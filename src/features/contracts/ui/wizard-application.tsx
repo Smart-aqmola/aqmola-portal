@@ -4,10 +4,12 @@ import { useId, type ReactNode } from "react";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { CheckField, Field } from "@/shared/ui/field/field";
 import {
+  DEFAULT_RULES,
   notifyChannels,
   type ApplicationErrors,
   type ApplicationField,
   type ContractApplication,
+  type ContractRules,
 } from "../domain/contract";
 import styles from "./contracts.module.css";
 
@@ -15,6 +17,8 @@ type WizardApplicationProps = {
   app: ContractApplication;
   /** Errors to show; empty until the person tried to go on. */
   errors: ApplicationErrors;
+  /** What the administrator made required on top of the basics (spec 13.2). */
+  rules?: ContractRules;
   dict: Pick<Dictionary, "contracts" | "properties">;
   onChange: (patch: Partial<ContractApplication>) => void;
 };
@@ -33,7 +37,13 @@ function Group({ title, children }: { title: string; children: ReactNode }) {
 }
 
 /** Step "application": the fields of the specification (4.5), filled from the profile and the object. */
-export function WizardApplication({ app, errors, dict, onChange }: WizardApplicationProps) {
+export function WizardApplication({
+  app,
+  errors,
+  rules = DEFAULT_RULES,
+  dict,
+  onChange,
+}: WizardApplicationProps) {
   const t = dict.contracts.application;
   const a = app.applicant;
 
@@ -138,7 +148,11 @@ export function WizardApplication({ app, errors, dict, onChange }: WizardApplica
             )}
           </Field>
         </div>
-        <Field label={t.email} error={errorText("email")}>
+        <Field
+          label={t.email}
+          error={errorText("email")}
+          required={rules.requiredFields.includes("email")}
+        >
           {(control) => (
             <input
               {...control}
@@ -169,7 +183,12 @@ export function WizardApplication({ app, errors, dict, onChange }: WizardApplica
           </Field>
         </div>
         <div className={styles.pair}>
-          <Field label={t.rightSince} hint={t.rightSinceHint} error={errorText("rightSince")}>
+          <Field
+            label={t.rightSince}
+            hint={t.rightSinceHint}
+            error={errorText("rightSince")}
+            required={rules.requiredFields.includes("rightSince")}
+          >
             {(control) => (
               <input
                 {...control}
@@ -179,7 +198,11 @@ export function WizardApplication({ app, errors, dict, onChange }: WizardApplica
               />
             )}
           </Field>
-          <Field label={t.personalAccount} error={errorText("personalAccount")}>
+          <Field
+            label={t.personalAccount}
+            error={errorText("personalAccount")}
+            required={rules.requiredFields.includes("personalAccount")}
+          >
             {(control) => (
               <input
                 {...control}

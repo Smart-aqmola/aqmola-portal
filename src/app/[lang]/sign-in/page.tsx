@@ -61,6 +61,7 @@ async function SignIn({
           next={next}
           applicationsHref={`/${lang}/applications`}
           operatorHref={`/${lang}/operator`}
+          adminHref={`/${lang}/admin`}
           organizations={organizations}
         />
       </div>

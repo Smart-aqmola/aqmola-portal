@@ -203,3 +203,18 @@
 - Список допустимых форматов и размеров файлов по умолчанию (4.7).
 - Срок рассмотрения по каждой услуге — источник данных (10.3, 11.5).
 - Какие поставщики отдают задолженность и в каком виде (5.3).
+
+## Настройки портала и отчёты (ТЗ 13, 17, 20.3)
+
+Фронт читает и пишет настройки одним документом `AdminConfig`; бэкенду нужны те же поля, но с ролевой защитой (только системный администратор, 13.5) и записью в журнал (13.4).
+
+- `blockedOrganizations[]`: заблокированная организация не входит в свой кабинет.
+- `staff[]` (`id`, `organizationId`, `name`, `role`: `contact_operator` | `request_specialist` | `inspector` | `meter_specialist` | `accountant` | `organization_admin`, `blocked`).
+- `languages[]` (`ru` всегда включён), `regulationDays` (`service`, `contract`, `meter`, `appeal`; 1–60), `financeAccess` (показывать ли суммы платежей в отчётах, 17.4).
+- Форма заявления на договор: `documents` (для каждого основания `owner` | `representative` | `tenant` | `lawful_user` список обязательных документов) и `requiredFields` (`rightSince` | `personalAccount` | `email`); сервер повторяет эти проверки при приёме заявления.
+- `templates` (`ru`, `kk`; на каждое событие уведомления свой текст с подстановками `{number}`, `{address}`, `{status}`, `{note}`, `{meter}`, `{date}`, `{when}`, `{assignee}`, `{title}`; если текста нет, действует стандартный).
+- Запись в журнал при каждом изменении: пользователь, время, перечень изменённых параметров (`entity`: `config`).
+
+`GET /reports?from=&to=&territoryId=&organizationId=&sector=&status=` отдаёт 18 показателей ТЗ 17.1: `users`, `properties`, `providers`, `contractApplications`, `contractsConcluded`, `underReview`, `refused`, `meterRequests`, `readingsSent`, `readingsAccepted`, `readingsRejected`, `receipts`, `payments`, `paymentsSum` (только при праве на финансовые сведения), `appeals`, `deadlines` (доля закрытых в срок, %), `integrationErrors`, `availability` (средняя доступность систем, %). Статус ограничивает только итоговые числа (заявления, заявки, показания, платежи, обращения). Выгрузка `GET /reports/export?format=csv|xlsx|pdf` строится на сервере; фронт в демо строит только CSV.
+
+Журнал интеграций (`GET /integrations`) отдаёт системы (`id`, `kind`, `availability`, `status`: `available` | `degraded` | `unavailable`, `checkedAt`) и ошибки за неделю (`at`, `systemId`, `code`: `timeout` | `bad_response` | `auth_retry` | `duplicate_message`, `retried`). Тексты и технические подробности ошибок на экран не выходят (18.8, 19.8).

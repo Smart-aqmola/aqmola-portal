@@ -8,6 +8,7 @@ import { Field } from "@/shared/ui/field/field";
 import {
   requiredDocuments,
   validateDocuments,
+  type ContractRules,
   type Attachment,
   type ContractApplication,
   type ContractDocumentKey,
@@ -17,6 +18,7 @@ import styles from "./contracts.module.css";
 
 type WizardDocumentsProps = {
   app: ContractApplication;
+  rules: ContractRules;
   /** Show "not attached" messages; false until the person tried to go on. */
   showMissing: boolean;
   dict: Pick<Dictionary, "contracts" | "properties">;
@@ -24,10 +26,10 @@ type WizardDocumentsProps = {
 };
 
 /** Step "documents": one slot for each required document (4.3), with the file checked at once (4.7). */
-export function WizardDocuments({ app, showMissing, dict, onChange }: WizardDocumentsProps) {
+export function WizardDocuments({ app, rules, showMissing, dict, onChange }: WizardDocumentsProps) {
   const t = dict.contracts.documents;
-  const required = requiredDocuments(app.basis);
-  const found = validateDocuments(app);
+  const required = requiredDocuments(app.basis, rules);
+  const found = validateDocuments(app, rules);
 
   function problemOf(key: ContractDocumentKey): string | undefined {
     const file = app.attachments.find((item) => item.key === key);

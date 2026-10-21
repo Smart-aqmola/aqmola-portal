@@ -6,7 +6,7 @@ import { format } from "@/shared/i18n/format";
 import { Button } from "@/shared/ui/button/button";
 import { Icon } from "@/shared/ui/icon/icon";
 import { useState } from "react";
-import { DEMO_PROFILES, operatorSession } from "../domain/storage";
+import { DEMO_PROFILES, adminSession, operatorSession } from "../domain/storage";
 import { useSession } from "./use-session";
 import styles from "./panel.module.css";
 
@@ -16,6 +16,7 @@ type SignInPanelProps = {
   next: string;
   applicationsHref: string;
   operatorHref: string;
+  adminHref: string;
   organizations: { id: string; name: string }[];
 };
 
@@ -24,6 +25,7 @@ export function SignInPanel({
   next,
   applicationsHref,
   operatorHref,
+  adminHref,
   organizations,
 }: SignInPanelProps) {
   const router = useRouter();
@@ -41,6 +43,11 @@ export function SignInPanel({
     router.push(operatorHref);
   }
 
+  function chooseAdmin() {
+    signIn(adminSession());
+    router.push(adminHref);
+  }
+
   if (!ready) return <div className={styles.placeholder} aria-hidden="true" />;
 
   return (
@@ -49,8 +56,20 @@ export function SignInPanel({
         <section className={styles.notice} aria-live="polite">
           <p>{format(labels.signedAs, { name: session.name })}</p>
           <div className={styles.row}>
-            <Button href={session.role === "operator" ? operatorHref : applicationsHref}>
-              {session.role === "operator" ? labels.toOperator : labels.toApplications}
+            <Button
+              href={
+                session.role === "operator"
+                  ? operatorHref
+                  : session.role === "admin"
+                    ? adminHref
+                    : applicationsHref
+              }
+            >
+              {session.role === "operator"
+                ? labels.toOperator
+                : session.role === "admin"
+                  ? labels.toAdmin
+                  : labels.toApplications}
             </Button>
             <Button variant="ghost" onClick={signOut}>
               {labels.signOut}
@@ -96,6 +115,14 @@ export function SignInPanel({
             onClick={chooseOperator}
           >
             {labels.operator.title}
+          </Button>
+        </li>
+        <li className={styles.profile}>
+          <Icon name="doc" size={28} />
+          <h2 className={styles.profileTitle}>{labels.admin.title}</h2>
+          <p>{labels.admin.text}</p>
+          <Button variant={session?.role === "admin" ? "light" : "primary"} onClick={chooseAdmin}>
+            {labels.admin.title}
           </Button>
         </li>
       </ul>

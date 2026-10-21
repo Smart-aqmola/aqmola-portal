@@ -15,6 +15,7 @@ import {
   submitApplication,
   type ContractApplication,
 } from "../domain/contract";
+import { useContractRules } from "@/features/admin/ui/use-admin-config";
 import { WizardApplication } from "./wizard-application";
 import { WizardDocuments } from "./wizard-documents";
 import { WizardReview } from "./wizard-review";
@@ -55,7 +56,8 @@ export function ContractWizard({
   const stepBox = useRef<HTMLDivElement>(null);
   const moved = useRef(false);
 
-  const check = readiness(app, new Date());
+  const rules = useContractRules();
+  const check = readiness(app, new Date(), rules);
   const fieldsOk = Object.keys(check.fields).length === 0;
   const docsOk = documentsAreValid(check.documents);
   const index = STEPS.indexOf(step);
@@ -107,13 +109,13 @@ export function ContractWizard({
       setConsentError(true);
       return;
     }
-    const result = signApplication(app, applicantName(app.applicant), new Date());
+    const result = signApplication(app, applicantName(app.applicant), new Date(), rules);
     if (result.ok) onChange(result.application);
   }
 
   function send() {
     const now = new Date();
-    const result = submitApplication(app, takeNumber(now), now);
+    const result = submitApplication(app, takeNumber(now), now, rules);
     if (!result.ok) return;
     onChange(result.application);
     toast.show(`${t.detail.number}: ${result.application.number}`);
@@ -146,12 +148,19 @@ export function ContractWizard({
           <WizardApplication
             app={app}
             errors={tried ? check.fields : {}}
+            rules={rules}
             dict={dict}
             onChange={change}
           />
         )}
         {step === "documents" && (
-          <WizardDocuments app={app} showMissing={tried} dict={dict} onChange={change} />
+          <WizardDocuments
+            app={app}
+            rules={rules}
+            showMissing={tried}
+            dict={dict}
+            onChange={change}
+          />
         )}
         {step === "review" && (
           <WizardReview app={app} lang={lang} dict={dict} readiness={check} onEdit={go} />

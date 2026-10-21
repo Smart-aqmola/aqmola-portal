@@ -9,6 +9,7 @@ import { ownerIdOf } from "@/features/applications/domain/storage";
 import { useApplications } from "@/features/applications/ui/use-applications";
 import type { Sector } from "@/features/catalog/domain/types";
 import { useAppeals } from "@/features/appeals/ui/use-appeals";
+import { useAdminConfig } from "@/features/admin/ui/use-admin-config";
 import { useContracts } from "@/features/contracts/ui/use-contracts";
 import { useMeterData } from "@/features/meters/ui/use-meter-data";
 import type { Locale } from "@/shared/i18n/config";
@@ -83,6 +84,7 @@ function Registry({
   const { mine: appeals } = useAppeals(ownerId);
   const { mine: properties } = useProperties(ownerId);
   const [now] = useState(() => new Date());
+  const { config } = useAdminConfig();
   const [filter, setFilter] = useState<RegistryFilter>({ kind: "", state: "", query: "" });
 
   const items = useMemo(() => {
@@ -189,7 +191,7 @@ function Registry({
           <ul className={styles.items}>
             {shown.map((item) => (
               <li key={item.id}>
-                <Card lang={lang} dict={dict} item={item} now={now} />
+                <Card lang={lang} dict={dict} item={item} now={now} days={config.regulationDays} />
               </li>
             ))}
           </ul>
@@ -205,16 +207,18 @@ function Card({
   dict,
   item,
   now,
+  days,
 }: {
   lang: Locale;
   dict: RegistryDict;
   item: RegistryItem;
   now: Date;
+  days: Record<RegistryKind, number>;
 }) {
   const t = dict.registry;
   const f = t.fields;
-  const due = dueDate(item);
-  const late = isOverdue(item, now);
+  const due = dueDate(item, days);
+  const late = isOverdue(item, now, days);
   const title = item.number ? `${item.title}, ${item.number}` : item.title;
 
   return (

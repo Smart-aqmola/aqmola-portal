@@ -7,6 +7,7 @@ import { useSession } from "@/features/applications/ui/use-session";
 import type { Locale } from "@/shared/i18n/config";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { DisplaySettings } from "@/features/display/ui/display-settings";
+import { useEnabledLocales } from "@/features/admin/ui/use-admin-config";
 import { NotificationBell } from "@/features/notifications/ui/notification-bell";
 import { Button } from "../button/button";
 import { Icon } from "../icon/icon";
@@ -21,6 +22,7 @@ type SiteHeaderProps = {
 export function SiteHeader({ lang, dict }: SiteHeaderProps) {
   const pathname = usePathname();
   const { session } = useSession();
+  const enabledLocales = useEnabledLocales();
   // The menu is remembered per page, so navigating closes it without an effect.
   const [openPath, setOpenPath] = useState<string | null>(null);
   const open = openPath === pathname;
@@ -79,14 +81,14 @@ export function SiteHeader({ lang, dict }: SiteHeaderProps) {
         </nav>
 
         <div className={styles.tools}>
-          <LanguageSwitcher lang={lang} label={dict.header.language} />
+          <LanguageSwitcher lang={lang} label={dict.header.language} locales={enabledLocales} />
           <DisplaySettings labels={dict.display} />
           <NotificationBell lang={lang} labels={dict.notifications.bell} />
           <Button
             variant="ghost"
             href={
               session
-                ? `${home}/${session.role === "operator" ? "operator" : "applications"}`
+                ? `${home}/${session.role === "operator" ? "operator" : session.role === "admin" ? "admin" : "applications"}`
                 : `${home}/sign-in`
             }
             className={styles.signIn}

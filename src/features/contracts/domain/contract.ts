@@ -194,8 +194,31 @@ function nameError(value: string, optional: boolean): string | undefined {
   return NAME.test(text) ? undefined : "format";
 }
 
+/**
+ * What the portal administrator may configure in the form of the application (spec 13.2, 20.3):
+ * which documents each ground for using the object needs and which optional fields become required.
+ */
+export type ContractRules = {
+  documents: Record<Relation, readonly ContractDocumentKey[]>;
+  requiredFields: readonly ("rightSince" | "personalAccount" | "email")[];
+};
+
+export const DEFAULT_RULES: ContractRules = {
+  documents: {
+    owner: ["identity", "property"],
+    representative: ["identity", "property", "proxy"],
+    tenant: ["identity", "lease"],
+    lawful_user: ["identity", "basis"],
+  },
+  requiredFields: [],
+};
+
 /** The fields of the application (spec 4.5). `today` is a parameter so the check is testable. */
-export function validateApplication(app: ContractApplication, today: Date): ApplicationErrors {
+export function validateApplication(
+  app: ContractApplication,
+  today: Date,
+  rules: ContractRules = DEFAULT_RULES,
+): ApplicationErrors {
   const errors: ApplicationErrors = {};
   const a = app.applicant;
 
@@ -217,7 +240,10 @@ export function validateApplication(app: ContractApplication, today: Date): Appl
   if (email.length > 100) errors.email = "long";
   else if (email && !EMAIL.test(email)) errors.email = "format";
   else if (!email && app.notifyBy === "email") errors.email = "needed";
+  else if (!email && rules.requiredFields.includes("email")) errors.email = "required";
 
+  if (!app.rightSince && rules.requiredFields.includes("rightSince"))
+    errors.rightSince = "required";
   if (app.rightSince) {
     const date = new Date(`${app.rightSince}T00:00:00Z`);
     const limit = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
@@ -225,6 +251,8 @@ export function validateApplication(app: ContractApplication, today: Date): Appl
   }
 
   const account = app.personalAccount.replace(/\s/g, "");
+  if (!account && rules.requiredFields.includes("personalAccount"))
+    errors.personalAccount = "required";
   if (account && !ACCOUNT.test(account)) errors.personalAccount = "format";
   if (app.previousContract.trim().length > 100) errors.previousContract = "long";
 
@@ -240,14 +268,11 @@ export function validateApplication(app: ContractApplication, today: Date): Appl
 }
 
 /** Which documents the applicant must attach, by the ground for using the object (spec 4.3). */
-export function requiredDocuments(basis: Relation): ContractDocumentKey[] {
-  const byBasis: Record<Relation, ContractDocumentKey[]> = {
-    owner: ["identity", "property"],
-    representative: ["identity", "property", "proxy"],
-    tenant: ["identity", "lease"],
-    lawful_user: ["identity", "basis"],
-  };
-  return byBasis[basis];
+export function requiredDocuments(
+  basis: Relation,
+  rules: ContractRules = DEFAULT_RULES,
+): ContractDocumentKey[] {
+  return [...rules.documents[basis]];
 }
 
 export type DocumentErrors = {
@@ -258,10 +283,13 @@ export type DocumentErrors = {
   tooMany: boolean;
 };
 
-export function validateDocuments(app: ContractApplication): DocumentErrors {
+export function validateDocuments(
+  app: ContractApplication,
+  rules: ContractRules = DEFAULT_RULES,
+): DocumentErrors {
   const attached = new Set(app.attachments.map((file) => file.key));
   return {
-    missing: requiredDocuments(app.basis).filter((key) => !attached.has(key)),
+    missing: requiredDocuments(app.basis, rules).filter((key) => !attached.has(key)),
     problems: app.attachments.flatMap((file) => {
       const problem = checkFile(file);
       return problem ? [{ key: file.key, problem }] : [];
@@ -282,9 +310,13 @@ export type Readiness = {
   ready: boolean;
 };
 
-export function readiness(app: ContractApplication, today: Date): Readiness {
-  const fields = validateApplication(app, today);
-  const documents = validateDocuments(app);
+export function readiness(
+  app: ContractApplication,
+  today: Date,
+  rules: ContractRules = DEFAULT_RULES,
+): Readiness {
+  const fields = validateApplication(app, today, rules);
+  const documents = validateDocuments(app, rules);
   const consents = app.consents.personalData && app.consents.terms;
   return {
     fields,
@@ -402,9 +434,14 @@ export function edited(
 }
 
 /** The applicant signs the filled application; it must be complete first (spec 4.12). */
-export function signApplication(app: ContractApplication, name: string, now: Date): ChangeResult {
+export function signApplication(
+  app: ContractApplication,
+  name: string,
+  now: Date,
+  rules: ContractRules = DEFAULT_RULES,
+): ChangeResult {
   if (!isEditable(app)) return { ok: false, reason: "forbidden" };
-  if (!readiness(app, now).ready) return { ok: false, reason: "not_ready" };
+  if (!readiness(app, now, rules).ready) return { ok: false, reason: "not_ready" };
   return {
     ok: true,
     application: {
@@ -424,10 +461,11 @@ export function submitApplication(
   app: ContractApplication,
   number: string,
   now: Date,
+  rules: ContractRules = DEFAULT_RULES,
 ): ChangeResult {
   if (!isEditable(app)) return { ok: false, reason: "forbidden" };
   if (!app.signatures.application) return { ok: false, reason: "not_signed" };
-  if (!readiness(app, now).ready) return { ok: false, reason: "not_ready" };
+  if (!readiness(app, now, rules).ready) return { ok: false, reason: "not_ready" };
   const sent = moved(app, "registered", "applicant", now);
   const { remarks: _old, ...withoutRemarks } = sent;
   void _old;

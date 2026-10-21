@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { isStaffRole } from "@/features/applications/domain/application";
 import { useSession } from "@/features/applications/ui/use-session";
 import type { Locale } from "@/shared/i18n/config";
 import { format } from "@/shared/i18n/format";
@@ -19,7 +20,7 @@ const MAX_SHOWN = 99;
 export function NotificationBell({ lang, labels }: NotificationBellProps) {
   const { session } = useSession();
   const { unread } = useNotifications(session);
-  if (!session || session.role === "operator") return null;
+  if (!session || isStaffRole(session.role)) return null;
 
   const count = unread.length;
   return (

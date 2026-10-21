@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useAdminConfig } from "@/features/admin/ui/use-admin-config";
 import { AccountGate } from "@/features/account/ui/account-gate";
 import type { DemoSession } from "@/features/applications/domain/storage";
 import type { Locale } from "@/shared/i18n/config";
@@ -35,6 +36,8 @@ function List({ lang, dict, session }: NotificationsPageProps & { session: DemoS
   const t = dict.notifications;
   const toast = useToast();
   const { all, unread, markAllRead } = useNotifications(session);
+  const { config } = useAdminConfig();
+  const custom = lang === "ru" || lang === "kk" ? config.templates[lang] : {};
   const [only, setOnly] = useState<"all" | "unread">("all");
 
   if (all.length === 0) {
@@ -92,7 +95,7 @@ function List({ lang, dict, session }: NotificationsPageProps & { session: DemoS
               >
                 <p className={styles.text} id={`notice-${item.id}`}>
                   {isNew && <span className={styles.new}>{t.new}</span>}{" "}
-                  {notificationText(item, dict, lang)}
+                  {notificationText(item, dict, lang, custom)}
                 </p>
                 <p className={styles.meta}>
                   <span>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { ProviderInfo } from "@/features/account/domain/availability";
+import { useAdminConfig } from "@/features/admin/ui/use-admin-config";
 import { useSession } from "@/features/applications/ui/use-session";
 import type { DemoSession } from "@/features/applications/domain/storage";
 import type { Locale } from "@/shared/i18n/config";
@@ -98,6 +99,7 @@ type OperatorAreaProps = {
 export function OperatorArea({ lang, dict, providers, current, children }: OperatorAreaProps) {
   const { session, ready } = useSession();
   const { log } = useAudit();
+  const { config } = useAdminConfig();
 
   if (!ready) return <div className={styles.card} aria-hidden="true" />;
 
@@ -111,6 +113,15 @@ export function OperatorArea({ lang, dict, providers, current, children }: Opera
         <div>
           <Button href={`/${lang}/sign-in`}>{dict.operator.signInRequired.button}</Button>
         </div>
+      </section>
+    );
+  }
+
+  if (config.blockedOrganizations.includes(org.id)) {
+    return (
+      <section className={styles.card}>
+        <h2 className={styles.heading}>{dict.cabinet.blocked.title}</h2>
+        <p>{format(dict.cabinet.blocked.text, { org: org.name })}</p>
       </section>
     );
   }

@@ -30,13 +30,15 @@ export function notificationText(
   item: AppNotification,
   dict: NotificationsDict,
   lang: Locale,
+  /** The texts the administrator wrote, by event; the dictionary is used for the rest (spec 16.5). */
+  custom: Partial<Record<AppNotification["event"], string>> = {},
 ): string {
   const { refs } = item;
   const kindNames = dict.meters.nav as Record<string, string>;
   const title = item.event.startsWith("meter_request")
     ? (kindNames[item.title ?? ""] ?? "")
     : (item.title ?? "");
-  const text = format(dict.notifications.events[item.event], {
+  const text = format(custom[item.event] ?? dict.notifications.events[item.event], {
     number: item.number ?? "",
     title,
     address: item.address ?? "",

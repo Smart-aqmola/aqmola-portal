@@ -38,6 +38,11 @@ export function ownerIdOf(session: Pick<DemoSession, "role" | "userId">): string
   return session.userId ?? `demo-${session.role}`;
 }
 
+/** The administrator of the portal (spec 13): a demo profile with no organization. */
+export function adminSession(): DemoSession {
+  return { role: "admin", name: "Демо Администратор" };
+}
+
 /** The operator works for one organization, chosen at sign-in. */
 export function operatorSession(organizationId: string): DemoSession {
   return { role: "operator", name: "Демо Оператор", organizationId };
@@ -68,6 +73,7 @@ export function parseSession(raw: string | null): DemoSession | null {
       ? operatorSession(organizationId)
       : null;
   }
+  if (role === "admin") return name === adminSession().name ? adminSession() : null;
   if (role !== "resident" && role !== "business") return null;
   const profile = DEMO_PROFILES[role];
   return name === profile.name ? profile : null;

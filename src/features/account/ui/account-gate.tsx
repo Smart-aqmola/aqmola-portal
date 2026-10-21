@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { isStaffRole } from "@/features/applications/domain/application";
 import { type DemoSession } from "@/features/applications/domain/storage";
 import { useSession } from "@/features/applications/ui/use-session";
 import type { Locale } from "@/shared/i18n/config";
@@ -39,7 +40,7 @@ export function AccountGate({ lang, here, labels, operatorNote, children }: Acco
     );
   }
 
-  if (session.role === "operator") {
+  if (isStaffRole(session.role)) {
     return (
       <section className={styles.card}>
         <p>{operatorNote}</p>

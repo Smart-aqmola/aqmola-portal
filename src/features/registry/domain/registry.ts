@@ -51,15 +51,20 @@ export const REGULATION_DAYS: Record<RegistryKind, number> = {
 const DAY_MS = 24 * 60 * 60 * 1000;
 
 /** The day by which the request should be dealt with: `YYYY-MM-DD`. */
-export function dueDate(item: Pick<RegistryItem, "kind" | "at">): string {
-  return new Date(Date.parse(item.at) + REGULATION_DAYS[item.kind] * DAY_MS)
-    .toISOString()
-    .slice(0, 10);
+export function dueDate(
+  item: Pick<RegistryItem, "kind" | "at">,
+  days: Record<RegistryKind, number> = REGULATION_DAYS,
+): string {
+  return new Date(Date.parse(item.at) + days[item.kind] * DAY_MS).toISOString().slice(0, 10);
 }
 
 /** An open request is late when its day has passed. */
-export function isOverdue(item: Pick<RegistryItem, "kind" | "at" | "closed">, now: Date): boolean {
-  return !item.closed && dueDate(item) < now.toISOString().slice(0, 10);
+export function isOverdue(
+  item: Pick<RegistryItem, "kind" | "at" | "closed">,
+  now: Date,
+  days: Record<RegistryKind, number> = REGULATION_DAYS,
+): boolean {
+  return !item.closed && dueDate(item, days) < now.toISOString().slice(0, 10);
 }
 
 export const registryStates = ["open", "action", "archive"] as const;

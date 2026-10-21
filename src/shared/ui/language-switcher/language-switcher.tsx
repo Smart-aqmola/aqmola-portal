@@ -8,14 +8,20 @@ import styles from "./language-switcher.module.css";
 type LanguageSwitcherProps = {
   lang: Locale;
   label: string;
+  /** The languages to offer; the current one is always among them. */
+  locales?: readonly Locale[];
 };
 
-export function LanguageSwitcher({ lang, label }: LanguageSwitcherProps) {
+export function LanguageSwitcher({
+  lang,
+  label,
+  locales = switcherLocales,
+}: LanguageSwitcherProps) {
   const pathname = usePathname();
 
   return (
     <div className={styles.switcher} role="group" aria-label={label}>
-      {switcherLocales.map((locale) => (
+      {(locales.includes(lang) ? locales : [...locales, lang]).map((locale) => (
         <Link
           key={locale}
           href={localizePath(pathname, locale)}

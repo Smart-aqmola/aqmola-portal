@@ -6,6 +6,7 @@ import type { Locale } from "@/shared/i18n/config";
 import { format } from "@/shared/i18n/format";
 import { formatDate } from "@/shared/i18n/format-date";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
+import { useAdminConfig } from "@/features/admin/ui/use-admin-config";
 import { OperatorNav } from "@/features/organization/ui/operator-area";
 import { Button } from "@/shared/ui/button/button";
 import { buildSamples, countByStatus, forOrganization } from "../domain/operator";
@@ -28,6 +29,7 @@ export function OperatorList({ lang, dict, organizations, sampleServices }: Prop
   const { session, ready } = useSession();
   const { applications, addMany } = useApplications();
   const [filter, setFilter] = useState<ApplicationStatus | "all">("all");
+  const { config } = useAdminConfig();
   const t = dict.operator;
 
   if (!ready) return <div className={panel.placeholder} aria-hidden="true" />;
@@ -46,6 +48,14 @@ export function OperatorList({ lang, dict, organizations, sampleServices }: Prop
 
   const organizationId = session.organizationId;
   const organization = organizations.find((item) => item.id === organizationId);
+  if (config.blockedOrganizations.includes(organizationId)) {
+    return (
+      <section className={panel.card}>
+        <h2 className={panel.heading}>{dict.cabinet.blocked.title}</h2>
+        <p>{format(dict.cabinet.blocked.text, { org: organization?.name ?? organizationId })}</p>
+      </section>
+    );
+  }
   const mine = forOrganization(applications, organizationId);
   const counts = countByStatus(mine);
   const shown = filter === "all" ? mine : mine.filter((item) => item.status === filter);

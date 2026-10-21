@@ -1,8 +1,12 @@
 import type { DocumentKey } from "@/features/catalog/domain/service-details";
 import { canTransition, type ApplicationStatus } from "./status";
 
-export type DemoRole = "resident" | "business" | "operator";
-export type ApplicantRole = Exclude<DemoRole, "operator">;
+export type DemoRole = "resident" | "business" | "operator" | "admin";
+export type ApplicantRole = Exclude<DemoRole, "operator" | "admin">;
+
+/** Staff of an organization and of the portal: they work in their own cabinets, not as applicants (spec 19.6). */
+export const isStaffRole = (role: DemoRole): role is "operator" | "admin" =>
+  role === "operator" || role === "admin";
 
 export type ApplicationForm = {
   territoryId: string;
@@ -49,7 +53,7 @@ export function canApply(
   role: DemoRole,
   audience: "resident" | "business" | "both",
 ): role is ApplicantRole {
-  if (role === "operator") return false;
+  if (isStaffRole(role)) return false;
   return audience === "both" || audience === role;
 }
 
