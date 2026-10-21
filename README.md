@@ -71,4 +71,4 @@ pnpm test:e2e    # сценарии в браузере (собирает сай
 - Описания мест и новости вымышлены, перед запуском их заменит проверенный текст.
 - Официального логотипа нет: в шапке временный знак.
 
-Подробнее: [docs/brief.md](docs/brief.md) (бриф и решения), [docs/plan.md](docs/plan.md) (план по этапам), [docs/research/astana-kz.md](docs/research/astana-kz.md) (разбор образца).
+Подробнее: [docs/codemap.md](docs/codemap.md) (карта проекта: где что лежит), [docs/brief.md](docs/brief.md) (бриф и решения), [docs/plan.md](docs/plan.md) (план по этапам), [docs/research/astana-kz.md](docs/research/astana-kz.md) (разбор образца).

@@ -10,7 +10,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # Aqmola portal — правила проекта
 
-- Бриф и решения: `docs/brief.md`. План этапов: `docs/plan.md`. Основа дизайна: `design/variants/1-panorama.html`.
+- Карта проекта (где что лежит, команды, скорость): `docs/codemap.md`. Бриф и решения: `docs/brief.md`. План этапов: `docs/plan.md`. Основа дизайна: `design/variants/1-panorama.html`.
 - Стек: Next.js App Router, TypeScript strict, CSS Modules + токены, pnpm. Без внешних API: данные только через репозитории в `src/features/*/data`.
 - Структура: `src/features/<feature>/{domain,data,ui}`, общее — `src/shared`. Зависимости: `ui` → `domain` ← `data`.
 - Все пользовательские строки — через словари ru/kk/en. Все данные тестовые, без реальных персональных данных.
