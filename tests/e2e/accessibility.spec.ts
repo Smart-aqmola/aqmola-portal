@@ -129,6 +129,21 @@ test.describe("display settings", () => {
       expect(overflow, path).toBeLessThanOrEqual(0);
     }
   });
+
+  test("large text keeps every header control inside a phone screen", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/ru/services");
+    await page.getByRole("button", { name: "Настройки вида" }).click();
+    await page.getByRole("checkbox", { name: "Крупный шрифт" }).check();
+    await page.goto("/ru");
+    const controls = page.locator("header").getByRole("link").or(page.locator("header button"));
+    for (const control of await controls.all()) {
+      const box = await control.boundingBox();
+      if (!box) continue; // hidden, for example the collapsed menu links
+      const name = (await control.getAttribute("aria-label")) ?? (await control.innerText());
+      expect(box.x + box.width, name).toBeLessThanOrEqual(375);
+    }
+  });
 });
 
 test("large text keeps the header inside a laptop screen", async ({ page }) => {
