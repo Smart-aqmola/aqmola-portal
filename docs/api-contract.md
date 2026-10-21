@@ -64,7 +64,7 @@
 
 ### Contract — договор (5.1–5.7)
 
-`id`, `number`, `propertyId`, `serviceId`, `providerId`, `applicationId`, `personalAccount`, `status` (тот же набор, что у заявления), `startsAt?`, `signedAt?`, `documents[]` (договор, заявление, приложения), `meters[]` (ids приборов), `hasDebt?` (только если поставщик передаёт), `changeRequests[]`, `statusHistory[]`.
+`id`, `number`, `propertyId`, `serviceId`, `providerId`, `applicationId`, `personalAccount`, `status` (тот же набор, что у заявления), `startsAt?`, `signedAt?`, `documents[]` (договор, заявление, приложения), `meters[]` (ids приборов), `hasDebt?` (только если поставщик передаёт), `changeRequests[]` (`id`, `kind`: `contacts` | `account` | `meter` | `other`, `text`, `at`, `status`; подавать можно по договору в силе, 5.6), `statusHistory[]`.
 
 ### Meter — прибор учёта (6.3)
 

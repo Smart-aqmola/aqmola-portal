@@ -31,6 +31,7 @@
 | `/applications`, `/<номер>` | `applications/…`           | Заявки жителя и страница заявки с историей                  |
 | `/operator`, `/<номер>`     | `operator/…`               | Заявки организации, смена статуса                           |
 | `/sign-in`                  | `sign-in/page.tsx`         | Вход по телефону и коду, заглушки eGov/ЭЦП, демо-профили    |
+| `/contracts`                | `contracts/page.tsx`       | Мои договоры по объектам, фильтр по статусу                 |
 | `/contracts/new`            | `contracts/new/page.tsx`   | Договор: выбор объекта, услуги и поставщика                 |
 | `/contracts/<id>`           | `contracts/[id]/page.tsx`  | Мастер заявления, затем статус, договор и история           |
 | `/organizations`            | `organizations/page.tsx`   | Организации по направлениям, где работают, ссылка на услуги |

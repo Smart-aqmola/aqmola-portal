@@ -50,7 +50,7 @@ export const portalSections: readonly PortalSection[] = [
   { id: "meters", path: null, icon: "meter" },
   { id: "billing", path: null, icon: "chart" },
   { id: "applications", path: "/applications", icon: "files" },
-  { id: "contracts", path: null, icon: "doc" },
+  { id: "contracts", path: "/contracts", icon: "doc" },
   { id: "notifications", path: null, icon: "online" },
   { id: "appeals", path: null, icon: "chat" },
   { id: "organizations", path: "/organizations", icon: "house" },

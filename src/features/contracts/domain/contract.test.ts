@@ -11,6 +11,8 @@ import {
   providerChange,
   providerOptions,
   readiness,
+  requestChange,
+  signedAt,
   requiredDocuments,
   signApplication,
   signContract,
@@ -412,5 +414,107 @@ describe("contractText", () => {
     expect(text).toBe(
       "Договор № DEMO-DOG-2026-00001\n\nВодоканал Акмолы и Иванов Иван: Кокшетау, улица Абая, 10, кв. 5",
     );
+  });
+});
+
+describe("changing a contract in force", () => {
+  function inForce(): ContractApplication {
+    const toSigning = moveProvider(sent(), "under_review", "awaiting_applicant_signature");
+    const signed = signContract(toSigning, "Иванов Иван", later);
+    if (!signed.ok) throw new Error("sign failed");
+    return moveProvider(signed.application, "concluded", "active");
+  }
+
+  it("takes a request with a kind and a description, newest first", () => {
+    const first = requestChange(
+      inForce(),
+      { kind: "contacts", text: " Новый телефон " },
+      "r-1",
+      later,
+    );
+    if (!first.ok) throw new Error("request failed");
+    expect(first.application.changeRequests).toEqual([
+      {
+        id: "r-1",
+        kind: "contacts",
+        text: "Новый телефон",
+        at: later.toISOString(),
+        status: "submitted",
+      },
+    ]);
+    const second = requestChange(
+      first.application,
+      { kind: "meter", text: "Заменили счётчик" },
+      "r-2",
+      later,
+    );
+    if (!second.ok) throw new Error("request failed");
+    expect(second.application.changeRequests?.map((item) => item.id)).toEqual(["r-2", "r-1"]);
+  });
+
+  it("is refused before the contract is in force, and without a description", () => {
+    expect(requestChange(sent(), { kind: "other", text: "что-то" }, "r-1", later)).toEqual({
+      ok: false,
+      reason: "forbidden",
+    });
+    expect(requestChange(inForce(), { kind: "other", text: " a " }, "r-1", later)).toEqual({
+      ok: false,
+      reason: "text",
+    });
+    expect(
+      requestChange(inForce(), { kind: "other", text: "я".repeat(501) }, "r-1", later),
+    ).toEqual({ ok: false, reason: "text" });
+  });
+
+  it("limits how many requests one contract may hold", () => {
+    let app = inForce();
+    for (let index = 0; index < 10; index += 1) {
+      const result = requestChange(
+        app,
+        { kind: "other", text: `запрос ${index}` },
+        `r-${index}`,
+        later,
+      );
+      if (!result.ok) throw new Error("request failed");
+      app = result.application;
+    }
+    expect(requestChange(app, { kind: "other", text: "ещё один" }, "r-x", later)).toEqual({
+      ok: false,
+      reason: "too_many",
+    });
+  });
+});
+
+describe("signedAt", () => {
+  it("is the moment the second side signed, and nothing before both did", () => {
+    const base = sent();
+    expect(signedAt(base)).toBeUndefined();
+    const one = {
+      ...base,
+      signatures: {
+        contractApplicant: {
+          name: "a",
+          at: "2026-10-22T07:00:00.000Z",
+          method: "demo_ecp" as const,
+        },
+      },
+    };
+    expect(signedAt(one)).toBeUndefined();
+    const both = {
+      ...base,
+      signatures: {
+        contractApplicant: {
+          name: "a",
+          at: "2026-10-22T07:00:00.000Z",
+          method: "demo_ecp" as const,
+        },
+        contractProvider: {
+          name: "b",
+          at: "2026-10-23T09:00:00.000Z",
+          method: "demo_ecp" as const,
+        },
+      },
+    };
+    expect(signedAt(both)).toBe("2026-10-23T09:00:00.000Z");
   });
 });

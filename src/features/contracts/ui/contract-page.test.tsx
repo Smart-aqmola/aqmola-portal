@@ -367,3 +367,108 @@ describe("ContractPage", () => {
     });
   });
 });
+
+describe("documents and changes of a contract", () => {
+  function seedWith(status: "registered" | "active") {
+    const base = createDraft(
+      {
+        propertyId: "p-1",
+        sector: "water",
+        serviceSlug: "water-contract-resident",
+        serviceTitle: "Заключение договора на водоснабжение и водоотведение",
+        providerId: "akmola-water",
+        providerName: "Водоканал Акмолы",
+        applicant: {
+          lastName: "Демо",
+          firstName: "Житель",
+          middleName: "",
+          iin: "900101300123",
+          phone: "+77011234567",
+          email: "",
+        },
+        address: "Кокшетау, улица Абая, 10",
+        propertyType: "house",
+        basis: "owner",
+        personalAccount: "",
+      },
+      "c-9",
+      "demo-resident",
+      new Date("2026-10-21T06:00:00Z"),
+    );
+    window.localStorage.setItem(
+      CONTRACTS_KEY,
+      JSON.stringify([
+        {
+          ...base,
+          status,
+          number: "DEMO-DOG-2026-00001",
+          submittedAt: "2026-10-21T06:05:00.000Z",
+          attachments: [{ key: "identity", name: "id.pdf", size: 2048 }],
+          history: [
+            ...base.history,
+            { status, at: "2026-10-21T06:05:00.000Z", actor: "applicant" },
+          ],
+        },
+      ]),
+    );
+  }
+
+  beforeEach(() => {
+    window.localStorage.clear();
+    window.localStorage.setItem(SESSION_KEY, JSON.stringify(DEMO_PROFILES.resident));
+    download.mockClear();
+  });
+
+  it("offers the application and the confirmation to download, and the attachments as stubs", () => {
+    seedWith("registered");
+    renderPage("c-9");
+    const section = screen.getByRole("heading", { name: "Документы" }).closest("section")!;
+    fireEvent.click(within(section).getByRole("button", { name: /Скачать.*Заявление/ }));
+    expect(download).toHaveBeenCalledWith("zayavlenie.txt", expect.stringContaining("ЗАЯВЛЕНИЕ"));
+    fireEvent.click(within(section).getByRole("button", { name: /Скачать.*Подтверждение подачи/ }));
+    expect(download).toHaveBeenCalledWith("podtverzhdenie.txt", expect.any(String));
+    expect(
+      within(section).queryByRole("button", { name: /Скачать.*Договор/ }),
+    ).not.toBeInTheDocument();
+
+    fireEvent.click(within(section).getByRole("button", { name: "Скачать: id.pdf" }));
+    expect(download).toHaveBeenCalledWith("id.pdf", expect.stringContaining("Тестовая заглушка"));
+  });
+
+  it("does not let a change be requested before the contract is in force", () => {
+    seedWith("registered");
+    renderPage("c-9");
+    expect(
+      screen.getByText("Заявку на изменение можно подать, когда договор заключён."),
+    ).toBeVisible();
+    expect(screen.queryByRole("button", { name: "Подать заявку" })).not.toBeInTheDocument();
+  });
+
+  it("takes a request to change a contract in force and lists it", () => {
+    seedWith("active");
+    renderPage("c-9");
+    fireEvent.change(screen.getByLabelText(/^Что изменить/), { target: { value: "account" } });
+    fireEvent.change(screen.getByLabelText(/^Что именно изменилось/), {
+      target: { value: "Новый лицевой счёт 87654321" },
+    });
+    click("Подать заявку");
+
+    expect(stored().changeRequests).toMatchObject([
+      { kind: "account", text: "Новый лицевой счёт 87654321", status: "submitted" },
+    ]);
+    const list = screen.getByRole("heading", {
+      name: "Поданные заявки на изменение",
+    }).parentElement!;
+    expect(within(list).getByText(/Лицевой счёт: Новый лицевой счёт 87654321/)).toBeVisible();
+    expect(within(list).getByText("Подана")).toBeVisible();
+    expect(screen.getByLabelText(/^Что именно изменилось/)).toHaveValue("");
+  });
+
+  it("asks to describe the change before sending", () => {
+    seedWith("active");
+    renderPage("c-9");
+    click("Подать заявку");
+    expect(screen.getByText("Опишите, что изменить (от 3 до 500 знаков)")).toBeVisible();
+    expect(stored().changeRequests).toBeUndefined();
+  });
+});

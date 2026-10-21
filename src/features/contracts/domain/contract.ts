@@ -54,6 +54,21 @@ export type Signatures = {
   contractProvider?: Signature;
 };
 
+/** What a person may ask to change in a contract that is in force (spec 5.6). */
+export const changeKinds = ["contacts", "account", "meter", "other"] as const;
+export type ChangeKind = (typeof changeKinds)[number];
+
+export type ChangeRequest = {
+  id: string;
+  kind: ChangeKind;
+  text: string;
+  at: string;
+  status: "submitted";
+};
+
+export const MAX_CHANGE_TEXT = 500;
+export const MAX_CHANGE_REQUESTS = 10;
+
 export type ContractApplication = {
   id: string;
   ownerId: string;
@@ -87,6 +102,8 @@ export type ContractApplication = {
   submittedAt?: string;
   /** When the contract came into force. */
   startsAt?: string;
+  /** Requests to change the data of the contract (spec 5.6). */
+  changeRequests?: ChangeRequest[];
   version: number;
   createdAt: string;
   updatedAt: string;
@@ -318,6 +335,18 @@ export function isConcluded(status: ContractStatus): boolean {
   return status === "concluded" || status === "active" || status === "suspended";
 }
 
+/** True once the provider has prepared the contract, so there is a text to read (spec 4.13). */
+export function hasContractText(status: ContractStatus): boolean {
+  return (
+    status === "awaiting_applicant_signature" ||
+    status === "awaiting_provider_signature" ||
+    status === "concluded" ||
+    status === "active" ||
+    status === "suspended" ||
+    status === "terminated"
+  );
+}
+
 /** True while the applicant may still edit the application. */
 export function isEditable(app: Pick<ContractApplication, "status">): boolean {
   return app.status === "draft" || app.status === "returned_for_revision";
@@ -474,4 +503,41 @@ export function contractText(app: ContractApplication, lines: readonly string[])
     account: app.personalAccount || "—",
   };
   return lines.map((line) => format(line, values)).join("\n\n");
+}
+
+// --- Change of a contract (spec 5.6) -----------------------------------------------------------
+
+export type ChangeRequestResult =
+  | { ok: true; application: ContractApplication }
+  | { ok: false; reason: "forbidden" | "text" | "too_many" };
+
+/** Only a contract in force may be changed; the request needs a description of what to change. */
+export function requestChange(
+  app: ContractApplication,
+  input: { kind: ChangeKind; text: string },
+  id: string,
+  now: Date,
+): ChangeRequestResult {
+  if (!isConcluded(app.status)) return { ok: false, reason: "forbidden" };
+  const text = input.text.trim();
+  if (text.length < 3 || text.length > MAX_CHANGE_TEXT) return { ok: false, reason: "text" };
+  const existing = app.changeRequests ?? [];
+  if (existing.length >= MAX_CHANGE_REQUESTS) return { ok: false, reason: "too_many" };
+  const at = now.toISOString();
+  return {
+    ok: true,
+    application: {
+      ...app,
+      changeRequests: [{ id, kind: input.kind, text, at, status: "submitted" }, ...existing],
+      version: app.version + 1,
+      updatedAt: at,
+    },
+  };
+}
+
+/** The date the contract was signed by both sides, or undefined while it is not (spec 5.3). */
+export function signedAt(app: Pick<ContractApplication, "signatures">): string | undefined {
+  const { contractApplicant, contractProvider } = app.signatures;
+  if (!contractApplicant || !contractProvider) return undefined;
+  return contractApplicant.at > contractProvider.at ? contractApplicant.at : contractProvider.at;
 }

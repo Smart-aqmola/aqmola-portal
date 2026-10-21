@@ -101,7 +101,7 @@ test.describe("contract from the application to the signed contract", () => {
     // Registered with a number, and explicitly not yet a contract (spec 4.10, 4.21).
     await expect(page.getByText(/DEMO-DOG-\d{4}-00001/).first()).toBeVisible();
     await expect(page.getByText(/Это ещё не договор/)).toBeVisible();
-    await expect(page.getByText("Договор заключён.")).toHaveCount(0);
+    await expect(page.getByText("Договор заключён.", { exact: true })).toHaveCount(0);
     const receipt = page.waitForEvent("download");
     await page.getByRole("button", { name: "Скачать подтверждение подачи" }).click();
     expect((await receipt).suggestedFilename()).toBe("podtverzhdenie.txt");
@@ -109,7 +109,7 @@ test.describe("contract from the application to the signed contract", () => {
     // The provider approves; the applicant signs; the provider signs; only then it is a contract.
     await page.getByRole("button", { name: "Принять в работу" }).click();
     await page.getByRole("button", { name: "Согласовать и направить договор на подпись" }).click();
-    await expect(page.getByText("Договор заключён.")).toHaveCount(0);
+    await expect(page.getByText("Договор заключён.", { exact: true })).toHaveCount(0);
     await page.getByRole("button", { name: "Подписать договор (демо ЭЦП)" }).click();
     await page.getByRole("button", { name: "Подписать договор за поставщика" }).click();
     await expect(page.getByText(/Договор заключён\./).first()).toBeVisible();
@@ -146,6 +146,46 @@ test.describe("contract from the application to the signed contract", () => {
     await page.getByRole("button", { name: "Отправить поставщику" }).click();
     await expect(page.getByText(number).first()).toBeVisible();
     await expect(page.getByText("Заявление зарегистрировано").first()).toBeVisible();
+  });
+
+  test("my contracts lists the contract by object and a change of it can be requested", async ({
+    page,
+  }) => {
+    await residentWithObject(page);
+    await page.goto("/ru/contracts/new?service=water-contract-resident");
+    await page.getByRole("button", { name: "Продолжить" }).click();
+    await fillAndSend(page);
+    await page.getByRole("button", { name: "Принять в работу" }).click();
+    await page.getByRole("button", { name: "Согласовать и направить договор на подпись" }).click();
+    await page.getByRole("button", { name: "Подписать договор (демо ЭЦП)" }).click();
+    await page.getByRole("button", { name: "Подписать договор за поставщика" }).click();
+
+    // The contract is concluded, so it can be changed.
+    await page.goto("/ru/contracts");
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Мои договоры");
+    const card = page.getByRole("article");
+    await expect(card).toHaveCount(1);
+    await expect(card).toContainText("Договор заключён");
+    await expect(card).toContainText("Водоканал Акмолы");
+    await expect(card).toContainText("Нет данных от поставщика");
+    await expect(page.getByRole("heading", { level: 2, name: /^Объект: Кокшетау/ })).toBeVisible();
+
+    await card.getByRole("link", { name: /Открыть/ }).click();
+    const download = page.waitForEvent("download");
+    await page.getByRole("button", { name: /Скачать.*Договор/ }).click();
+    expect((await download).suggestedFilename()).toBe("dogovor.txt");
+
+    await page.getByLabel(/^Что именно изменилось/).fill("Новый номер телефона +7 701 000 00 00");
+    await page.getByRole("button", { name: "Подать заявку" }).click();
+    await expect(page.getByText(/Контактные данные: Новый номер телефона/)).toBeVisible();
+
+    // The cabinet menu and the home tile lead to the same list.
+    await page.goto("/ru/applications");
+    await page
+      .getByRole("navigation", { name: "Личный кабинет" })
+      .getByRole("link", { name: "Мои договоры" })
+      .click();
+    await expect(page).toHaveURL(/\/ru\/contracts$/);
   });
 
   test("a village without gas cannot start a gas contract", async ({ page }) => {

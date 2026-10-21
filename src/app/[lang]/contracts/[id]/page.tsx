@@ -42,7 +42,7 @@ async function Detail({ params }: { params: Props["params"] }) {
         label={dict.serviceDetails.breadcrumbs.label}
         items={[
           { label: dict.nav.home, href: `/${lang}` },
-          { label: dict.contracts.title, href: `/${lang}/contracts/new` },
+          { label: dict.contractsList.title, href: `/${lang}/contracts` },
           { label: dict.contracts.steps.application },
         ]}
       />

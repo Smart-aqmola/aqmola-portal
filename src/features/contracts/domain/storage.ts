@@ -2,8 +2,11 @@ import { CONTRACT_SECTORS } from "@/features/account/domain/availability";
 import { propertyTypes, relations } from "@/features/account/domain/property";
 import { MAX_FILES } from "@/shared/lib/upload-rules";
 import {
+  MAX_CHANGE_REQUESTS,
+  MAX_CHANGE_TEXT,
   MAX_CONTRACTS,
   NUMBER_PATTERN,
+  changeKinds,
   contractStatuses,
   documentKeys,
   notifyChannels,
@@ -62,6 +65,18 @@ function isAttachment(value: unknown): boolean {
   );
 }
 
+function isChangeRequest(value: unknown): boolean {
+  return (
+    isObject(value) &&
+    isText(value.id, 60) &&
+    ID.test(value.id) &&
+    isOneOf(value.kind, changeKinds) &&
+    isText(value.text, MAX_CHANGE_TEXT) &&
+    isText(value.at, 40) &&
+    value.status === "submitted"
+  );
+}
+
 function isContract(value: unknown): value is ContractApplication {
   if (!isObject(value)) return false;
   const c = value;
@@ -110,6 +125,10 @@ function isContract(value: unknown): value is ContractApplication {
     (c.remarks === undefined || isText(c.remarks, 400)) &&
     (c.submittedAt === undefined || isText(c.submittedAt, 40)) &&
     (c.startsAt === undefined || isText(c.startsAt, 40)) &&
+    (c.changeRequests === undefined ||
+      (Array.isArray(c.changeRequests) &&
+        c.changeRequests.length <= MAX_CHANGE_REQUESTS &&
+        c.changeRequests.every(isChangeRequest))) &&
     typeof c.version === "number" &&
     isText(c.createdAt, 40) &&
     isText(c.updatedAt, 40)

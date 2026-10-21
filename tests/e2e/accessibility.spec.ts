@@ -11,6 +11,7 @@ const pages = [
   "/ru/operator",
   "/ru/sign-in",
   "/ru/sign-up",
+  "/ru/contracts",
   "/ru/contracts/new",
   "/ru/organizations",
   "/ru/help",

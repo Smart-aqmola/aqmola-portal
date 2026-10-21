@@ -13,6 +13,7 @@ import { Button } from "@/shared/ui/button/button";
 import { useToast } from "@/shared/ui/toast/toast-provider";
 import {
   applicantName,
+  hasContractText,
   isConcluded,
   providerChange,
   providerOptions,
@@ -21,7 +22,10 @@ import {
   type ContractStatus,
 } from "../domain/contract";
 import { contractFileText, formatStamp, receiptText } from "./contract-texts";
+import { ChangeRequest } from "./change-request";
+import { ContractDocuments } from "./contract-documents";
 import { ContractWizard } from "./contract-wizard";
+import { StatusBadge } from "./status-badge";
 import { useContracts } from "./use-contracts";
 import styles from "./contracts.module.css";
 
@@ -30,34 +34,6 @@ type ContractPageProps = {
   id: string;
   dict: Pick<Dictionary, "contracts" | "properties">;
 };
-
-type Tone = "new" | "work" | "done" | "problem";
-const TONES: Record<ContractStatus, Tone> = {
-  draft: "new",
-  not_sent: "new",
-  registered: "work",
-  under_review: "work",
-  docs_check_required: "work",
-  returned_for_revision: "problem",
-  awaiting_applicant_signature: "work",
-  awaiting_provider_signature: "work",
-  inspection_required: "work",
-  technical_conditions_required: "work",
-  concluded: "done",
-  active: "done",
-  suspended: "problem",
-  terminated: "problem",
-  refused: "problem",
-};
-
-/** Colour alone is not enough, so the status is always written out. */
-function StatusBadge({ status, label }: { status: ContractStatus; label: string }) {
-  return (
-    <span className={styles.badge} data-tone={TONES[status]}>
-      {label}
-    </span>
-  );
-}
 
 /** The page of one contract application: the wizard while it is a draft, the status afterwards. */
 export function ContractPage(props: ContractPageProps) {
@@ -125,15 +101,6 @@ function Loaded({ lang, id, dict, ownerId }: ContractPageProps & { ownerId: stri
   );
 }
 
-const CONTRACT_STATUSES: readonly ContractStatus[] = [
-  "awaiting_applicant_signature",
-  "awaiting_provider_signature",
-  "concluded",
-  "active",
-  "suspended",
-  "terminated",
-];
-
 type DetailProps = {
   app: ContractApplication;
   lang: Locale;
@@ -147,7 +114,7 @@ function Detail({ app, lang, dict, justSent, onChange, onRevise }: DetailProps) 
   const toast = useToast();
   const t = dict.contracts;
   const d = t.detail;
-  const hasContract = CONTRACT_STATUSES.includes(app.status);
+  const hasContract = hasContractText(app.status);
   const options = providerOptions(app.status);
 
   function moveProvider(to: ContractStatus) {
@@ -170,7 +137,7 @@ function Detail({ app, lang, dict, justSent, onChange, onRevise }: DetailProps) 
 
   return (
     <>
-      <Link href={`/${lang}/applications`} className={styles.back}>
+      <Link href={`/${lang}/contracts`} className={styles.back}>
         ← {d.back}
       </Link>
       <div className={styles.detailHead}>
@@ -272,6 +239,10 @@ function Detail({ app, lang, dict, justSent, onChange, onRevise }: DetailProps) 
           </div>
         </div>
       )}
+
+      <ContractDocuments app={app} lang={lang} dict={dict} />
+
+      <ChangeRequest app={app} lang={lang} dict={dict} onChange={onChange} />
 
       <section className={styles.card} aria-labelledby="history-title">
         <h2 id="history-title" className={styles.heading}>

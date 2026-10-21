@@ -44,6 +44,22 @@ describe("parseContracts", () => {
     expect(parseContracts(JSON.stringify([draft, full]))).toEqual([draft, full]);
   });
 
+  it("keeps the requests to change a contract", () => {
+    const changed = {
+      ...full,
+      changeRequests: [
+        {
+          id: "r-1",
+          kind: "contacts",
+          text: "Новый телефон",
+          at: "2026-10-22T07:00:00.000Z",
+          status: "submitted",
+        },
+      ],
+    };
+    expect(parseContracts(JSON.stringify([changed]))).toEqual([changed]);
+  });
+
   it("returns an empty list for nothing, broken text or the wrong shape", () => {
     expect(parseContracts(null)).toEqual([]);
     expect(parseContracts("{oops")).toEqual([]);
@@ -61,6 +77,10 @@ describe("parseContracts", () => {
       { ...draft, attachments: [{ key: "virus", name: "x", size: 1 }] },
       { ...draft, signatures: { application: { name: "x" } } },
       { ...draft, history: [{ status: "draft", at: "x", actor: "robot" }] },
+      {
+        ...draft,
+        changeRequests: [{ id: "r-1", kind: "teleport", text: "x", at: "x", status: "submitted" }],
+      },
       null,
       draft,
     ];
