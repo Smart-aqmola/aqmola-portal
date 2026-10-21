@@ -1,6 +1,9 @@
 import type { Photo, PhotoCredit } from "./types";
 
-/** Wikimedia thumbnail addresses end in /<width>px-<file>; ask for another width of the same photo. */
+/**
+ * Wikimedia thumbnail addresses end in /<width>px-<file>; ask for another width of the same photo.
+ * A photo kept on our own site (/photos/...) is returned as it is: next/image resizes it itself.
+ */
 export function photoAt(photo: Photo, width: number): Photo {
   return { ...photo, url: photo.url.replace(/\/\d+px-/, `/${width}px-`) };
 }

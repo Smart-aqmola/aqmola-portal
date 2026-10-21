@@ -163,6 +163,29 @@ test.describe("home page", () => {
     );
   });
 
+  test("photos come from our own site, not from another server", async ({ page, baseURL }) => {
+    const outside: string[] = [];
+    page.on("request", (request) => {
+      const url = new URL(request.url());
+      if (url.origin !== new URL(baseURL!).origin && url.protocol.startsWith("http")) {
+        outside.push(url.href);
+      }
+    });
+    for (const path of ["/ru", "/ru/news", "/ru/tourism", "/ru/tourism/burabay"]) {
+      await page.goto(path);
+      await page.waitForLoadState("networkidle");
+      // Scroll through the page so lazy images are requested too.
+      await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+      await page.waitForLoadState("networkidle");
+      const broken = await page.evaluate(
+        () =>
+          [...document.images].filter((image) => image.complete && image.naturalWidth === 0).length,
+      );
+      expect(broken, `${path}: broken images`).toBe(0);
+    }
+    expect(outside).toEqual([]);
+  });
+
   test("the word in the hero line changes by itself", async ({ page }) => {
     await page.goto("/ru");
     const word = page.getByTestId("rotating-word");

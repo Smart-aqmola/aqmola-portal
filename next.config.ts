@@ -17,10 +17,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  images: {
-    // Test photos come from Wikimedia Commons; replace with our own storage before launch.
-    remotePatterns: [{ protocol: "https", hostname: "thumb.wikimedia.org" }],
-  },
 };
 
 export default nextConfig;

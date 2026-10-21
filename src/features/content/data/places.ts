@@ -1,12 +1,12 @@
 import type { Photo, Place } from "../domain/types";
 import { placeTranslations, withAlt } from "./content-translations";
+import { localPhotoUrl } from "./photo-files";
 
-const THUMB = "https://thumb.wikimedia.org/wikipedia/commons/thumb";
 const LICENSE = "CC BY-SA 4.0";
 
-function commonsPhoto(path: string, file: string, author: string, alt: Photo["alt"]): Photo {
+function commonsPhoto(file: string, author: string, alt: Photo["alt"]): Photo {
   return {
-    url: `${THUMB}/${path}/960px-${file}`,
+    url: localPhotoUrl(file),
     alt,
     credit: {
       author,
@@ -28,12 +28,9 @@ const basePlaces: readonly Place[] = [
       ru: "Бурабай известен озёрами, сосновыми лесами и невысокими горами. Здесь удобно проводить выходные и летом, и зимой.\n\nЭто тестовое описание: перед запуском его нужно заменить проверенным текстом.",
     },
     facts: ["nature", "lake", "rest"],
-    photo: commonsPhoto(
-      "9/98/View_of_Burabay_lake_and_Kokshe_mountains.jpg",
-      "View_of_Burabay_lake_and_Kokshe_mountains.jpg",
-      "Noiembrie",
-      { ru: "Озеро Бурабай и горы Кокше" },
-    ),
+    photo: commonsPhoto("View_of_Burabay_lake_and_Kokshe_mountains.jpg", "Noiembrie", {
+      ru: "Озеро Бурабай и горы Кокше",
+    }),
   },
   {
     id: "okzhetpes",
@@ -46,7 +43,6 @@ const basePlaces: readonly Place[] = [
     },
     facts: ["nature", "lake"],
     photo: commonsPhoto(
-      "f/f1/%D0%9E%D0%BA%D0%B6%D0%B5%D1%82%D0%BF%D0%B5%D1%81_%D0%91%D1%83%D1%80%D0%B0%D0%B1%D0%B0%D0%B9.jpg",
       "%D0%9E%D0%BA%D0%B6%D0%B5%D1%82%D0%BF%D0%B5%D1%81_%D0%91%D1%83%D1%80%D0%B0%D0%B1%D0%B0%D0%B9.jpg",
       "Dots foto",
       { ru: "Скала Окжетпес в Бурабае" },
@@ -62,7 +58,7 @@ const basePlaces: readonly Place[] = [
       ru: "Зеренда привлекает озером, лесом и местами для отдыха. До неё удобно добраться из Кокшетау.\n\nЭто тестовое описание: перед запуском его нужно заменить проверенным текстом.",
     },
     facts: ["lake", "rest"],
-    photo: commonsPhoto("b/bd/Zerenda_June_07.jpg", "Zerenda_June_07.jpg", "Saltanat-alikhanova", {
+    photo: commonsPhoto("Zerenda_June_07.jpg", "Saltanat-alikhanova", {
       ru: "Зеренда летом",
     }),
   },
@@ -76,12 +72,9 @@ const basePlaces: readonly Place[] = [
       ru: "Заповедник охраняет озёра и степь, где останавливаются перелётные птицы. Туристам нужны разрешения и сопровождение, поэтому заранее уточняйте правила посещения.\n\nЭто тестовое описание: перед запуском его нужно заменить проверенным текстом.",
     },
     facts: ["reserve", "nature"],
-    photo: commonsPhoto(
-      "2/25/Sunset_in_Korgalzhyn_Nature_Reserve.jpg",
-      "Sunset_in_Korgalzhyn_Nature_Reserve.jpg",
-      "Dildakhmet",
-      { ru: "Закат в Коргалжынском заповеднике" },
-    ),
+    photo: commonsPhoto("Sunset_in_Korgalzhyn_Nature_Reserve.jpg", "Dildakhmet", {
+      ru: "Закат в Коргалжынском заповеднике",
+    }),
   },
   {
     id: "kokshetau-museum",
@@ -97,12 +90,9 @@ const basePlaces: readonly Place[] = [
       ru: "Музей находится в центре Кокшетау и рассказывает об истории края. Подойдёт для спокойной прогулки по городу в любую погоду.\n\nЭто тестовое описание: перед запуском его нужно заменить проверенным текстом.",
     },
     facts: ["museum", "city"],
-    photo: commonsPhoto(
-      "e/e0/Museum_of_History_of_Kokshetau_in_March_2025.jpg",
-      "Museum_of_History_of_Kokshetau_in_March_2025.jpg",
-      "Kristianmusic",
-      { ru: "Музей истории Кокшетау" },
-    ),
+    photo: commonsPhoto("Museum_of_History_of_Kokshetau_in_March_2025.jpg", "Kristianmusic", {
+      ru: "Музей истории Кокшетау",
+    }),
   },
   {
     id: "stepnogorsk",
@@ -115,7 +105,6 @@ const basePlaces: readonly Place[] = [
     },
     facts: ["city", "nature"],
     photo: commonsPhoto(
-      "6/6f/%D0%A1%D1%82%D0%B5%D0%BF%D0%BD%D0%BE%D0%B3%D0%BE%D1%80%D1%81%D0%BA%2C_%D0%BF%D0%B0%D0%BD%D0%BE%D1%80%D0%B0%D0%BC%D0%B0.JPG",
       "%D0%A1%D1%82%D0%B5%D0%BF%D0%BD%D0%BE%D0%B3%D0%BE%D1%80%D1%81%D0%BA%2C_%D0%BF%D0%B0%D0%BD%D0%BE%D1%80%D0%B0%D0%BC%D0%B0.JPG",
       "Alexander Veretnov",
       { ru: "Панорама Степногорска" },

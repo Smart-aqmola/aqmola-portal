@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { territories } from "@/features/catalog/data/territories";
 import { newsTopics, type Photo } from "../domain/types";
@@ -8,7 +10,9 @@ import { places } from "./places";
 const territoryIds = new Set(territories.map((territory) => territory.id));
 
 function expectCredited(photo: Photo, label: string) {
-  expect(photo.url, label).toMatch(/^https:\/\/thumb\.wikimedia\.org\//);
+  // The photos are copies kept in public/photos, not links to another site.
+  expect(photo.url, label).toMatch(/^\/photos\/[a-z0-9-]+\.jpg$/);
+  expect(existsSync(join(process.cwd(), "public", photo.url)), `${label}: file exists`).toBe(true);
   expect(photo.alt.ru.trim(), label).not.toBe("");
   expect(photo.credit.author.trim(), label).not.toBe("");
   expect(photo.credit.license, label).toBe("CC BY-SA 4.0");
