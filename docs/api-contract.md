@@ -92,7 +92,7 @@
 
 ### Charge — начисление (9.1–9.3)
 
-`id`, `propertyId`, `providerId`, `resource`, `personalAccount`, `period` (`YYYY-MM`), `previousDebt`, `accrued`, `recalculated`, `penalty`, `paid`, `overpayment`, `total`, `generatedAt`, `dueAt?`, `updatedAt`. Сервер не меняет начисления, он их отображает (9.7).
+`id`, `propertyId`, `providerId`, `sector` (`electricity` | `water` | `heat` | `gas` | `waste`), `personalAccount`, `period` (`YYYY-MM`), `previousDebt`, `accrued`, `recalculated` (отрицательное, если поставщик уменьшил), `penalty`, `paid`, `overpayment`, `total`, `generatedAt`, `dueAt?` (поставщик может срок не давать), `updatedAt` (когда поставщик прислал данные), `available` (false, когда свежих данных нет: тогда суммы последние известные, а фронт показывает дату и уведомление, 9.8). Суммы в целых тенге. Сервер не меняет начисления, он их отображает (9.7).
 
 ### Receipt — единая квитанция (9.4–9.9)
 
@@ -100,11 +100,14 @@
 
 ### Payment — платёж (9.10–9.18)
 
-`id`, `receiptId?`, `items[]` (`chargeId`, `amount`), `total`, `status` (см. ниже), `gateway`, `gatewayPaymentId`, `receivedAt`, `distribution[]` (сумма по поставщику и лицевому счёту, 9.12–9.13).
+`id`, `number` (`DEMO-PAY-ГГГГ-NNNNN`), `propertyId`, `period` (`YYYY-MM`), `method` (`gateway` | `bank_app` | `reference`), `reference` (идентификатор для оплаты, 9.11), `lines[]` (`chargeId`, `providerId`, `sector`, `personalAccount`, `amount`: сумма по поставщику и лицевому счёту, 9.12–9.13), `total`, `status` (см. ниже), `statusHistory[]`, `gatewayPaymentId`, `notices[]` (id уведомлений шлюза, уже принятых), `createdAt`, `updatedAt`.
 
-- Статусы (ТЗ 9.16): `awaiting_payment`, `initiated`, `processing`, `paid`, `rejected`, `cancelled`, `refunded`, `awaiting_provider_confirmation`.
+- Статусы (ТЗ 9.16): `awaiting_payment`, `initiated`, `processing`, `paid`, `declined`, `cancelled`, `refunded`, `awaiting_confirmation`. Переходы фронта: человек запускает (`awaiting_payment` → `initiated`) и отменяет (из `awaiting_payment`, `initiated`); остальное сообщает шлюз: `processing`, затем `paid`, `declined` или `awaiting_confirmation`; из `paid` возможен `refunded`.
 - Данные карты в систему не передаются, ввод только в шлюзе (9.19).
-- Повторное уведомление шлюза не должно зачислять платёж дважды (9.17).
+- Каждое уведомление шлюза несёт свой идентификатор; повторное уведомление ничего не меняет и не зачисляет платёж дважды (9.17).
+- Услугу нельзя оплатить, пока по ней есть платёж в статусе `awaiting_payment`, `initiated`, `processing` или `awaiting_confirmation` (защита от двойной оплаты); платятся только услуги с суммой больше нуля и свежими данными поставщика.
+- Оплачивается весь остаток по услуге за текущий месяц. Платёж одним документом может покрывать несколько поставщиков, но `lines[]` хранят поставщика и счёт раздельно, чтобы сервер мог разнести деньги (9.12–9.14).
+- Принятый платёж увеличивает `paid` в начислении и уменьшает `total`; возвращённый не учитывается. В демо это считает фронт, в боевой версии начисление обновляет поставщик (9.7).
 
 ### Appeal — обращение или жалоба (11.1–11.8)
 

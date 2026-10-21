@@ -34,13 +34,17 @@ describe("PortalSections", () => {
       "/kk/organizations",
     );
     expect(screen.getByRole("link", { name: /Счётчики/ })).toHaveAttribute("href", "/kk/meters");
+    expect(screen.getByRole("link", { name: /Начисления и оплата/ })).toHaveAttribute(
+      "href",
+      "/kk/billing",
+    );
   });
 
   it("marks a section that is not built as soon, and does not link to nowhere", () => {
     render(<PortalSections lang="ru" labels={ru.home.portal} />);
     const notBuilt = portalSections.filter((section) => section.path === null);
     expect(screen.getAllByText("Скоро")).toHaveLength(notBuilt.length);
-    const tile = screen.getByText("Начисления и оплата").closest("li") as HTMLElement;
+    const tile = screen.getByText("Уведомления").closest("li") as HTMLElement;
     expect(within(tile).queryByRole("link")).not.toBeInTheDocument();
   });
 });

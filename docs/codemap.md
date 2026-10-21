@@ -22,34 +22,38 @@
 
 ## Страницы (`src/app/[lang]/`, язык `ru` | `kk` | `en`)
 
-| Адрес                       | Файл                       | Что показывает                                              |
-| --------------------------- | -------------------------- | ----------------------------------------------------------- |
-| `/`                         | `page.tsx`                 | Hero, поиск, жизненные ситуации, новости, форма, анонсы     |
-| `/services`                 | `services/page.tsx`        | Каталог: поиск, фильтры, категории, страницы                |
-| `/services/<slug>`          | `services/[slug]/page.tsx` | Карточка услуги: шаги, документы, справка                   |
-| `/services/<slug>/apply`    | `services/[slug]/apply/`   | Мастер заявки из 4 шагов                                    |
-| `/applications`, `/<номер>` | `applications/…`           | Заявки жителя и страница заявки с историей                  |
-| `/operator`, `/<номер>`     | `operator/…`               | Заявки организации, смена статуса                           |
-| `/sign-in`                  | `sign-in/page.tsx`         | Вход по телефону и коду, заглушки eGov/ЭЦП, демо-профили    |
-| `/contracts`                | `contracts/page.tsx`       | Мои договоры по объектам, фильтр по статусу                 |
-| `/contracts/new`            | `contracts/new/page.tsx`   | Договор: выбор объекта, услуги и поставщика                 |
-| `/contracts/<id>`           | `contracts/[id]/page.tsx`  | Мастер заявления, затем статус, договор и история           |
-| `/organizations`            | `organizations/page.tsx`   | Организации по направлениям, где работают, ссылка на услуги |
-| `/help`                     | `help/page.tsx`            | Частые вопросы и ответы                                     |
-| `/sign-up`                  | `sign-up/page.tsx`         | Регистрация жителя: данные, код из SMS (демо)               |
-| `/properties`               | `properties/page.tsx`      | Мои объекты недвижимости со статусом подтверждения          |
-| `/properties/new`           | `properties/new/page.tsx`  | Добавление объекта: поиск адреса в справочнике, форма       |
-| `/properties/<id>`          | `properties/[id]/page.tsx` | Объект: сведения, подтверждение, поставщики по адресу       |
-| `/meters`                   | `meters/page.tsx`          | Мои счётчики: карточки приборов, добавление прибора         |
-| `/meters/submit`            | `meters/submit/`           | Передача показаний: проверки, фото, подтверждение           |
-| `/meters/history`           | `meters/history/`          | История показаний со статусами и комментарием поставщика    |
-| `/meters/order/<вид>`       | `meters/order/[kind]/`     | Заявка: установка, замена, пломба, снятие, поверка, ремонт  |
-| `/meters/requests`, `/<id>` | `meters/requests/…`        | Заявки по счётчикам, карточка с историей и актом            |
-| `/news`, `/<slug>`          | `news/…`                   | Новости: поиск, темы, вкладки                               |
-| `/tourism`, `/<slug>`       | `tourism/…`                | Места с фото                                                |
-| `/about`                    | `about/page.tsx`           | Города и районы                                             |
-| `/design`                   | `design/page.tsx`          | Служебная страница с компонентами                           |
-| (общий каркас)              | `layout.tsx`               | Шапка, подвал, баннер «демо», тосты, шрифт                  |
+| Адрес                        | Файл                       | Что показывает                                               |
+| ---------------------------- | -------------------------- | ------------------------------------------------------------ |
+| `/`                          | `page.tsx`                 | Hero, поиск, жизненные ситуации, новости, форма, анонсы      |
+| `/services`                  | `services/page.tsx`        | Каталог: поиск, фильтры, категории, страницы                 |
+| `/services/<slug>`           | `services/[slug]/page.tsx` | Карточка услуги: шаги, документы, справка                    |
+| `/services/<slug>/apply`     | `services/[slug]/apply/`   | Мастер заявки из 4 шагов                                     |
+| `/applications`, `/<номер>`  | `applications/…`           | Заявки жителя и страница заявки с историей                   |
+| `/operator`, `/<номер>`      | `operator/…`               | Заявки организации, смена статуса                            |
+| `/sign-in`                   | `sign-in/page.tsx`         | Вход по телефону и коду, заглушки eGov/ЭЦП, демо-профили     |
+| `/contracts`                 | `contracts/page.tsx`       | Мои договоры по объектам, фильтр по статусу                  |
+| `/contracts/new`             | `contracts/new/page.tsx`   | Договор: выбор объекта, услуги и поставщика                  |
+| `/contracts/<id>`            | `contracts/[id]/page.tsx`  | Мастер заявления, затем статус, договор и история            |
+| `/organizations`             | `organizations/page.tsx`   | Организации по направлениям, где работают, ссылка на услуги  |
+| `/help`                      | `help/page.tsx`            | Частые вопросы и ответы                                      |
+| `/sign-up`                   | `sign-up/page.tsx`         | Регистрация жителя: данные, код из SMS (демо)                |
+| `/properties`                | `properties/page.tsx`      | Мои объекты недвижимости со статусом подтверждения           |
+| `/properties/new`            | `properties/new/page.tsx`  | Добавление объекта: поиск адреса в справочнике, форма        |
+| `/properties/<id>`           | `properties/[id]/page.tsx` | Объект: сведения, подтверждение, поставщики по адресу        |
+| `/meters`                    | `meters/page.tsx`          | Мои счётчики: карточки приборов, добавление прибора          |
+| `/meters/submit`             | `meters/submit/`           | Передача показаний: проверки, фото, подтверждение            |
+| `/meters/history`            | `meters/history/`          | История показаний со статусами и комментарием поставщика     |
+| `/meters/order/<вид>`        | `meters/order/[kind]/`     | Заявка: установка, замена, пломба, снятие, поверка, ремонт   |
+| `/meters/requests`, `/<id>`  | `meters/requests/…`        | Заявки по счётчикам, карточка с историей и актом             |
+| `/billing`                   | `billing/page.tsx`         | Начисления по объекту и месяцу, сводно или по поставщикам    |
+| `/billing/receipt`           | `billing/receipt/`         | Единая квитанция, скачивание, прошлые месяцы                 |
+| `/billing/pay`               | `billing/pay/`             | Выбор услуг и способа, переход к платежу                     |
+| `/billing/payments`, `/<id>` | `billing/payments/…`       | История платежей, страница платежа и демо платёжного сервиса |
+| `/news`, `/<slug>`           | `news/…`                   | Новости: поиск, темы, вкладки                                |
+| `/tourism`, `/<slug>`        | `tourism/…`                | Места с фото                                                 |
+| `/about`                     | `about/page.tsx`           | Города и районы                                              |
+| `/design`                    | `design/page.tsx`          | Служебная страница с компонентами                            |
+| (общий каркас)               | `layout.tsx`               | Шапка, подвал, баннер «демо», тосты, шрифт                   |
 
 ## Фичи (`src/features/<фича>/`)
 
@@ -59,6 +63,7 @@
 | `applications` | Демо-вход, заявки, статусы, оператор                | `domain/status.ts` (переходы), `domain/storage.ts` (хранилище), `ui/apply-wizard.tsx`, `ui/status-form.tsx`                                                                                                                                                                                                                                                                                |
 | `account`      | Регистрация, вход по телефону, объекты недвижимости | `domain/profile.ts`, `domain/phone.ts`, `domain/iin.ts`, `domain/otp.ts` (демо-код 123456), `domain/property.ts` (проверка формы и правила подтверждения), `data/address-directory.ts` (тестовый справочник адресов), `domain/availability.ts` (какие услуги и поставщики есть по адресу), `ui/sign-up-form.tsx`, `ui/phone-sign-in.tsx`, `ui/property-form.tsx`, `ui/property-detail.tsx` |
 | `meters`       | Счётчики, показания и заявки по приборам            | `domain/meter.ts` (прибор, проверка формы), `domain/reading.ts` (проверки показаний, статусы), `domain/meter-request.ts` (шесть форм, переходы, последствия закрытия), `ui/meters-area.tsx` (вход, меню из 10 частей), `ui/reading-form.tsx`, `ui/request-form.tsx`, `ui/request-detail.tsx`                                                                                               |
+| `billing`      | Начисления, квитанция, платежи                      | `domain/charge.ts` (начисление, месяцы), `domain/payment.ts` (статусы, переходы, повторное уведомление, учёт оплаты), `domain/connected.ts` (поставщики объекта), `data/stub-charge-repository.ts` (тестовые суммы), `ui/billing-area.tsx`, `ui/pay-page.tsx`, `ui/payment-detail.tsx`                                                                                                     |
 | `content`      | Новости, места, анонсы, фото                        | `data/news.ts`, `data/places.ts`, `data/photo-files.ts`, `domain/query-news.ts`, `load-news.ts`                                                                                                                                                                                                                                                                                            |
 | `home`         | Блоки главной страницы                              | `load-home.ts`, `ui/rotating-words.tsx`, `ui/situation-services.tsx`, `ui/home-search.tsx`                                                                                                                                                                                                                                                                                                 |
 | `favorites`    | Избранное в браузере                                | `domain/favorites.ts`, `ui/favorite-button.tsx`                                                                                                                                                                                                                                                                                                                                            |
