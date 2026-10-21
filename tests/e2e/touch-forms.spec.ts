@@ -7,7 +7,7 @@ test.describe("form fields on a touch screen", () => {
     test.skip(testInfo.project.name !== "mobile", "only meaningful on the phone project");
   });
 
-  for (const path of ["/ru", "/ru/services", "/ru/news", "/ru/sign-in"]) {
+  for (const path of ["/ru", "/ru/services", "/ru/news", "/ru/sign-in", "/ru/sign-up"]) {
     test(`keep their text at 16px or more on ${path}`, async ({ page }) => {
       await page.goto(path);
       const small = await page.evaluate(() =>

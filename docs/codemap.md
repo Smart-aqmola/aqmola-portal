@@ -22,31 +22,33 @@
 
 ## Страницы (`src/app/[lang]/`, язык `ru` | `kk` | `en`)
 
-| Адрес                       | Файл                       | Что показывает                                          |
-| --------------------------- | -------------------------- | ------------------------------------------------------- |
-| `/`                         | `page.tsx`                 | Hero, поиск, жизненные ситуации, новости, форма, анонсы |
-| `/services`                 | `services/page.tsx`        | Каталог: поиск, фильтры, категории, страницы            |
-| `/services/<slug>`          | `services/[slug]/page.tsx` | Карточка услуги: шаги, документы, справка               |
-| `/services/<slug>/apply`    | `services/[slug]/apply/`   | Мастер заявки из 4 шагов                                |
-| `/applications`, `/<номер>` | `applications/…`           | Заявки жителя и страница заявки с историей              |
-| `/operator`, `/<номер>`     | `operator/…`               | Заявки организации, смена статуса                       |
-| `/sign-in`                  | `sign-in/page.tsx`         | Демо-вход (житель, бизнес, оператор)                    |
-| `/news`, `/<slug>`          | `news/…`                   | Новости: поиск, темы, вкладки                           |
-| `/tourism`, `/<slug>`       | `tourism/…`                | Места с фото                                            |
-| `/about`                    | `about/page.tsx`           | Города и районы                                         |
-| `/design`                   | `design/page.tsx`          | Служебная страница с компонентами                       |
-| (общий каркас)              | `layout.tsx`               | Шапка, подвал, баннер «демо», тосты, шрифт              |
+| Адрес                       | Файл                       | Что показывает                                           |
+| --------------------------- | -------------------------- | -------------------------------------------------------- |
+| `/`                         | `page.tsx`                 | Hero, поиск, жизненные ситуации, новости, форма, анонсы  |
+| `/services`                 | `services/page.tsx`        | Каталог: поиск, фильтры, категории, страницы             |
+| `/services/<slug>`          | `services/[slug]/page.tsx` | Карточка услуги: шаги, документы, справка                |
+| `/services/<slug>/apply`    | `services/[slug]/apply/`   | Мастер заявки из 4 шагов                                 |
+| `/applications`, `/<номер>` | `applications/…`           | Заявки жителя и страница заявки с историей               |
+| `/operator`, `/<номер>`     | `operator/…`               | Заявки организации, смена статуса                        |
+| `/sign-in`                  | `sign-in/page.tsx`         | Вход по телефону и коду, заглушки eGov/ЭЦП, демо-профили |
+| `/sign-up`                  | `sign-up/page.tsx`         | Регистрация жителя: данные, код из SMS (демо)            |
+| `/news`, `/<slug>`          | `news/…`                   | Новости: поиск, темы, вкладки                            |
+| `/tourism`, `/<slug>`       | `tourism/…`                | Места с фото                                             |
+| `/about`                    | `about/page.tsx`           | Города и районы                                          |
+| `/design`                   | `design/page.tsx`          | Служебная страница с компонентами                        |
+| (общий каркас)              | `layout.tsx`               | Шапка, подвал, баннер «демо», тосты, шрифт               |
 
 ## Фичи (`src/features/<фича>/`)
 
-| Фича           | Что делает                               | Главные файлы                                                                                               |
-| -------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `catalog`      | Услуги, категории, ситуации, организации | `domain/query-services.ts` (фильтры), `domain/search.ts` (поиск е/ё), `load-catalog.ts`, `data/services.ts` |
-| `applications` | Демо-вход, заявки, статусы, оператор     | `domain/status.ts` (переходы), `domain/storage.ts` (хранилище), `ui/apply-wizard.tsx`, `ui/status-form.tsx` |
-| `content`      | Новости, места, анонсы, фото             | `data/news.ts`, `data/places.ts`, `data/photo-files.ts`, `domain/query-news.ts`, `load-news.ts`             |
-| `home`         | Блоки главной страницы                   | `load-home.ts`, `ui/rotating-words.tsx`, `ui/situation-services.tsx`, `ui/home-search.tsx`                  |
-| `favorites`    | Избранное в браузере                     | `domain/favorites.ts`, `ui/favorite-button.tsx`                                                             |
-| `display`      | Тема, высокий контраст, крупный шрифт    | `domain/settings.ts`, `ui/display-settings.tsx`                                                             |
+| Фича           | Что делает                               | Главные файлы                                                                                                                                              |
+| -------------- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `catalog`      | Услуги, категории, ситуации, организации | `domain/query-services.ts` (фильтры), `domain/search.ts` (поиск е/ё), `load-catalog.ts`, `data/services.ts`                                                |
+| `applications` | Демо-вход, заявки, статусы, оператор     | `domain/status.ts` (переходы), `domain/storage.ts` (хранилище), `ui/apply-wizard.tsx`, `ui/status-form.tsx`                                                |
+| `account`      | Регистрация, вход по телефону, профиль   | `domain/profile.ts` (проверка формы), `domain/phone.ts`, `domain/iin.ts`, `domain/otp.ts` (демо-код 123456), `ui/sign-up-form.tsx`, `ui/phone-sign-in.tsx` |
+| `content`      | Новости, места, анонсы, фото             | `data/news.ts`, `data/places.ts`, `data/photo-files.ts`, `domain/query-news.ts`, `load-news.ts`                                                            |
+| `home`         | Блоки главной страницы                   | `load-home.ts`, `ui/rotating-words.tsx`, `ui/situation-services.tsx`, `ui/home-search.tsx`                                                                 |
+| `favorites`    | Избранное в браузере                     | `domain/favorites.ts`, `ui/favorite-button.tsx`                                                                                                            |
+| `display`      | Тема, высокий контраст, крупный шрифт    | `domain/settings.ts`, `ui/display-settings.tsx`                                                                                                            |
 
 ## Общее (`src/shared/`)
 
@@ -61,6 +63,7 @@
 | --------------------- | -------------------------------- | ----------------------------------------- |
 | `aqmola:session`      | Демо-сессия (роль и организация) | `features/applications/domain/storage.ts` |
 | `aqmola:applications` | Заявки и история статусов        | `features/applications/domain/storage.ts` |
+| `aqmola:profiles`     | Зарегистрированные жители        | `features/account/domain/storage.ts`      |
 | `aqmola:favorites`    | Избранные услуги                 | `features/favorites/domain/favorites.ts`  |
 | `aqmola:display`      | Тема, контраст, крупный шрифт    | `features/display/domain/settings.ts`     |
 

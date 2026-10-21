@@ -10,6 +10,7 @@ const pages = [
   "/ru/applications",
   "/ru/operator",
   "/ru/sign-in",
+  "/ru/sign-up",
   "/ru/news",
   "/ru/news/heating-season-started",
   "/ru/tourism",

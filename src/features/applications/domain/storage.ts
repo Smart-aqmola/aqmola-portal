@@ -11,7 +11,13 @@ export const SESSION_KEY = "aqmola:session";
 export const APPLICATIONS_KEY = "aqmola:applications";
 export const MAX_APPLICATIONS = 200;
 
-export type DemoSession = { role: DemoRole; name: string; organizationId?: string };
+export type DemoSession = {
+  role: DemoRole;
+  name: string;
+  organizationId?: string;
+  /** Set when a registered resident signed in; links the session to the saved profile. */
+  userId?: string;
+};
 
 /** The only people who can "sign in": fictional, picked on the sign-in page. */
 export const DEMO_PROFILES = {
@@ -20,6 +26,17 @@ export const DEMO_PROFILES = {
 } as const satisfies Record<ApplicantRole, DemoSession>;
 
 const ORGANIZATION_ID = /^[a-z0-9-]{1,60}$/;
+const USER_ID = /^[a-z0-9-]{1,60}$/;
+
+/** A registered resident: the name comes from the profile, the id points back at it. */
+export function residentSession(userId: string, name: string): DemoSession {
+  return { role: "resident", name, userId };
+}
+
+/** Who owns saved data (objects, drafts): the registered user, or the shared demo profile. */
+export function ownerIdOf(session: Pick<DemoSession, "role" | "userId">): string {
+  return session.userId ?? `demo-${session.role}`;
+}
 
 /** The operator works for one organization, chosen at sign-in. */
 export function operatorSession(organizationId: string): DemoSession {
@@ -35,10 +52,16 @@ function parseJson(raw: string | null): unknown {
   }
 }
 
+const isNameText = (value: string) => value.trim() !== "" && value.length <= 100;
+
 export function parseSession(raw: string | null): DemoSession | null {
   const value = parseJson(raw);
   if (typeof value !== "object" || value === null) return null;
-  const { role, name, organizationId } = value as Record<string, unknown>;
+  const { role, name, organizationId, userId } = value as Record<string, unknown>;
+  if (role === "resident" && typeof userId === "string") {
+    const valid = USER_ID.test(userId) && typeof name === "string" && isNameText(name);
+    return valid ? residentSession(userId, name as string) : null;
+  }
   if (role === "operator") {
     const valid = typeof organizationId === "string" && ORGANIZATION_ID.test(organizationId);
     return valid && name === operatorSession(organizationId).name

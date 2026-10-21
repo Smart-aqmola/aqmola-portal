@@ -17,6 +17,12 @@
   letter-spacing: -0.02em;
 }
 
+.subtitle {
+  margin-top: var(--space-4);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-regular);
+}
+
 .lead {
   max-width: 40rem;
   margin-top: var(--space-3);

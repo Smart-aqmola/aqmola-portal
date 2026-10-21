@@ -32,6 +32,9 @@ export function SiteHeader({ lang, dict }: SiteHeaderProps) {
     { href: `${home}/applications`, label: dict.nav.applications },
     { href: `${home}/news`, label: dict.nav.news },
     { href: `${home}/tourism`, label: dict.nav.tourism },
+    // A guest can register right from the menu (spec 1.1); once signed in the item goes away.
+    // On a wide bar it is hidden (see `.drawerOnly`); the sign-in page offers registration too.
+    ...(session ? [] : [{ href: `${home}/sign-up`, label: dict.header.signUp, drawerOnly: true }]),
   ];
 
   const isCurrent = (href: string) =>
@@ -61,7 +64,7 @@ export function SiteHeader({ lang, dict }: SiteHeaderProps) {
         <nav id="site-nav" className={styles.nav} aria-label={dict.nav.label} data-open={open}>
           <ul className={styles.navList}>
             {items.map((item) => (
-              <li key={item.href}>
+              <li key={item.href} className={"drawerOnly" in item ? styles.drawerOnly : undefined}>
                 <Link
                   href={item.href}
                   className={styles.navLink}

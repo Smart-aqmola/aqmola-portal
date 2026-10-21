@@ -25,7 +25,8 @@
     "closeMenu": "Close menu",
     "language": "Language",
     "skipToContent": "Skip to content",
-    "account": "Account"
+    "account": "Account",
+    "signUp": "Регистрация"
   },
   "footer": {
     "about": "A test portal for Akmola Region services. Not an official government service.",
@@ -245,7 +246,31 @@
       "text": "Test organization staff member “Demo Operator”. Sees the applications of their organization and changes their status.",
       "organization": "Organization"
     },
-    "toOperator": "Operator cabinet"
+    "toOperator": "Operator cabinet",
+    "phone": {
+      "title": "Войти по номеру телефона",
+      "text": "Для тех, кто уже создал кабинет.",
+      "phone": "Номер мобильного телефона",
+      "getCode": "Получить код",
+      "codeText": "Это демо: SMS не уходит, введите {code}.",
+      "code": "Код из SMS",
+      "submit": "Войти",
+      "change": "Другой номер",
+      "notFound": "Этот номер не зарегистрирован.",
+      "register": "Зарегистрироваться",
+      "wrongCode": "Код не подходит. Проверьте цифры.",
+      "phoneError": "Введите номер вида +7 701 123 45 67",
+      "welcome": "Вы вошли как {name}",
+      "noAccount": "Ещё нет кабинета?"
+    },
+    "other": {
+      "title": "Другие способы входа",
+      "text": "Подключатся вместе с сервером.",
+      "egov": "Войти через eGov",
+      "ecp": "Войти с ЭЦП",
+      "soon": "Не подключено (демо)"
+    },
+    "orProfile": "Или выберите тестовый профиль"
   },
   "apply": {
     "title": "Service application",
@@ -455,5 +480,46 @@
     "contrast": "High contrast",
     "large": "Large text",
     "reset": "Reset settings"
+  },
+  "signUp": {
+    "title": "Регистрация жителя",
+    "lead": "Создайте кабинет, чтобы добавлять объекты недвижимости, заключать договоры и передавать показания. Проверка ИИН и SMS пока не подключены: это демо.",
+    "steps": {
+      "label": "Шаги регистрации",
+      "data": "Данные",
+      "code": "Код из SMS"
+    },
+    "fields": {
+      "lastName": "Фамилия",
+      "firstName": "Имя",
+      "middleName": "Отчество (если есть)",
+      "iin": "ИИН",
+      "iinHint": "12 цифр. Для пробы подойдёт 900101300123.",
+      "phone": "Номер мобильного телефона",
+      "phoneHint": "Например, +7 701 123 45 67",
+      "email": "Электронная почта (если есть)"
+    },
+    "consent": "Согласен на обработку моих персональных данных",
+    "errors": {
+      "required": "Заполните это поле",
+      "long": "Слишком длинное значение",
+      "name": "Только буквы, пробел и дефис",
+      "iin": "ИИН состоит из 12 цифр",
+      "iinTaken": "Этот ИИН уже зарегистрирован. Войдите по номеру телефона",
+      "phone": "Введите номер вида +7 701 123 45 67",
+      "phoneTaken": "Этот номер уже зарегистрирован. Войдите по номеру телефона",
+      "email": "Проверьте адрес почты",
+      "consent": "Нужно согласие, чтобы продолжить"
+    },
+    "getCode": "Получить код",
+    "codeTitle": "Подтверждение номера",
+    "codeText": "Мы бы отправили код на {phone}. Это демо: SMS не уходит, введите {code}.",
+    "code": "Код из SMS",
+    "codeWrong": "Код не подходит. Проверьте цифры.",
+    "confirm": "Подтвердить и создать кабинет",
+    "change": "Изменить данные",
+    "haveAccount": "Уже зарегистрированы?",
+    "signIn": "Войти",
+    "done": "Кабинет создан. Добро пожаловать, {name}!"
   }
 }

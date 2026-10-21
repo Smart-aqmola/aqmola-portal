@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { OtherSignIn } from "@/features/account/ui/other-sign-in";
+import { PhoneSignIn } from "@/features/account/ui/phone-sign-in";
 import { safeNextPath } from "@/features/applications/domain/next-path";
 import { SignInPanel } from "@/features/applications/ui/sign-in-panel";
 import { loadOrganizationOptions } from "@/features/applications/load-territories";
@@ -51,6 +53,9 @@ async function SignIn({
       <h1 className={styles.title}>{dict.signIn.title}</h1>
       <p className={styles.lead}>{dict.signIn.lead}</p>
       <div className={styles.narrow}>
+        <PhoneSignIn labels={dict.signIn.phone} next={next} signUpHref={`/${lang}/sign-up`} />
+        <OtherSignIn labels={dict.signIn.other} />
+        <h2 className={styles.subtitle}>{dict.signIn.orProfile}</h2>
         <SignInPanel
           labels={dict.signIn}
           next={next}

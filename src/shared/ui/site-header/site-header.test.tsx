@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { DEMO_PROFILES } from "@/features/applications/domain/storage";
 import ru from "@/shared/i18n/dictionaries/ru.json";
 import { SiteHeader } from "./site-header";
 
@@ -29,7 +30,25 @@ describe("SiteHeader", () => {
       "href",
       "/ru/applications",
     );
-    expect(within(nav).getAllByRole("link")).toHaveLength(5);
+    expect(within(nav).getAllByRole("link")).toHaveLength(6);
+  });
+
+  it("offers registration to a guest and not to someone who is signed in", () => {
+    const { unmount } = renderHeader();
+    const nav = screen.getByRole("navigation", { name: "Основная навигация" });
+    expect(within(nav).getByRole("link", { name: "Регистрация" })).toHaveAttribute(
+      "href",
+      "/ru/sign-up",
+    );
+    unmount();
+
+    window.localStorage.setItem("aqmola:session", JSON.stringify(DEMO_PROFILES.resident));
+    try {
+      renderHeader();
+      expect(screen.queryByRole("link", { name: "Регистрация" })).not.toBeInTheDocument();
+    } finally {
+      window.localStorage.removeItem("aqmola:session");
+    }
   });
 
   it("marks the current section, including nested pages", () => {
