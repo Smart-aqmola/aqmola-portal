@@ -163,6 +163,24 @@ test.describe("home page", () => {
     );
   });
 
+  test("the word in the hero line changes by itself", async ({ page }) => {
+    await page.goto("/ru");
+    const word = page.getByTestId("rotating-word");
+    await expect(word).toHaveText("вода");
+    await expect(word).not.toHaveText("вода", { timeout: 6000 });
+  });
+
+  test("the hero word stays put when the person asked for less motion", async ({ browser }) => {
+    const context = await browser.newContext({ reducedMotion: "reduce" });
+    const page = await context.newPage();
+    await page.goto("/ru");
+    const word = page.getByTestId("rotating-word");
+    await expect(word).toHaveText("вода");
+    await page.waitForTimeout(3500);
+    await expect(word).toHaveText("вода");
+    await context.close();
+  });
+
   test("shows everything straight away when the person asked for less motion", async ({
     browser,
   }) => {

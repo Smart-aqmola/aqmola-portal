@@ -2,14 +2,20 @@ import { describe, expect, it } from "vitest";
 import { locales } from "./config";
 import { getDictionary } from "./get-dictionary";
 
-type Tree = { [key: string]: string | Tree };
+type Tree = { [key: string]: string | string[] | Tree };
 
+/** Lists of words become keys like "home.hero.rotator.words.0", so their length is compared too. */
 function flatten(tree: Tree, prefix = ""): Record<string, string> {
   return Object.entries(tree).reduce<Record<string, string>>((acc, [key, value]) => {
     const path = prefix ? `${prefix}.${key}` : key;
-    return typeof value === "string"
-      ? { ...acc, [path]: value }
-      : { ...acc, ...flatten(value, path) };
+    if (typeof value === "string") return { ...acc, [path]: value };
+    if (Array.isArray(value)) {
+      return {
+        ...acc,
+        ...Object.fromEntries(value.map((item, index) => [`${path}.${index}`, item])),
+      };
+    }
+    return { ...acc, ...flatten(value, path) };
   }, {});
 }
 

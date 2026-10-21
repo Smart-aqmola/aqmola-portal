@@ -5,6 +5,7 @@ import { ComingSoon } from "@/features/home/ui/coming-soon";
 import { ContactForm } from "@/features/home/ui/contact-form";
 import { HomeSearch } from "@/features/home/ui/home-search";
 import { NewsList } from "@/features/home/ui/news-list";
+import { RotatingWords } from "@/features/home/ui/rotating-words";
 import { SituationServices } from "@/features/home/ui/situation-services";
 import { loadHome } from "@/features/home/load-home";
 import { hasLocale } from "@/shared/i18n/config";
@@ -29,6 +30,9 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         <div className={`container ${styles.heroContent}`}>
           <h1 className={styles.title}>{t.hero.title}</h1>
           <p className={styles.lead}>{t.hero.lead}</p>
+          <div className={styles.rotator}>
+            <RotatingWords prefix={t.hero.rotator.prefix} words={t.hero.rotator.words} />
+          </div>
           <div className={styles.search}>
             <HomeSearch lang={lang} labels={t.search} territories={home.territories} />
           </div>

@@ -45,7 +45,11 @@
   "home": {
     "hero": {
       "title": "The whole region awaits.",
-      "lead": "Utility and city services in 17 districts and 3 cities of the Akmola Region: online, no queues."
+      "lead": "Utility and city services in 17 districts and 3 cities of the Akmola Region: online, no queues.",
+      "rotator": {
+        "prefix": "Apply online:",
+        "words": ["water", "heating", "electricity", "gas", "waste collection"]
+      }
     },
     "search": {
       "label": "Find a service",

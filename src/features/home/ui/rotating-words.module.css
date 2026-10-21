@@ -1,0 +1,32 @@
+.line {
+  margin-top: var(--space-4);
+  font-size: var(--text-lg);
+}
+
+/* The window clips the word while it rises, and keeps a stable width so the search below
+   does not jump when the word changes. */
+.window {
+  display: inline-block;
+  min-width: 9ch;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.word {
+  display: inline-block;
+  color: var(--color-focus);
+  font-weight: var(--weight-medium);
+  animation: word-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@keyframes word-in {
+  from {
+    opacity: 0;
+    transform: translateY(70%);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
