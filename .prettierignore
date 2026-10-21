@@ -5,3 +5,8 @@ design/variants
 playwright-report
 test-results
 coverage
+backend/node_modules/
+backend/generated/
+backend/dist/
+backend/.pnpm-store/
+.pnpm-store/

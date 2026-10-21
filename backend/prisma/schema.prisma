@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client"
+  output = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Territory {
+  id String @id
+  kind String
+  name Json
+  organizations OrganizationTerritory[]
+}
+
+model Organization {
+  id String @id
+  name Json
+  sector String
+  servesAll Boolean @default(false)
+  territories OrganizationTerritory[]
+  services Service[]
+}
+
+model OrganizationTerritory {
+  organizationId String
+  territoryId String
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  territory Territory @relation(fields: [territoryId], references: [id], onDelete: Restrict)
+  @@id([organizationId, territoryId])
+  @@index([territoryId])
+}
+
+model Category {
+  id String @id
+  name Json
+  services Service[]
+}
+
+model Situation {
+  id String @id
+  name Json
+  summary Json
+  services Service[]
+}
+
+model Service {
+  id String @id
+  slug String @unique
+  code String @unique
+  situationId String
+  categoryId String
+  organizationId String
+  audiences String[]
+  title Json
+  fullTitle Json?
+  summary Json
+  free Boolean
+  searchText String
+  workingDays Int
+  channel String
+  popular Boolean @default(false)
+  isNew Boolean @default(false)
+  updatedAt DateTime @db.Date
+  situation Situation @relation(fields: [situationId], references: [id], onDelete: Restrict)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  @@index([organizationId])
+  @@index([categoryId])
+  @@index([situationId])
+}

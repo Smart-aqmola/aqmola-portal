@@ -1,0 +1,18 @@
+services:
+  database:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: aqmola
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: aqmola
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - aqmola_database:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aqmola -d aqmola"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  aqmola_database:

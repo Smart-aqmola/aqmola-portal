@@ -1,0 +1,11 @@
+packages: []
+storeDir: .pnpm-store
+nodeLinker: hoisted
+enableGlobalVirtualStore: false
+symlink: false
+allowBuilds:
+  "@prisma/engines": true
+  prisma: true
+  esbuild: true
+  "@nestjs/core": false
+  "@scarf/scarf": false
