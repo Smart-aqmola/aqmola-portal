@@ -6,7 +6,7 @@ import styles from "./account.module.css";
 type AccountNavProps = {
   lang: Locale;
   labels: Dictionary["account"]["nav"];
-  current: "applications" | "properties" | "contracts";
+  current: "applications" | "properties" | "contracts" | "meters";
 };
 
 /** The sections of the personal cabinet. More are added as the stages of the plan arrive. */
@@ -15,6 +15,7 @@ export function AccountNav({ lang, labels, current }: AccountNavProps) {
     { id: "applications", href: `/${lang}/applications`, label: labels.applications },
     { id: "properties", href: `/${lang}/properties`, label: labels.properties },
     { id: "contracts", href: `/${lang}/contracts`, label: labels.contracts },
+    { id: "meters", href: `/${lang}/meters`, label: labels.meters },
   ] as const;
 
   return (

@@ -68,18 +68,27 @@
 
 ### Meter — прибор учёта (6.3)
 
-`id`, `propertyId`, `resource` (электро, холодная вода, горячая вода, водоотведение, тепло, газ, ТБО), `type`, `manufacturer?`, `model?`, `serialNumber`, `personalAccount`, `installedAt`, `commissionedAt`, `lastVerifiedAt`, `nextVerificationAt?`, `sealNumber?`, `sealedAt?`, `state` (работает / неисправен / снят / и т.д.), `lastReading`, `lastReadingAt`, `readingCheckStatus`.
+`id`, `propertyId`, `resource` (`electricity` | `cold_water` | `hot_water` | `heat` | `gas`; у водоотведения и ТБО приборов нет), `type` (`mechanical` | `electronic` | `smart`), `manufacturer?`, `model?`, `serialNumber`, `personalAccount`, `installedAt`, `commissionedAt?`, `lastVerifiedAt?`, `nextVerificationAt?`, `sealNumber?`, `sealedAt?`, `state` (`working` | `faulty` | `removed` | `replaced`), `digits` (цифр до запятой на барабане) и `decimals` (после запятой): по ним проверяется разрядность показаний (7.5), `initialReading`, `history[]` (`kind`: `installed` | `replaced` | `removed` | `sealed` | `unsealed` | `verified` | `fault`, `at`, `note?`; 8.11).
+
+- Предыдущие показания, дата последней передачи и статус проверки (6.3) сервер вычисляет по показаниям, в самом приборе они не хранятся.
+- Заводской номер уникален среди действующих приборов одного вида ресурса; у снятого и заменённого можно повторить.
 
 ### MeterReading — показания (7.1–7.13)
 
-`id`, `number`, `meterId`, `value` (число, разрядность прибора), `readingDate`, `photoIds[]`, `previousValue`, `previousDate`, `status` (см. ниже), `providerComment?`, `submittedAt`, `idempotencyKey`.
+`id`, `number` (`DEMO-POK-ГГГГ-NNNNN` в демо), `meterId`, `value` (число, разрядность прибора), `readingDate` (день снятия, не день отправки), `photoIds[]`, `previousValue`, `previousDate`, `status` (см. ниже), `providerComment?`, `submittedAt`, `idempotencyKey`.
 
-- Статусы (ТЗ 7.9): `draft`, `sent`, `registered`, `awaiting_check`, `accepted`, `rejected`, `clarification_required`, `transferred_to_provider`, `processed_by_provider`.
-- Факт отправки не означает учёт в начислении (7.12): итоговый статус выставляет поставщик.
+- Статусы (ТЗ 7.9): `draft`, `sent`, `registered`, `awaiting_check`, `accepted`, `rejected`, `clarification_required`, `passed_to_system`, `processed`.
+- Факт отправки не означает учёт в начислении (7.12): итоговый статус выставляет поставщик. Фронт различает «отправлено», «принято поставщиком» (`accepted`, `passed_to_system`) и «учтено» (`processed`).
+- Проверки (7.5) повторяются на сервере: действующий прибор, не отрицательное, формат и разрядность, дубль (тот же прибор, то же значение, тот же день), день снятия не в будущем, не раньше предыдущих показаний и не старше 45 дней (окно приёма настраивается), фото, если оно обязательно у поставщика (в демо: электричество и газ).
+- Показания ниже предыдущих принимаются только с подтверждением человека и сразу получают `awaiting_check` (7.7).
+- Отклонение и запрос уточнения требуют комментария поставщика (7.13).
 
 ### MeterRequest — заявка по прибору (8.1–8.10)
 
-`id`, `number`, `kind` (`installation` | `replacement` | `sealing` | `unseal` | `verification` | `fault`), `propertyId`, `meterId?`, `reason`, `preferredDates[]`, `scheduledAt?`, `assigneeId?`, `contactPhone`, `comment?`, `attachments[]`, `result?` (новый номер прибора, показания, номер пломбы, дата следующей поверки), `actId?`, `status` (`submitted` | `in_progress` | `done` | `rejected`, общий набор из кода), `statusHistory[]`.
+`id`, `number` (`DEMO-ZPR-ГГГГ-NNNNN`), `kind` (`installation` | `replacement` | `sealing` | `unseal` | `verification` | `fault`), `propertyId`, `resource`, `meterId?` (при установке прибора может не быть), `reason` (код из списка своего для каждого вида), `details` (поля вида: `newMeter`, `faultInfo`, `previousSeal`, `installedAt`, `plannedWork`, `lastVerifiedAt`, `nextVerificationAt`), `currentReading?`, `contactPhone`, `slots[]` (до трёх вариантов: `date`, `time`: `morning` | `day` | `evening`), `comment?`, `attachments[]`, `status`, `statusHistory[]`, `scheduled?` (`date`, `time`), `assigneeId?`, `remarks?` (причина отказа или вопрос исполнителя), `result?` (`at`, `newSerial?`, `reading?`, `seal?`, `nextVerification?`), `actId?`.
+
+- Статусы: `registered`, `in_progress`, `info_requested`, `scheduled`, `done`, `rejected`. Отказ и запрос сведений требуют причины, смена уже назначенной даты тоже (8.8).
+- Закрытие (`done`) обязано нести результат: для установки и замены новый заводской номер и показания, для опломбировки номер пломбы. Сервер меняет приборы: установка создаёт прибор, замена ставит старому `replaced` и создаёт новый с тем же лицевым счётом и разрядностью, опломбировка и снятие меняют `sealNumber` и `sealedAt`, поверка двигает даты, неисправность ставит `faulty`; всё пишется в `history` прибора (8.11).
 
 ### Charge — начисление (9.1–9.3)
 

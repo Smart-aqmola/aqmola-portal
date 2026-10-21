@@ -40,6 +40,11 @@
 | `/properties`               | `properties/page.tsx`      | Мои объекты недвижимости со статусом подтверждения          |
 | `/properties/new`           | `properties/new/page.tsx`  | Добавление объекта: поиск адреса в справочнике, форма       |
 | `/properties/<id>`          | `properties/[id]/page.tsx` | Объект: сведения, подтверждение, поставщики по адресу       |
+| `/meters`                   | `meters/page.tsx`          | Мои счётчики: карточки приборов, добавление прибора         |
+| `/meters/submit`            | `meters/submit/`           | Передача показаний: проверки, фото, подтверждение           |
+| `/meters/history`           | `meters/history/`          | История показаний со статусами и комментарием поставщика    |
+| `/meters/order/<вид>`       | `meters/order/[kind]/`     | Заявка: установка, замена, пломба, снятие, поверка, ремонт  |
+| `/meters/requests`, `/<id>` | `meters/requests/…`        | Заявки по счётчикам, карточка с историей и актом            |
 | `/news`, `/<slug>`          | `news/…`                   | Новости: поиск, темы, вкладки                               |
 | `/tourism`, `/<slug>`       | `tourism/…`                | Места с фото                                                |
 | `/about`                    | `about/page.tsx`           | Города и районы                                             |
@@ -53,6 +58,7 @@
 | `catalog`      | Услуги, категории, ситуации, организации            | `domain/query-services.ts` (фильтры), `domain/search.ts` (поиск е/ё), `load-catalog.ts`, `data/services.ts`                                                                                                                                                                                                                                                                                |
 | `applications` | Демо-вход, заявки, статусы, оператор                | `domain/status.ts` (переходы), `domain/storage.ts` (хранилище), `ui/apply-wizard.tsx`, `ui/status-form.tsx`                                                                                                                                                                                                                                                                                |
 | `account`      | Регистрация, вход по телефону, объекты недвижимости | `domain/profile.ts`, `domain/phone.ts`, `domain/iin.ts`, `domain/otp.ts` (демо-код 123456), `domain/property.ts` (проверка формы и правила подтверждения), `data/address-directory.ts` (тестовый справочник адресов), `domain/availability.ts` (какие услуги и поставщики есть по адресу), `ui/sign-up-form.tsx`, `ui/phone-sign-in.tsx`, `ui/property-form.tsx`, `ui/property-detail.tsx` |
+| `meters`       | Счётчики, показания и заявки по приборам            | `domain/meter.ts` (прибор, проверка формы), `domain/reading.ts` (проверки показаний, статусы), `domain/meter-request.ts` (шесть форм, переходы, последствия закрытия), `ui/meters-area.tsx` (вход, меню из 10 частей), `ui/reading-form.tsx`, `ui/request-form.tsx`, `ui/request-detail.tsx`                                                                                               |
 | `content`      | Новости, места, анонсы, фото                        | `data/news.ts`, `data/places.ts`, `data/photo-files.ts`, `domain/query-news.ts`, `load-news.ts`                                                                                                                                                                                                                                                                                            |
 | `home`         | Блоки главной страницы                              | `load-home.ts`, `ui/rotating-words.tsx`, `ui/situation-services.tsx`, `ui/home-search.tsx`                                                                                                                                                                                                                                                                                                 |
 | `favorites`    | Избранное в браузере                                | `domain/favorites.ts`, `ui/favorite-button.tsx`                                                                                                                                                                                                                                                                                                                                            |
@@ -67,15 +73,18 @@
 
 ## Состояние в браузере
 
-| Ключ `localStorage`   | Что хранит                       | Где описан                                |
-| --------------------- | -------------------------------- | ----------------------------------------- |
-| `aqmola:session`      | Демо-сессия (роль и организация) | `features/applications/domain/storage.ts` |
-| `aqmola:applications` | Заявки и история статусов        | `features/applications/domain/storage.ts` |
-| `aqmola:profiles`     | Зарегистрированные жители        | `features/account/domain/storage.ts`      |
-| `aqmola:properties`   | Объекты недвижимости жителей     | `features/account/domain/storage.ts`      |
-| `aqmola:contracts`    | Заявления на договоры            | `features/contracts/domain/storage.ts`    |
-| `aqmola:favorites`    | Избранные услуги                 | `features/favorites/domain/favorites.ts`  |
-| `aqmola:display`      | Тема, контраст, крупный шрифт    | `features/display/domain/settings.ts`     |
+| Ключ `localStorage`     | Что хранит                       | Где описан                                |
+| ----------------------- | -------------------------------- | ----------------------------------------- |
+| `aqmola:session`        | Демо-сессия (роль и организация) | `features/applications/domain/storage.ts` |
+| `aqmola:applications`   | Заявки и история статусов        | `features/applications/domain/storage.ts` |
+| `aqmola:profiles`       | Зарегистрированные жители        | `features/account/domain/storage.ts`      |
+| `aqmola:properties`     | Объекты недвижимости жителей     | `features/account/domain/storage.ts`      |
+| `aqmola:contracts`      | Заявления на договоры            | `features/contracts/domain/storage.ts`    |
+| `aqmola:meters`         | Приборы учёта                    | `features/meters/domain/storage.ts`       |
+| `aqmola:readings`       | Переданные показания             | `features/meters/domain/storage.ts`       |
+| `aqmola:meter-requests` | Заявки по приборам               | `features/meters/domain/storage.ts`       |
+| `aqmola:favorites`      | Избранные услуги                 | `features/favorites/domain/favorites.ts`  |
+| `aqmola:display`        | Тема, контраст, крупный шрифт    | `features/display/domain/settings.ts`     |
 
 Заявки живут только в браузере, поэтому оператор видит заявки жителя только из того же браузера.
 

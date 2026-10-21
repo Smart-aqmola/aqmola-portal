@@ -17,6 +17,11 @@ const pages = [
   "/ru/help",
   "/ru/properties",
   "/ru/properties/new",
+  "/ru/meters",
+  "/ru/meters/submit",
+  "/ru/meters/history",
+  "/ru/meters/requests",
+  "/ru/meters/order/replacement",
   "/ru/news",
   "/ru/news/heating-season-started",
   "/ru/tourism",
@@ -81,7 +86,7 @@ test.describe("display settings", () => {
     await page.getByRole("radio", { name: "Тёмная" }).check();
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
     const background = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-    expect(background).toBe("rgb(13, 26, 32)");
+    expect(background).toBe("rgb(7, 15, 19)");
 
     await page.reload({ waitUntil: "commit" });
     // The inline script has already set the attribute at this point.
@@ -93,7 +98,7 @@ test.describe("display settings", () => {
     const page = await context.newPage();
     await page.goto("http://127.0.0.1:3100/ru/services");
     const background = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-    expect(background).toBe("rgb(13, 26, 32)");
+    expect(background).toBe("rgb(7, 15, 19)");
     await context.close();
   });
 

@@ -47,7 +47,7 @@ export type PortalSection = {
  */
 export const portalSections: readonly PortalSection[] = [
   { id: "contractNew", path: "/contracts/new", icon: "doc" },
-  { id: "meters", path: null, icon: "meter" },
+  { id: "meters", path: "/meters", icon: "meter" },
   { id: "billing", path: null, icon: "chart" },
   { id: "applications", path: "/applications", icon: "files" },
   { id: "contracts", path: "/contracts", icon: "doc" },
