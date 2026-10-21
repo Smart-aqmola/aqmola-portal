@@ -11,9 +11,11 @@ type NewsCardProps = {
   item: NewsCardData;
   lang: Locale;
   dict: Pick<Dictionary, "newsPage">;
+  /** Set for the first card at the top of a page, so its photo is fetched before the others. */
+  priority?: boolean;
 };
 
-export function NewsCard({ item, lang, dict }: NewsCardProps) {
+export function NewsCard({ item, lang, dict, priority }: NewsCardProps) {
   const t = dict.newsPage;
   return (
     <article className={styles.card}>
@@ -23,6 +25,8 @@ export function NewsCard({ item, lang, dict }: NewsCardProps) {
         width={240}
         height={160}
         sizes="(max-width: 600px) 100vw, 240px"
+        loading={priority ? "eager" : undefined}
+        fetchPriority={priority ? "high" : undefined}
         className={styles.photo}
       />
       <div className={styles.body}>

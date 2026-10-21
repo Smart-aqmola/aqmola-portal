@@ -24,7 +24,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
     <>
       <section className={styles.hero}>
         <div className={styles.band}>
-          <Image src={home.hero.url} alt="" fill priority sizes="100vw" className={styles.photo} />
+          <Image src={home.hero.url} alt="" fill preload sizes="100vw" className={styles.photo} />
           <div className={styles.shade} />
         </div>
         <div className={`container ${styles.heroContent}`}>

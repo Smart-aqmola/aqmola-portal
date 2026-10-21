@@ -66,9 +66,9 @@ async function News({
           <>
             <h2 className="visually-hidden">{t.listTitle}</h2>
             <ul className={newsStyles.list}>
-              {data.items.map((item) => (
+              {data.items.map((item, index) => (
                 <li key={item.slug}>
-                  <NewsCard item={item} lang={lang} dict={dict} />
+                  <NewsCard item={item} lang={lang} dict={dict} priority={index === 0} />
                 </li>
               ))}
             </ul>

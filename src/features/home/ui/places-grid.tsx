@@ -33,9 +33,18 @@ type PlacesGridProps = {
   allLabel?: string;
   factLabels: Dictionary["home"]["tourism"]["facts"];
   places: HomePlace[];
+  /** Fetch the photo of the first place before the others; for a grid at the top of a page. */
+  priorityFirst?: boolean;
 };
 
-export function PlacesGrid({ lang, title, allLabel, factLabels, places }: PlacesGridProps) {
+export function PlacesGrid({
+  lang,
+  title,
+  allLabel,
+  factLabels,
+  places,
+  priorityFirst,
+}: PlacesGridProps) {
   return (
     <section>
       {title && allLabel && (
@@ -47,7 +56,7 @@ export function PlacesGrid({ lang, title, allLabel, factLabels, places }: Places
         </div>
       )}
       <ul className={styles.grid}>
-        {places.map((place) => (
+        {places.map((place, index) => (
           <li key={place.slug}>
             <Card as="article" className={styles.card}>
               <div className={styles.photo}>
@@ -56,6 +65,8 @@ export function PlacesGrid({ lang, title, allLabel, factLabels, places }: Places
                   alt={place.photo.alt}
                   fill
                   sizes="(max-width: 600px) 100vw, (max-width: 1150px) 50vw, 25vw"
+                  loading={priorityFirst && index === 0 ? "eager" : undefined}
+                  fetchPriority={priorityFirst && index === 0 ? "high" : undefined}
                 />
               </div>
               <h3 className={styles.name}>
