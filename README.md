@@ -71,4 +71,6 @@ pnpm test:e2e    # сценарии в браузере (собирает сай
 - Описания мест и новости вымышлены, перед запуском их заменит проверенный текст.
 - Официального логотипа нет: в шапке временный знак.
 
+**Бэкенд-разработчику начинать с [docs/backend-handoff.md](docs/backend-handoff.md).**
+
 Подробнее: [docs/codemap.md](docs/codemap.md) (карта проекта: где что лежит), [docs/brief.md](docs/brief.md) (бриф и решения), [docs/plan.md](docs/plan.md) (план по этапам), [docs/research/astana-kz.md](docs/research/astana-kz.md) (разбор образца).
