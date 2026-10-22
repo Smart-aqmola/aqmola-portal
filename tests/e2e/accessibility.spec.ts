@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { pageProblems } from "./helpers";
 
 const pages = [
   "/ru",
@@ -54,36 +55,11 @@ const pages = [
 
 test.describe("structure every page must have", () => {
   for (const path of pages) {
-    test(`${path}: one h1, a main landmark, named images, labelled fields, no empty buttons`, async ({
+    test(`${path}: one h1, labelled fields, named controls, unique ids, no broken references`, async ({
       page,
     }) => {
       await page.goto(path);
-      await expect(page.getByRole("main")).toHaveCount(1);
-      await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
-
-      const problems = await page.evaluate(() => {
-        const found: string[] = [];
-        for (const img of document.querySelectorAll("img")) {
-          if (!img.hasAttribute("alt")) found.push(`img without alt: ${img.src}`);
-        }
-        for (const field of document.querySelectorAll(
-          "input:not([type=hidden]), select, textarea",
-        )) {
-          const element = field as HTMLInputElement;
-          const named =
-            element.labels?.length ||
-            element.getAttribute("aria-label") ||
-            element.getAttribute("aria-labelledby");
-          if (!named) found.push(`unlabelled field: ${element.name || element.type}`);
-        }
-        for (const button of document.querySelectorAll("button, a[href]")) {
-          const text = (button.textContent ?? "").trim() || button.getAttribute("aria-label");
-          const hasImage = button.querySelector("img[alt]:not([alt=''])");
-          if (!text && !hasImage) found.push(`empty control: ${button.outerHTML.slice(0, 80)}`);
-        }
-        return found;
-      });
-      expect(problems).toEqual([]);
+      expect(await pageProblems(page)).toEqual([]);
     });
   }
 

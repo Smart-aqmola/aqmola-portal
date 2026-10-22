@@ -74,7 +74,7 @@ describe("PropertiesList", () => {
     const items = screen.getAllByRole("article");
     expect(items).toHaveLength(1);
     expect(
-      within(items[0]).getByRole("heading", { level: 3, name: "Кокшетау, улица Абая, 1" }),
+      within(items[0]).getByRole("heading", { level: 2, name: "Кокшетау, улица Абая, 1" }),
     ).toBeVisible();
     expect(within(items[0]).getByText("Не подтверждён")).toBeVisible();
     expect(within(items[0]).getByRole("link", { name: /Открыть/ })).toHaveAttribute(

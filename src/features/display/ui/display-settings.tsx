@@ -33,7 +33,7 @@ export function DisplaySettings({ labels }: DisplaySettingsProps) {
         type="button"
         className={styles.button}
         aria-expanded={open}
-        aria-controls="display-panel"
+        aria-controls={open ? "display-panel" : undefined}
         aria-label={labels.open}
         onClick={() => setOpen(!open)}
       >

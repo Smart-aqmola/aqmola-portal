@@ -1,87 +1,20 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import {
+  addConfirmedObject,
+  addWaterMeter,
+  operatorDoes,
+  pdf,
+  register,
+  signInAsOperator,
+  signInAsResident,
+  tomorrow,
+} from "./helpers";
 
 /**
  * The five end-to-end scenarios of the specification (21.2). Each one goes through the whole chain:
  * the resident does a part, the organization (here: its cabinet) does its part, and the resident
  * sees the result. The cases with their expected results are in docs/test-cases.md (21.3).
  */
-
-const PHONE = "8 701 123 45 67";
-
-async function register(page: Page) {
-  await page.goto("/ru/sign-up");
-  await page.getByLabel(/Фамилия/).fill("Иванов");
-  await page.getByLabel(/^Имя/).fill("Иван");
-  await page.getByLabel(/^ИИН/).fill("900101300123");
-  await page.getByLabel(/Номер мобильного телефона/).fill(PHONE);
-  await page.getByRole("checkbox", { name: /персональных данных/ }).check();
-  await page.getByRole("button", { name: "Получить код" }).click();
-  await page.getByLabel(/Код из SMS/).fill("123456");
-  await page.getByRole("button", { name: "Подтвердить и создать кабинет" }).click();
-  await expect(page).toHaveURL(/\/ru\/properties$/);
-}
-
-/** An object in Kokshetau, confirmed through the state service (spec 3.5, 3.6). */
-async function addConfirmedObject(page: Page) {
-  await page.goto("/ru/properties/new");
-  const search = page.getByRole("combobox", { name: "Поиск адреса" });
-  await search.fill("абая");
-  await search.press("ArrowDown");
-  await search.press("Enter");
-  await page.getByLabel(/^Дом/).fill("10");
-  await page.getByLabel(/^Квартира/).fill("5");
-  await page.getByLabel(/^Тип объекта/).selectOption("apartment");
-  await page.getByLabel(/^Ваша роль/).selectOption("owner");
-  await page.getByRole("button", { name: "Сохранить объект" }).click();
-  await page.getByRole("button", { name: "Подтвердить через госсервис" }).click();
-  await expect(page.getByRole("heading", { name: "Объект подтверждён" })).toBeVisible();
-}
-
-async function signInAsOperator(page: Page, organizationId: string) {
-  await page.goto("/ru/sign-in");
-  const out = page.getByRole("button", { name: "Выйти" });
-  if (await out.isVisible()) await out.click();
-  await page.getByLabel("Организация").selectOption(organizationId);
-  await page.getByRole("button", { name: "Войти как оператор" }).click();
-  await expect(page).toHaveURL(/\/ru\/operator$/);
-}
-
-async function signInAsResident(page: Page) {
-  await page.goto("/ru/sign-in");
-  await page.getByRole("button", { name: "Выйти" }).click();
-  await page.getByLabel(/Номер мобильного телефона/).fill(PHONE);
-  await page.getByRole("button", { name: "Получить код" }).click();
-  await page.getByLabel(/Код из SMS/).fill("123456");
-  await page.getByRole("button", { name: "Войти", exact: true }).click();
-  await expect(page).not.toHaveURL(/sign-in/);
-}
-
-/** One card of a register of the cabinet: choose the action and apply it. */
-async function operatorDoes(card: ReturnType<Page["getByRole"]>, action: string) {
-  await card.getByLabel(/^Действие/).selectOption(action);
-  await card.getByRole("button", { name: "Применить" }).click();
-}
-
-const pdf = (name: string) => ({
-  name,
-  mimeType: "application/pdf",
-  buffer: Buffer.from("%PDF-1.4 test"),
-});
-
-/** Adds a cold-water meter with the first reading 120 (spec 6.5). */
-async function addWaterMeter(page: Page) {
-  await page.goto("/ru/meters");
-  await page.getByRole("button", { name: "Добавить прибор" }).click();
-  await page.getByLabel(/^Вид ресурса/).selectOption("cold_water");
-  await page.getByLabel(/^Тип прибора/).selectOption("mechanical");
-  await page.getByLabel(/^Заводской номер/).fill("SN-77");
-  await page.getByLabel(/^Дата установки/).fill("2024-05-01");
-  await page.getByLabel(/^Показания на сегодня/).fill("120");
-  await page.getByRole("button", { name: "Добавить прибор" }).click();
-  await expect(page.getByRole("article", { name: "Холодная вода, № SN-77" })).toBeVisible();
-}
-
-const tomorrow = () => new Date(Date.now() + 86_400_000).toISOString().slice(0, 10);
 
 test.describe("end-to-end scenarios of the specification (21.2)", () => {
   test("Scenario 1. Concluding a contract", async ({ page }) => {

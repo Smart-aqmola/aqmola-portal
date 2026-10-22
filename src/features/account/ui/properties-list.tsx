@@ -58,9 +58,9 @@ function List({ lang, ownerId, labels, territories }: PropertiesListProps & { ow
           <li key={item.id}>
             <article className={styles.item}>
               <div className={styles.itemMain}>
-                <h3 className={styles.itemTitle}>
+                <h2 className={styles.itemTitle}>
                   {addressLine(item, names.get(item.territoryId) ?? "", labels.flat)}
-                </h3>
+                </h2>
                 <p className={styles.note}>
                   {labels.types[item.type]} · {labels.relations[item.relation]}
                 </p>

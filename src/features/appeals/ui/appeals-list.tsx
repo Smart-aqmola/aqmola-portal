@@ -85,7 +85,7 @@ function List({ lang, dict, context }: AppealsAreaProps & { context: AppealsCont
                 <li key={item.id}>
                   <article className={styles.item} aria-label={`${title}, ${item.number}`}>
                     <div className={styles.detailHead}>
-                      <h3 className={styles.itemTitle}>{title}</h3>
+                      <h2 className={styles.itemTitle}>{title}</h2>
                       <AppealBadge status={item.status} label={dict.appeals.status[item.status]} />
                     </div>
                     {awaitsApplicant(item) && <p className={styles.problems}>{t.needsReply}</p>}

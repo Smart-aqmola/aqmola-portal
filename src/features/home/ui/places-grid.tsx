@@ -45,9 +45,12 @@ export function PlacesGrid({
   places,
   priorityFirst,
 }: PlacesGridProps) {
+  // Under the section's own h2 the cards are h3; on the tourism page they come right after the h1.
+  const hasHead = Boolean(title && allLabel);
+  const Name = hasHead ? "h3" : "h2";
   return (
     <section>
-      {title && allLabel && (
+      {hasHead && (
         <div className={styles.head}>
           <h2 className={styles.title}>{title}</h2>
           <Link href={`/${lang}/tourism`} className={styles.all}>
@@ -69,11 +72,11 @@ export function PlacesGrid({
                   fetchPriority={priorityFirst && index === 0 ? "high" : undefined}
                 />
               </div>
-              <h3 className={styles.name}>
+              <Name className={styles.name}>
                 <Link href={`/${lang}/tourism/${place.slug}`} className={styles.link}>
                   {place.name}
                 </Link>
-              </h3>
+              </Name>
               <p className={styles.territory}>{place.territory}</p>
               <p className={styles.summary}>{place.summary}</p>
               <ul className={styles.facts}>
