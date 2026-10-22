@@ -5,6 +5,7 @@ import { loadTerritoryOptions } from "@/features/applications/load-territories";
 import { AppealForm } from "@/features/appeals/ui/appeal-form";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/appeals/new">;
@@ -36,7 +37,7 @@ export default async function NewAppealPage({ params }: Props) {
       <div className={styles.narrow}>
         <AppealForm
           lang={lang}
-          dict={dict}
+          dict={pickDictionary(dict, "account", "appeals", "contracts", "list", "properties")}
           territories={territories}
           providers={providers}
           missing={loadMissingNetworks()}

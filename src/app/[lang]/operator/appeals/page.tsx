@@ -4,6 +4,7 @@ import { loadProviders } from "@/features/account/load-providers";
 import { OperatorAppeals } from "@/features/organization/ui/operator-appeals";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/operator/appeals">;
@@ -28,7 +29,24 @@ export default async function OperatorAppealsPage({ params }: Props) {
     <div className={`container ${styles.page}`}>
       <h1 className={styles.title}>{dict.cabinet.title}</h1>
       <div className={styles.narrow}>
-        <OperatorAppeals lang={lang} dict={dict} providers={providers} />
+        <OperatorAppeals
+          lang={lang}
+          dict={pickDictionary(
+            dict,
+            "account",
+            "appeals",
+            "applications",
+            "billing",
+            "cabinet",
+            "contracts",
+            "list",
+            "meters",
+            "operator",
+            "properties",
+            "status",
+          )}
+          providers={providers}
+        />
       </div>
     </div>
   );

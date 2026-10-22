@@ -6,6 +6,7 @@ import { loadTerritoryOptions } from "@/features/applications/load-territories";
 import { AppealDetail } from "@/features/appeals/ui/appeal-detail";
 import { hasLocale } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import { PageSkeleton } from "@/shared/ui/skeleton/page-skeleton";
 import styles from "@/features/applications/ui/page.module.css";
 
@@ -48,7 +49,7 @@ async function Detail({ params }: { params: Props["params"] }) {
       <div className={styles.narrow}>
         <AppealDetail
           lang={lang}
-          dict={dict}
+          dict={pickDictionary(dict, "account", "appeals", "contracts", "list", "properties")}
           territories={territories}
           providers={providers}
           missing={loadMissingNetworks()}

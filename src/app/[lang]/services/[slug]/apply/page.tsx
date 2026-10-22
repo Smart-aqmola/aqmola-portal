@@ -5,6 +5,7 @@ import { ApplyWizard } from "@/features/applications/ui/apply-wizard";
 import { listServiceSlugs, loadService } from "@/features/catalog/load-service";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import { Breadcrumbs } from "@/shared/ui/breadcrumbs/breadcrumbs";
 import styles from "@/features/applications/ui/page.module.css";
 
@@ -57,7 +58,7 @@ export default async function ApplyPage({ params }: Props) {
             documents: details.documents,
           }}
           territories={territories}
-          dict={dict}
+          dict={pickDictionary(dict, "apply", "home", "serviceDetails", "signIn")}
         />
       </div>
     </div>

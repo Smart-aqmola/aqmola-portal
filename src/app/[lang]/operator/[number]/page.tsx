@@ -6,6 +6,7 @@ import { ApplicationDetail } from "@/features/applications/ui/application-detail
 import { NUMBER_PATTERN } from "@/features/applications/domain/application";
 import { hasLocale } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import { Breadcrumbs } from "@/shared/ui/breadcrumbs/breadcrumbs";
 import styles from "@/features/applications/ui/page.module.css";
 import { PageSkeleton } from "@/shared/ui/skeleton/page-skeleton";
@@ -52,7 +53,7 @@ async function Detail({ params }: { params: Props["params"] }) {
           number={number}
           justCreated={false}
           territories={territories}
-          dict={dict}
+          dict={pickDictionary(dict, "applications", "operator", "serviceDetails", "status")}
         />
       </div>
     </>

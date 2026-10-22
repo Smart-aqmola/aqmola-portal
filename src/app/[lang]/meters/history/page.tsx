@@ -4,6 +4,7 @@ import { loadTerritoryOptions } from "@/features/applications/load-territories";
 import { ReadingsHistory } from "@/features/meters/ui/readings-history";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/meters/history">;
@@ -29,7 +30,11 @@ export default async function ReadingsHistoryPage({ params }: Props) {
       <h1 className={styles.title}>{dict.meters.title}</h1>
       <p className={styles.lead}>{dict.meters.lead}</p>
       <div className={styles.narrow}>
-        <ReadingsHistory lang={lang} dict={dict} territories={territories} />
+        <ReadingsHistory
+          lang={lang}
+          dict={pickDictionary(dict, "account", "contracts", "list", "meters", "properties")}
+          territories={territories}
+        />
       </div>
     </div>
   );

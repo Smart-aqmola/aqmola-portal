@@ -5,6 +5,7 @@ import { loadTerritoryOptions } from "@/features/applications/load-territories";
 import { AdminReports } from "@/features/admin/ui/admin-reports";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/admin/reports">;
@@ -33,7 +34,24 @@ export default async function AdminReportsPage({ params }: Props) {
     <div className={`container ${styles.page}`}>
       <h1 className={styles.title}>{dict.admin.title}</h1>
       <div className={styles.narrow}>
-        <AdminReports lang={lang} dict={dict} providers={providers} territories={territories} />
+        <AdminReports
+          lang={lang}
+          dict={pickDictionary(
+            dict,
+            "admin",
+            "appeals",
+            "billing",
+            "cabinet",
+            "contracts",
+            "list",
+            "meters",
+            "notifications",
+            "properties",
+            "status",
+          )}
+          providers={providers}
+          territories={territories}
+        />
       </div>
     </div>
   );

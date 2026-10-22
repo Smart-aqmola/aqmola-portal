@@ -5,6 +5,7 @@ import { loadTerritoryOptions } from "@/features/applications/load-territories";
 import { AppealsList } from "@/features/appeals/ui/appeals-list";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/appeals">;
@@ -36,7 +37,7 @@ export default async function AppealsPage({ params }: Props) {
       <div className={styles.narrow}>
         <AppealsList
           lang={lang}
-          dict={dict}
+          dict={pickDictionary(dict, "account", "appeals", "contracts", "list", "properties")}
           territories={territories}
           providers={providers}
           missing={loadMissingNetworks()}

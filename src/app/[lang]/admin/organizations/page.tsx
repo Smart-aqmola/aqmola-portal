@@ -5,6 +5,7 @@ import { loadTerritoryOptions } from "@/features/applications/load-territories";
 import { AdminOrganizations } from "@/features/admin/ui/admin-organizations";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/admin/organizations">;
@@ -35,7 +36,19 @@ export default async function AdminOrganizationsPage({ params }: Props) {
       <div className={styles.narrow}>
         <AdminOrganizations
           lang={lang}
-          dict={dict}
+          dict={pickDictionary(
+            dict,
+            "admin",
+            "appeals",
+            "billing",
+            "cabinet",
+            "contracts",
+            "list",
+            "meters",
+            "notifications",
+            "properties",
+            "status",
+          )}
           providers={providers}
           territories={territories}
         />

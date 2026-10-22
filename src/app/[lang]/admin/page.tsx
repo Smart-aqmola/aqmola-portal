@@ -4,6 +4,7 @@ import { loadProviders } from "@/features/account/load-providers";
 import { AdminOverview } from "@/features/admin/ui/admin-overview";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/admin">;
@@ -28,7 +29,23 @@ export default async function AdminPage({ params }: Props) {
     <div className={`container ${styles.page}`}>
       <h1 className={styles.title}>{dict.admin.title}</h1>
       <div className={styles.narrow}>
-        <AdminOverview lang={lang} dict={dict} providers={providers} />
+        <AdminOverview
+          lang={lang}
+          dict={pickDictionary(
+            dict,
+            "admin",
+            "appeals",
+            "billing",
+            "cabinet",
+            "contracts",
+            "list",
+            "meters",
+            "notifications",
+            "properties",
+            "status",
+          )}
+          providers={providers}
+        />
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { NotificationsPage } from "@/features/notifications/ui/notifications-page";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/notifications">;
@@ -28,7 +29,19 @@ export default async function NotificationsRoute({ params }: Props) {
       <h1 className={styles.title}>{dict.notifications.title}</h1>
       <p className={styles.lead}>{dict.notifications.lead}</p>
       <div className={styles.narrow}>
-        <NotificationsPage lang={lang} dict={dict} />
+        <NotificationsPage
+          lang={lang}
+          dict={pickDictionary(
+            dict,
+            "appeals",
+            "billing",
+            "contracts",
+            "list",
+            "meters",
+            "notifications",
+            "status",
+          )}
+        />
       </div>
     </div>
   );

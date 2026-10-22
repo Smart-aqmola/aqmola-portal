@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { noFlashScript } from "@/features/display/domain/settings";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import { DemoBanner } from "@/shared/ui/demo-banner/demo-banner";
 import { SiteFooter } from "@/shared/ui/site-footer/site-footer";
 import { SiteHeader } from "@/shared/ui/site-header/site-header";
@@ -54,7 +55,10 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
             <Suspense
               fallback={<div style={{ height: "var(--header-height)" }} aria-hidden="true" />}
             >
-              <SiteHeader lang={lang} dict={dict} />
+              <SiteHeader
+                lang={lang}
+                dict={pickDictionary(dict, "brand", "display", "header", "nav", "notifications")}
+              />
             </Suspense>
             <main id="content">{children}</main>
           </div>

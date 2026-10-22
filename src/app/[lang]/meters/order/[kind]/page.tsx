@@ -6,6 +6,7 @@ import { isRequestKind, requestKinds } from "@/features/meters/domain/meter-requ
 import { RequestForm } from "@/features/meters/ui/request-form";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import { PageSkeleton } from "@/shared/ui/skeleton/page-skeleton";
 import styles from "@/features/applications/ui/page.module.css";
 
@@ -59,7 +60,7 @@ async function Order({
       <div className={styles.narrow}>
         <RequestForm
           lang={lang}
-          dict={dict}
+          dict={pickDictionary(dict, "account", "contracts", "list", "meters", "properties")}
           territories={territories}
           kind={kind}
           preset={{ property: id(query.property), meter: id(query.meter) }}

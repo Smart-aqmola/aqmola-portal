@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState, useSyncExternalStore } from "react";
+import { useCallback, useMemo, useSyncExternalStore } from "react";
 import { useProfiles } from "@/features/account/ui/use-profiles";
 import { useProperties } from "@/features/account/ui/use-properties";
 import { useAppeals } from "@/features/appeals/ui/use-appeals";
@@ -37,13 +37,15 @@ export function useNotifications(session: DemoSession | null) {
     store.getSnapshot,
     store.getServerSnapshot,
   );
-  const [now] = useState(() => new Date());
 
   const profile = session?.userId ? profiles.find((item) => item.id === session.userId) : undefined;
   const role = session?.role;
 
+  // The time is read only for a signed-in person: reading it while prerendering (nobody is signed
+  // in then) would make Next.js leave the whole header out of the static page.
   const all = useMemo(() => {
     if (!wanted) return NONE;
+    const now = new Date();
     return buildNotifications(
       {
         ...(profile ? { profile } : {}),
@@ -70,7 +72,6 @@ export function useNotifications(session: DemoSession | null) {
     requests,
     payments,
     appeals,
-    now,
   ]);
 
   const readUpTo = ownerId ? readState[ownerId] : undefined;

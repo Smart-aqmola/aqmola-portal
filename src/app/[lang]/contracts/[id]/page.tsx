@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { ContractPage } from "@/features/contracts/ui/contract-detail";
 import { hasLocale } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import { Breadcrumbs } from "@/shared/ui/breadcrumbs/breadcrumbs";
 import { PageSkeleton } from "@/shared/ui/skeleton/page-skeleton";
 import styles from "@/features/applications/ui/page.module.css";
@@ -47,7 +48,7 @@ async function Detail({ params }: { params: Props["params"] }) {
         ]}
       />
       <div className={styles.narrow}>
-        <ContractPage lang={lang} id={id} dict={dict} />
+        <ContractPage lang={lang} id={id} dict={pickDictionary(dict, "contracts", "properties")} />
       </div>
     </>
   );

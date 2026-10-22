@@ -4,6 +4,7 @@ import { loadTerritoryOptions } from "@/features/applications/load-territories";
 import { MyMeters } from "@/features/meters/ui/my-meters";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/meters">;
@@ -29,7 +30,11 @@ export default async function MetersPage({ params }: Props) {
       <h1 className={styles.title}>{dict.meters.title}</h1>
       <p className={styles.lead}>{dict.meters.lead}</p>
       <div className={styles.narrow}>
-        <MyMeters lang={lang} dict={dict} territories={territories} />
+        <MyMeters
+          lang={lang}
+          dict={pickDictionary(dict, "account", "contracts", "list", "meters", "properties")}
+          territories={territories}
+        />
       </div>
     </div>
   );

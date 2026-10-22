@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { AdminTemplates } from "@/features/admin/ui/admin-templates";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/admin/templates">;
@@ -33,7 +34,19 @@ export default async function AdminTemplatesPage({ params }: Props) {
       <div className={styles.narrow}>
         <AdminTemplates
           lang={lang}
-          dict={dict}
+          dict={pickDictionary(
+            dict,
+            "admin",
+            "appeals",
+            "billing",
+            "cabinet",
+            "contracts",
+            "list",
+            "meters",
+            "notifications",
+            "properties",
+            "status",
+          )}
           defaults={{ ru: ru.notifications.events, kk: kk.notifications.events }}
         />
       </div>

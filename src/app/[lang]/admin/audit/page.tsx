@@ -4,6 +4,7 @@ import { loadProviders } from "@/features/account/load-providers";
 import { AdminAudit } from "@/features/admin/ui/admin-audit";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/admin/audit">;
@@ -28,7 +29,23 @@ export default async function AdminAuditPage({ params }: Props) {
     <div className={`container ${styles.page}`}>
       <h1 className={styles.title}>{dict.admin.title}</h1>
       <div className={styles.narrow}>
-        <AdminAudit lang={lang} dict={dict} providers={providers} />
+        <AdminAudit
+          lang={lang}
+          dict={pickDictionary(
+            dict,
+            "admin",
+            "appeals",
+            "billing",
+            "cabinet",
+            "contracts",
+            "list",
+            "meters",
+            "notifications",
+            "properties",
+            "status",
+          )}
+          providers={providers}
+        />
       </div>
     </div>
   );

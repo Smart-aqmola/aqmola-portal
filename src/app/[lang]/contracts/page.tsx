@@ -4,6 +4,7 @@ import { AccountNav } from "@/features/account/ui/account-nav";
 import { ContractsList } from "@/features/contracts/ui/contracts-list";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/contracts">;
@@ -30,7 +31,7 @@ export default async function ContractsPage({ params }: Props) {
       <p className={styles.lead}>{dict.contractsList.lead}</p>
       <div className={styles.narrow}>
         <AccountNav lang={lang} labels={dict.account.nav} current="contracts" />
-        <ContractsList lang={lang} dict={dict} />
+        <ContractsList lang={lang} dict={pickDictionary(dict, "contracts", "contractsList")} />
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { loadProviders } from "@/features/account/load-providers";
 import { OperatorCalendar } from "@/features/organization/ui/operator-calendar";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/operator/calendar">;
@@ -28,7 +29,24 @@ export default async function OperatorCalendarPage({ params }: Props) {
     <div className={`container ${styles.page}`}>
       <h1 className={styles.title}>{dict.cabinet.title}</h1>
       <div className={styles.narrow}>
-        <OperatorCalendar lang={lang} dict={dict} providers={providers} />
+        <OperatorCalendar
+          lang={lang}
+          dict={pickDictionary(
+            dict,
+            "account",
+            "appeals",
+            "applications",
+            "billing",
+            "cabinet",
+            "contracts",
+            "list",
+            "meters",
+            "operator",
+            "properties",
+            "status",
+          )}
+          providers={providers}
+        />
       </div>
     </div>
   );

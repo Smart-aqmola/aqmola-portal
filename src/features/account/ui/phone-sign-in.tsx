@@ -40,8 +40,10 @@ export function PhoneSignIn({ labels, next, signUpHref }: PhoneSignInProps) {
     if (found) codeInput.current?.focus();
   }, [found]);
 
-  // Someone who is already in does not need this form; the panel below offers to continue.
-  if (!ready || session) return null;
+  // Someone who is already in does not need this form; the panel below offers to continue. Until the
+  // browser data is read the form is drawn, because most people here are guests and the page
+  // should not jump when it appears.
+  if (ready && session) return null;
 
   function submitPhone(event: FormEvent) {
     event.preventDefault();

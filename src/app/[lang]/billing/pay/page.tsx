@@ -6,6 +6,7 @@ import { loadTerritoryOptions } from "@/features/applications/load-territories";
 import { PayPage } from "@/features/billing/ui/pay-page";
 import { hasLocale } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import { PageSkeleton } from "@/shared/ui/skeleton/page-skeleton";
 import styles from "@/features/applications/ui/page.module.css";
 
@@ -56,7 +57,7 @@ async function Content({
       <div className={styles.narrow}>
         <PayPage
           lang={lang}
-          dict={dict}
+          dict={pickDictionary(dict, "account", "billing", "list", "properties")}
           territories={territories}
           providers={providers}
           missing={loadMissingNetworks()}

@@ -4,6 +4,7 @@ import { loadProviders } from "@/features/account/load-providers";
 import { AdminIntegrations } from "@/features/admin/ui/admin-integrations";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/admin/integrations">;
@@ -28,7 +29,23 @@ export default async function AdminIntegrationsPage({ params }: Props) {
     <div className={`container ${styles.page}`}>
       <h1 className={styles.title}>{dict.admin.title}</h1>
       <div className={styles.narrow}>
-        <AdminIntegrations lang={lang} dict={dict} providers={providers} />
+        <AdminIntegrations
+          lang={lang}
+          dict={pickDictionary(
+            dict,
+            "admin",
+            "appeals",
+            "billing",
+            "cabinet",
+            "contracts",
+            "list",
+            "meters",
+            "notifications",
+            "properties",
+            "status",
+          )}
+          providers={providers}
+        />
       </div>
     </div>
   );

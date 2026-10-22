@@ -5,6 +5,7 @@ import { loadTerritoryOptions } from "@/features/applications/load-territories";
 import { ReadingForm } from "@/features/meters/ui/reading-form";
 import { hasLocale } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import { PageSkeleton } from "@/shared/ui/skeleton/page-skeleton";
 import styles from "@/features/applications/ui/page.module.css";
 
@@ -51,7 +52,12 @@ async function Submit({
       <h1 className={styles.title}>{dict.meters.title}</h1>
       <p className={styles.lead}>{dict.meters.lead}</p>
       <div className={styles.narrow}>
-        <ReadingForm lang={lang} dict={dict} territories={territories} preset={{ meter }} />
+        <ReadingForm
+          lang={lang}
+          dict={pickDictionary(dict, "account", "contracts", "list", "meters", "properties")}
+          territories={territories}
+          preset={{ meter }}
+        />
       </div>
     </>
   );

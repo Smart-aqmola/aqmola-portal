@@ -123,8 +123,11 @@ svg {
   flex-direction: column;
 }
 
+/* Content waiting for the browser data starts small; this keeps the footer below the first screen
+   so it does not jump when the content arrives. */
 .shell > main {
   flex: 1;
+  min-height: calc(100svh - var(--header-height));
 }
 
 .container {

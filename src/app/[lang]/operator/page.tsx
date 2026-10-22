@@ -4,6 +4,7 @@ import { loadOperatorData } from "@/features/applications/load-operator";
 import { OperatorList } from "@/features/applications/ui/operator-list";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/operator">;
@@ -30,7 +31,7 @@ export default async function OperatorPage({ params }: Props) {
       <div className={styles.narrow}>
         <OperatorList
           lang={lang}
-          dict={dict}
+          dict={pickDictionary(dict, "applications", "cabinet", "list", "operator", "status")}
           organizations={data.organizations}
           sampleServices={data.sampleServices}
         />

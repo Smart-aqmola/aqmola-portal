@@ -5,6 +5,7 @@ import { loadMissingNetworks, loadProviders } from "@/features/account/load-prov
 import { RequestsRegistry } from "@/features/registry/ui/requests-registry";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import styles from "@/features/applications/ui/page.module.css";
 
 type Props = PageProps<"/[lang]/applications">;
@@ -32,7 +33,16 @@ export default async function ApplicationsPage({ params }: Props) {
         <AccountNav lang={lang} labels={dict.account.nav} current="applications" />
         <RequestsRegistry
           lang={lang}
-          dict={dict}
+          dict={pickDictionary(
+            dict,
+            "appeals",
+            "applications",
+            "contracts",
+            "list",
+            "meters",
+            "registry",
+            "status",
+          )}
           providers={providers}
           missing={loadMissingNetworks()}
         />

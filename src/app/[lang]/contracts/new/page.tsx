@@ -7,6 +7,7 @@ import { contractServiceBySlug } from "@/features/contracts/domain/contract-serv
 import { ContractNew } from "@/features/contracts/ui/contract-new";
 import { hasLocale } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
+import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import { Breadcrumbs } from "@/shared/ui/breadcrumbs/breadcrumbs";
 import { PageSkeleton } from "@/shared/ui/skeleton/page-skeleton";
 import styles from "@/features/applications/ui/page.module.css";
@@ -62,7 +63,7 @@ async function NewContract({
       <div className={styles.narrow}>
         <ContractNew
           lang={lang}
-          dict={dict}
+          dict={pickDictionary(dict, "contracts", "properties")}
           providers={providers}
           missing={loadMissingNetworks()}
           territories={territories}
