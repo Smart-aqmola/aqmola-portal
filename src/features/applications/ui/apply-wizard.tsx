@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { sameShapeAs, useDraftState } from "@/shared/lib/use-draft-state";
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import type { DocumentKey } from "@/features/catalog/domain/service-details";
 import type { Locale } from "@/shared/i18n/config";
@@ -51,7 +52,11 @@ export function ApplyWizard({ lang, service, territories, dict }: ApplyWizardPro
   const { session, ready } = useSession();
   const { add } = useApplications();
   const [stepIndex, setStepIndex] = useState(0);
-  const [form, setForm] = useState<ApplicationForm>(EMPTY_FORM);
+  const [form, setForm, clearDraft] = useDraftState<ApplicationForm>(
+    `apply-${service.slug}`,
+    EMPTY_FORM,
+    sameShapeAs(EMPTY_FORM),
+  );
   const [errors, setErrors] = useState<FormErrors>({});
   const heading = useRef<HTMLHeadingElement>(null);
   const moved = useRef(false);
@@ -139,6 +144,7 @@ export function ApplyWizard({ lang, service, territories, dict }: ApplyWizardPro
         now: new Date(),
       }),
     );
+    clearDraft();
     router.push(`/${lang}/applications/${created.number}?new=1`);
   }
 

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { sameShapeAs, useDraftState } from "@/shared/lib/use-draft-state";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { residentSession } from "@/features/applications/domain/storage";
 import { useSession } from "@/features/applications/ui/use-session";
@@ -50,7 +51,11 @@ export function SignUpForm({ labels, next, signInHref }: SignUpFormProps) {
   const { profiles, add } = useProfiles();
   const { signIn } = useSession();
   const [step, setStep] = useState<Step>("data");
-  const [input, setInput] = useState<RegistrationInput>(EMPTY);
+  const [input, setInput, clearDraft] = useDraftState<RegistrationInput>(
+    "sign-up",
+    EMPTY,
+    sameShapeAs(EMPTY),
+  );
   const [errors, setErrors] = useState<RegistrationErrors>({});
   const [code, setCode] = useState("");
   const [codeError, setCodeError] = useState(false);
@@ -104,6 +109,7 @@ export function SignUpForm({ labels, next, signInHref }: SignUpFormProps) {
     }
     const profile = createProfile(input, crypto.randomUUID(), new Date());
     add(profile);
+    clearDraft();
     signIn(residentSession(profile.id, displayName(profile)));
     toast.show(format(labels.done, { name: displayName(profile) }));
     router.push(next);

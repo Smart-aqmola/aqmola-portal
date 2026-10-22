@@ -5,6 +5,7 @@ import type { StoredFile } from "@/features/account/domain/property";
 import { useProfiles } from "@/features/account/ui/use-profiles";
 import type { Locale } from "@/shared/i18n/config";
 import { format } from "@/shared/i18n/format";
+import { sameShapeAs, useDraftState } from "@/shared/lib/use-draft-state";
 import { MAX_FILES, MAX_FILE_BYTES, megabytes } from "@/shared/lib/upload-rules";
 import { Button } from "@/shared/ui/button/button";
 import { Field } from "@/shared/ui/field/field";
@@ -86,12 +87,16 @@ function Form({
     properties.find((item) => item.id === preset.property)?.id ??
     (properties.length === 1 ? properties[0].id : "");
 
-  const [input, setInput] = useState<RequestInput>(() => ({
-    ...emptyRequestInput(kind, phone),
-    propertyId: startProperty,
-    resource: fromPreset?.resource ?? "",
-    meterId: fromPreset?.id ?? "",
-  }));
+  const [input, setInput, clearDraft] = useDraftState<RequestInput>(
+    `request-${kind}`,
+    {
+      ...emptyRequestInput(kind, phone),
+      propertyId: startProperty,
+      resource: fromPreset?.resource ?? "",
+      meterId: fromPreset?.id ?? "",
+    },
+    sameShapeAs(emptyRequestInput(kind)),
+  );
   const [errors, setErrors] = useState<RequestErrors>({});
   const [sent, setSent] = useState<MeterRequest>();
   const fileRef = useRef<HTMLInputElement>(null);
@@ -158,6 +163,7 @@ function Form({
       new Date(),
     );
     data.addRequest(request);
+    clearDraft();
     setSent(request);
   }
 

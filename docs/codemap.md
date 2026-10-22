@@ -110,7 +110,7 @@
 | `pnpm perf`     | Скорость страниц: вес, LCP, CLS на «телефоне». Сначала `pnpm build`, потом `pnpm start -p 3200` |
 | `pnpm dev`      | Сайт для разработки на `localhost:3000`                                                         |
 
-Тесты лежат рядом с кодом (`*.test.ts(x)`, около 60 файлов) и в `tests/e2e/` (`home`, `catalog`, `applications`, `content`, `accessibility`).
+Тесты лежат рядом с кодом (`*.test.ts(x)`, больше 110 файлов) и в `tests/e2e/` (по разделам, плюс `interface` и `scenarios` — сквозные сценарии ТЗ 21.2, описаны в [test-cases.md](test-cases.md)). Черновики форм: `shared/lib/use-draft-state.ts` (sessionStorage); страницы ошибок: `app/[lang]/error.tsx`, `not-found.tsx`, тексты в `shared/i18n/system-messages.ts`.
 
 ## Скорость (замер 2026-10-21, телефон 375 px, медленная сеть, процессор ×4 медленнее)
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Property } from "@/features/account/domain/property";
 import { format } from "@/shared/i18n/format";
+import { sameShapeAs, useDraftState } from "@/shared/lib/use-draft-state";
 import { Button } from "@/shared/ui/button/button";
 import { Field } from "@/shared/ui/field/field";
 import { useToast } from "@/shared/ui/toast/toast-provider";
@@ -52,8 +53,10 @@ export function MeterForm({
     properties.find((item) => item.id === preset)?.id ??
     (properties.length === 1 ? properties[0].id : "");
   const [propertyId, setPropertyId] = useState(initial);
-  const [input, setInput] = useState<MeterInput>(() =>
+  const [input, setInput, clearDraft] = useDraftState<MeterInput>(
+    "meter",
     emptyMeterInput(properties.find((item) => item.id === initial)?.personalAccount ?? ""),
+    sameShapeAs(emptyMeterInput()),
   );
   const [errors, setErrors] = useState<MeterErrors>({});
   const [propertyError, setPropertyError] = useState<string>();
@@ -97,6 +100,7 @@ export function MeterForm({
         new Date(),
       ),
     );
+    clearDraft();
     toast.show(t.saved);
   }
 

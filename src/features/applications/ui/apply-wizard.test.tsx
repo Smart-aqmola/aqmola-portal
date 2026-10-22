@@ -92,4 +92,29 @@ describe("ApplyWizard", () => {
     });
     expect(push).toHaveBeenCalledWith(`/ru/applications/${saved[0].number}?new=1`);
   });
+
+  it("goes back to the previous step without losing what was typed (18.10)", () => {
+    signInAs("resident");
+    renderWizard();
+    fireEvent.change(screen.getByLabelText("Город или район"), { target: { value: "kokshetau" } });
+    fireEvent.change(screen.getByLabelText(/Адрес объекта/), {
+      target: { value: "улица Абая, 10" },
+    });
+    next();
+    expect(screen.queryByLabelText(/Адрес объекта/)).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Назад" }));
+    expect(screen.getByLabelText("Город или район")).toHaveValue("kokshetau");
+    expect(screen.getByLabelText(/Адрес объекта/)).toHaveValue("улица Абая, 10");
+  });
+
+  it("brings the typed data back after the page was built again, for example by a change of language (18.9)", () => {
+    signInAs("resident");
+    const first = renderWizard();
+    fireEvent.change(screen.getByLabelText(/Адрес объекта/), {
+      target: { value: "улица Абая, 10" },
+    });
+    first.unmount();
+    renderWizard();
+    expect(screen.getByLabelText(/Адрес объекта/)).toHaveValue("улица Абая, 10");
+  });
 });

@@ -4,6 +4,7 @@ import { useRef, useState, type ChangeEvent } from "react";
 import { CONTRACT_SECTORS, type ContractSector } from "@/features/account/domain/availability";
 import type { StoredFile } from "@/features/account/domain/property";
 import { format } from "@/shared/i18n/format";
+import { sameShapeAs, useDraftState } from "@/shared/lib/use-draft-state";
 import { MAX_FILES, MAX_FILE_BYTES, megabytes, sizeParts } from "@/shared/lib/upload-rules";
 import { Button } from "@/shared/ui/button/button";
 import { Field } from "@/shared/ui/field/field";
@@ -58,7 +59,11 @@ function Form({
 }: AppealsAreaProps & { context: AppealsContext }) {
   const { ownerId, properties, labelOf, phone, email, appeals } = context;
   const t = dict.appeals.form;
-  const [input, setInput] = useState<AppealInput>(() => emptyAppealInput(phone, email));
+  const [input, setInput, clearDraft] = useDraftState<AppealInput>(
+    "appeal",
+    emptyAppealInput(phone, email),
+    sameShapeAs(emptyAppealInput()),
+  );
   const [territoryId, setTerritoryId] = useState("");
   const [errors, setErrors] = useState<AppealErrors>({});
   const [sent, setSent] = useState<Appeal>();
@@ -113,6 +118,7 @@ function Form({
       new Date(),
     );
     appeals.add(appeal);
+    clearDraft();
     setSent(appeal);
   }
 

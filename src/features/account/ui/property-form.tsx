@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { sameShapeAs, useDraftState } from "@/shared/lib/use-draft-state";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ownerIdOf, type DemoSession } from "@/features/applications/domain/storage";
 import type { Locale } from "@/shared/i18n/config";
@@ -55,7 +56,11 @@ export function PropertyForm({
   const router = useRouter();
   const toast = useToast();
   const { add } = useProperties(ownerIdOf(session));
-  const [input, setInput] = useState<PropertyInput>(EMPTY);
+  const [input, setInput, clearDraft] = useDraftState<PropertyInput>(
+    "property",
+    EMPTY,
+    sameShapeAs(EMPTY),
+  );
   const [errors, setErrors] = useState<PropertyErrors>({});
   const [attempt, setAttempt] = useState(0);
   const form = useRef<HTMLFormElement>(null);
@@ -111,6 +116,7 @@ export function PropertyForm({
     }
     const property = createProperty(input, crypto.randomUUID(), ownerIdOf(session), new Date());
     add(property);
+    clearDraft();
     toast.show(t.saved);
     router.push(`/${lang}/properties/${property.id}`);
   }
