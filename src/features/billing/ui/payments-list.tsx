@@ -1,5 +1,6 @@
 "use client";
 
+import { ShowMoreList } from "@/shared/ui/show-more/show-more";
 import Link from "next/link";
 import { useState } from "react";
 import { format } from "@/shared/i18n/format";
@@ -74,46 +75,50 @@ function List({ lang, dict, context }: BillingPageProps & { context: BillingCont
       <p className={styles.note} aria-live="polite">
         {format(t.count, { n: shown.length })}
       </p>
-      <ul className={styles.items}>
-        {shown.map((item) => (
-          <li key={item.id}>
-            <article className={styles.item} aria-label={item.number}>
-              <div className={styles.detailHead}>
-                <h3 className={styles.itemTitle}>{item.number}</h3>
-                <PaymentBadge status={item.status} label={dict.billing.status[item.status]} />
-              </div>
-              <dl className={styles.facts}>
-                <div>
-                  <dt>{f.created}</dt>
-                  <dd>{day(item.createdAt, lang, "")}</dd>
-                </div>
-                <div>
-                  <dt>{f.object}</dt>
-                  <dd>{item.address}</dd>
-                </div>
-                <div>
-                  <dt>{f.period}</dt>
-                  <dd>{periodLabel(item.period, dict)}</dd>
-                </div>
-                <div>
-                  <dt>{f.method}</dt>
-                  <dd>{dict.billing.pay.methods[item.method]}</dd>
-                </div>
-                <div>
-                  <dt>{f.total}</dt>
-                  <dd className={styles.money}>{formatMoney(item.total)}</dd>
-                </div>
-              </dl>
-              <div>
-                <Link href={`/${lang}/billing/payments/${item.id}`} className={styles.open}>
-                  {t.open}
-                  <span className="visually-hidden"> — {item.number}</span>
-                </Link>
-              </div>
-            </article>
-          </li>
-        ))}
-      </ul>
+      <ShowMoreList items={shown} labels={dict.list}>
+        {(visible) => (
+          <ul className={styles.items}>
+            {visible.map((item) => (
+              <li key={item.id}>
+                <article className={styles.item} aria-label={item.number}>
+                  <div className={styles.detailHead}>
+                    <h3 className={styles.itemTitle}>{item.number}</h3>
+                    <PaymentBadge status={item.status} label={dict.billing.status[item.status]} />
+                  </div>
+                  <dl className={styles.facts}>
+                    <div>
+                      <dt>{f.created}</dt>
+                      <dd>{day(item.createdAt, lang, "")}</dd>
+                    </div>
+                    <div>
+                      <dt>{f.object}</dt>
+                      <dd>{item.address}</dd>
+                    </div>
+                    <div>
+                      <dt>{f.period}</dt>
+                      <dd>{periodLabel(item.period, dict)}</dd>
+                    </div>
+                    <div>
+                      <dt>{f.method}</dt>
+                      <dd>{dict.billing.pay.methods[item.method]}</dd>
+                    </div>
+                    <div>
+                      <dt>{f.total}</dt>
+                      <dd className={styles.money}>{formatMoney(item.total)}</dd>
+                    </div>
+                  </dl>
+                  <div>
+                    <Link href={`/${lang}/billing/payments/${item.id}`} className={styles.open}>
+                      {t.open}
+                      <span className="visually-hidden"> — {item.number}</span>
+                    </Link>
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ul>
+        )}
+      </ShowMoreList>
     </>
   );
 }

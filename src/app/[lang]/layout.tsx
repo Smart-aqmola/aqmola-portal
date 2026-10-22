@@ -8,6 +8,7 @@ import { getDictionary } from "@/shared/i18n/get-dictionary";
 import { DemoBanner } from "@/shared/ui/demo-banner/demo-banner";
 import { SiteFooter } from "@/shared/ui/site-footer/site-footer";
 import { SiteHeader } from "@/shared/ui/site-header/site-header";
+import { StorageNotice } from "@/shared/ui/storage-notice/storage-notice";
 import { ToastProvider } from "@/shared/ui/toast/toast-provider";
 import "@/shared/styles/tokens.css";
 import "@/shared/styles/globals.css";
@@ -47,6 +48,7 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
             {dict.header.skipToContent}
           </a>
           <DemoBanner text={dict.demo.banner} />
+          <StorageNotice text={dict.demo.storageFailed} />
           <div className="shell">
             {/* On pages whose address is only known at request time the header streams in. */}
             <Suspense

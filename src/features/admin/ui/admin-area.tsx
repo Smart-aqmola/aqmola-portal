@@ -14,6 +14,7 @@ import styles from "./admin.module.css";
 
 export type AdminDict = Pick<
   Dictionary,
+  | "list"
   | "admin"
   | "cabinet"
   | "notifications"

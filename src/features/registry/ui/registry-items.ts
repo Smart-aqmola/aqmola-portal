@@ -21,7 +21,7 @@ import type { RegistryItem } from "../domain/registry";
 
 export type RegistryDict = Pick<
   Dictionary,
-  "registry" | "applications" | "status" | "contracts" | "meters" | "appeals"
+  "list" | "registry" | "applications" | "status" | "contracts" | "meters" | "appeals"
 >;
 
 export type RegistryContext = {

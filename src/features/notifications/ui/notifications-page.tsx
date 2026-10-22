@@ -1,5 +1,6 @@
 "use client";
 
+import { ShowMoreList } from "@/shared/ui/show-more/show-more";
 import Link from "next/link";
 import { useState } from "react";
 import { useAdminConfig } from "@/features/admin/ui/use-admin-config";
@@ -83,46 +84,50 @@ function List({ lang, dict, session }: NotificationsPageProps & { session: DemoS
       </p>
       <p className={styles.note}>{t.demoNote}</p>
 
-      <ul className={styles.list}>
-        {shown.map((item) => {
-          const isNew = unreadIds.has(item.id);
-          return (
-            <li key={item.id}>
-              <article
-                className={styles.item}
-                data-unread={isNew}
-                aria-label={`${formatDate(item.at.slice(0, 10), lang)} ${item.at.slice(0, 4)}`}
-              >
-                <p className={styles.text} id={`notice-${item.id}`}>
-                  {isNew && <span className={styles.new}>{t.new}</span>}{" "}
-                  {notificationText(item, dict, lang, custom)}
-                </p>
-                <p className={styles.meta}>
-                  <span>
-                    {formatDate(item.at.slice(0, 10), lang)} {item.at.slice(0, 4)},{" "}
-                    {item.at.slice(11, 16)} UTC
-                  </span>
-                  <span>
-                    {t.channel.label}: {t.channel[item.channel]}
-                  </span>
-                  <span>
-                    {t.delivery.label}: {t.delivery[item.delivery]}
-                  </span>
-                </p>
-                <div>
-                  <Link
-                    href={`/${lang}${item.path}`}
-                    className={styles.open}
-                    aria-describedby={`notice-${item.id}`}
+      <ShowMoreList items={shown} labels={dict.list}>
+        {(visible) => (
+          <ul className={styles.list}>
+            {visible.map((item) => {
+              const isNew = unreadIds.has(item.id);
+              return (
+                <li key={item.id}>
+                  <article
+                    className={styles.item}
+                    data-unread={isNew}
+                    aria-label={`${formatDate(item.at.slice(0, 10), lang)} ${item.at.slice(0, 4)}`}
                   >
-                    {t.open}
-                  </Link>
-                </div>
-              </article>
-            </li>
-          );
-        })}
-      </ul>
+                    <p className={styles.text} id={`notice-${item.id}`}>
+                      {isNew && <span className={styles.new}>{t.new}</span>}{" "}
+                      {notificationText(item, dict, lang, custom)}
+                    </p>
+                    <p className={styles.meta}>
+                      <span>
+                        {formatDate(item.at.slice(0, 10), lang)} {item.at.slice(0, 4)},{" "}
+                        {item.at.slice(11, 16)} UTC
+                      </span>
+                      <span>
+                        {t.channel.label}: {t.channel[item.channel]}
+                      </span>
+                      <span>
+                        {t.delivery.label}: {t.delivery[item.delivery]}
+                      </span>
+                    </p>
+                    <div>
+                      <Link
+                        href={`/${lang}${item.path}`}
+                        className={styles.open}
+                        aria-describedby={`notice-${item.id}`}
+                      >
+                        {t.open}
+                      </Link>
+                    </div>
+                  </article>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </ShowMoreList>
     </>
   );
 }

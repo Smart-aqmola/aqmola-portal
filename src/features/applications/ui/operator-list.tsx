@@ -1,5 +1,6 @@
 "use client";
 
+import { ShowMoreList } from "@/shared/ui/show-more/show-more";
 import Link from "next/link";
 import { useState } from "react";
 import type { Locale } from "@/shared/i18n/config";
@@ -19,7 +20,7 @@ import panel from "./panel.module.css";
 
 type Props = {
   lang: Locale;
-  dict: Pick<Dictionary, "operator" | "applications" | "status" | "cabinet">;
+  dict: Pick<Dictionary, "operator" | "applications" | "status" | "cabinet" | "list">;
   organizations: { id: string; name: string }[];
   /** A few services of each organization, used to make test applications. */
   sampleServices: Record<string, { slug: string; title: string }[]>;
@@ -107,28 +108,32 @@ export function OperatorList({ lang, dict, organizations, sampleServices }: Prop
           ) : (
             <>
               <h2 className="visually-hidden">{dict.applications.list}</h2>
-              <ul className={styles.list}>
-                {shown.map((item) => (
-                  <li key={item.number}>
-                    <article className={styles.item}>
-                      <div className={styles.main}>
-                        <h3 className={styles.title}>{item.serviceTitle}</h3>
-                        <p className={styles.meta}>
-                          {item.number} · {t.from} {item.ownerName} ·{" "}
-                          {format(dict.applications.submittedOn, {
-                            date: formatDate(item.createdAt.slice(0, 10), lang),
-                          })}
-                        </p>
-                      </div>
-                      <StatusBadge status={item.status} label={dict.status[item.status]} />
-                      <Link href={`/${lang}/operator/${item.number}`} className={styles.open}>
-                        {dict.applications.open}
-                        <span className={styles.visuallyHidden}> {item.number}</span>
-                      </Link>
-                    </article>
-                  </li>
-                ))}
-              </ul>
+              <ShowMoreList items={shown} labels={dict.list}>
+                {(visible) => (
+                  <ul className={styles.list}>
+                    {visible.map((item) => (
+                      <li key={item.number}>
+                        <article className={styles.item}>
+                          <div className={styles.main}>
+                            <h3 className={styles.title}>{item.serviceTitle}</h3>
+                            <p className={styles.meta}>
+                              {item.number} · {t.from} {item.ownerName} ·{" "}
+                              {format(dict.applications.submittedOn, {
+                                date: formatDate(item.createdAt.slice(0, 10), lang),
+                              })}
+                            </p>
+                          </div>
+                          <StatusBadge status={item.status} label={dict.status[item.status]} />
+                          <Link href={`/${lang}/operator/${item.number}`} className={styles.open}>
+                            {dict.applications.open}
+                            <span className={styles.visuallyHidden}> {item.number}</span>
+                          </Link>
+                        </article>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </ShowMoreList>
             </>
           )}
         </>

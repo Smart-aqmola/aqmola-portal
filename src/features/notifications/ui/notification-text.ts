@@ -6,7 +6,7 @@ import type { AppNotification, NotificationRefs } from "../domain/notifications"
 
 export type NotificationsDict = Pick<
   Dictionary,
-  "notifications" | "status" | "contracts" | "meters" | "billing" | "appeals"
+  "list" | "notifications" | "status" | "contracts" | "meters" | "billing" | "appeals"
 >;
 
 const day = (iso: string, lang: Locale) =>

@@ -1,5 +1,6 @@
 "use client";
 
+import { ShowMoreList } from "@/shared/ui/show-more/show-more";
 import { useState } from "react";
 import type { ProviderInfo } from "@/features/account/domain/availability";
 import { appealStatuses, type AppealStatus } from "@/features/appeals/domain/appeal";
@@ -91,84 +92,88 @@ function Register({ lang, dict, context }: Props & { context: OperatorContext })
           {shown.length === 0 ? (
             <p>{c.noMatch}</p>
           ) : (
-            <ul className={styles.items}>
-              {shown.map((appeal) => {
-                const title = dict.appeals.categories[appeal.category];
-                return (
-                  <li key={appeal.id}>
-                    <article className={styles.item} aria-label={`${title}, ${appeal.number}`}>
-                      <div className={styles.detailHead}>
-                        <h3 className={styles.itemTitle}>{title}</h3>
-                        <AppealBadge
-                          status={appeal.status}
-                          label={dict.appeals.status[appeal.status]}
-                        />
-                      </div>
-                      <dl className={styles.facts}>
-                        <div>
-                          <dt>{t.fields.number}</dt>
-                          <dd>{appeal.number}</dd>
-                        </div>
-                        <div>
-                          <dt>{t.fields.address}</dt>
-                          <dd>{appeal.address}</dd>
-                        </div>
-                        <div>
-                          <dt>{t.fields.phone}</dt>
-                          <dd>{appeal.contactPhone}</dd>
-                        </div>
-                        <div>
-                          <dt>{t.fields.created}</dt>
-                          <dd>
-                            {formatDate(appeal.createdAt.slice(0, 10), lang)}{" "}
-                            {appeal.createdAt.slice(0, 4)}
-                          </dd>
-                        </div>
-                        <div>
-                          <dt>{t.fields.description}</dt>
-                          <dd>{appeal.description}</dd>
-                        </div>
-                      </dl>
-                      <details className={styles.details}>
-                        <summary>{t.fields.thread}</summary>
-                        <ul className={styles.timeline}>
-                          {appeal.events.map((event, index) => (
-                            <li key={`${event.at}-${index}`}>
-                              <span>
-                                {event.at.slice(0, 10)} {event.at.slice(11, 16)}
-                              </span>
-                              {event.status && (
-                                <AppealBadge
-                                  status={event.status}
-                                  label={dict.appeals.status[event.status]}
-                                />
-                              )}
-                              {event.text && <span>{event.text}</span>}
-                            </li>
-                          ))}
-                        </ul>
-                      </details>
-                      <ExecutorPanel
-                        dict={dict}
-                        appeal={appeal}
-                        onChange={replace}
-                        onDone={({ from, to, note }) =>
-                          context.record({
-                            entity: "appeal",
-                            entityId: appeal.id,
-                            number: appeal.number,
-                            action: "status",
-                            from,
-                            to,
-                            note,
-                          })
-                        }
-                      />
-                    </article>
-                  </li>
-                );
-              })}
-            </ul>
+            <ShowMoreList items={shown} labels={dict.list}>
+              {(visible) => (
+                <ul className={styles.items}>
+                  {visible.map((appeal) => {
+                    const title = dict.appeals.categories[appeal.category];
+                    return (
+                      <li key={appeal.id}>
+                        <article className={styles.item} aria-label={`${title}, ${appeal.number}`}>
+                          <div className={styles.detailHead}>
+                            <h3 className={styles.itemTitle}>{title}</h3>
+                            <AppealBadge
+                              status={appeal.status}
+                              label={dict.appeals.status[appeal.status]}
+                            />
+                          </div>
+                          <dl className={styles.facts}>
+                            <div>
+                              <dt>{t.fields.number}</dt>
+                              <dd>{appeal.number}</dd>
+                            </div>
+                            <div>
+                              <dt>{t.fields.address}</dt>
+                              <dd>{appeal.address}</dd>
+                            </div>
+                            <div>
+                              <dt>{t.fields.phone}</dt>
+                              <dd>{appeal.contactPhone}</dd>
+                            </div>
+                            <div>
+                              <dt>{t.fields.created}</dt>
+                              <dd>
+                                {formatDate(appeal.createdAt.slice(0, 10), lang)}{" "}
+                                {appeal.createdAt.slice(0, 4)}
+                              </dd>
+                            </div>
+                            <div>
+                              <dt>{t.fields.description}</dt>
+                              <dd>{appeal.description}</dd>
+                            </div>
+                          </dl>
+                          <details className={styles.details}>
+                            <summary>{t.fields.thread}</summary>
+                            <ul className={styles.timeline}>
+                              {appeal.events.map((event, index) => (
+                                <li key={`${event.at}-${index}`}>
+                                  <span>
+                                    {event.at.slice(0, 10)} {event.at.slice(11, 16)}
+                                  </span>
+                                  {event.status && (
+                                    <AppealBadge
+                                      status={event.status}
+                                      label={dict.appeals.status[event.status]}
+                                    />
+                                  )}
+                                  {event.text && <span>{event.text}</span>}
+                                </li>
+                              ))}
+                            </ul>
+                          </details>
+                          <ExecutorPanel
+                            dict={dict}
+                            appeal={appeal}
+                            onChange={replace}
+                            onDone={({ from, to, note }) =>
+                              context.record({
+                                entity: "appeal",
+                                entityId: appeal.id,
+                                number: appeal.number,
+                                action: "status",
+                                from,
+                                to,
+                                note,
+                              })
+                            }
+                          />
+                        </article>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </ShowMoreList>
           )}
         </>
       )}

@@ -4,7 +4,8 @@
     "description": "A test portal for utility and city services in the Akmola Region."
   },
   "demo": {
-    "banner": "Test version of the portal. Organizations and applications are fictional, please do not enter personal data."
+    "banner": "Test version of the portal. Organizations and applications are fictional, please do not enter personal data.",
+    "storageFailed": "The browser did not save your data: site storage is full or blocked. Changes will be lost when the page is reloaded."
   },
   "brand": {
     "name": "Aqmola",
@@ -2792,5 +2793,9 @@
       "organization": "Организация",
       "changed": "Изменено: {names}"
     }
+  },
+  "list": {
+    "shown": "Showing {n} of {total}",
+    "more": "Show {n} more"
   }
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { ShowMoreList } from "@/shared/ui/show-more/show-more";
 import { useState } from "react";
 import type { ProviderInfo } from "@/features/account/domain/availability";
 import type { Locale } from "@/shared/i18n/config";
@@ -79,41 +80,45 @@ function Journal({ lang, dict, context }: Props & { context: OperatorContext }) 
             {format(dict.cabinet.common.count, { n: shown.length })}
           </p>
           <div className={styles.scroll}>
-            <table className={styles.table}>
-              <caption className="visually-hidden">{t.title}</caption>
-              <thead>
-                <tr>
-                  <th scope="col">{f.at}</th>
-                  <th scope="col">{f.actor}</th>
-                  <th scope="col">{f.entity}</th>
-                  <th scope="col">{f.action}</th>
-                  <th scope="col">{f.change}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {shown.map((entry) => (
-                  <tr key={entry.id}>
-                    <td>
-                      {formatDate(entry.at.slice(0, 10), lang)} {entry.at.slice(0, 4)},{" "}
-                      {entry.at.slice(11, 16)} UTC
-                    </td>
-                    <td>{entry.actor}</td>
-                    <td>
-                      {t.entities[entry.entity]}
-                      <span className={styles.note}> {entry.number}</span>
-                    </td>
-                    <td>{t.actions[entry.action]}</td>
-                    <td>
-                      {format(t.change, {
-                        from: statusName(entry, entry.from, dict),
-                        to: statusName(entry, entry.to, dict),
-                      })}
-                      {entry.note && <span className={styles.note}> · {entry.note}</span>}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <ShowMoreList items={shown} labels={dict.list}>
+              {(visible) => (
+                <table className={styles.table}>
+                  <caption className="visually-hidden">{t.title}</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">{f.at}</th>
+                      <th scope="col">{f.actor}</th>
+                      <th scope="col">{f.entity}</th>
+                      <th scope="col">{f.action}</th>
+                      <th scope="col">{f.change}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {visible.map((entry) => (
+                      <tr key={entry.id}>
+                        <td>
+                          {formatDate(entry.at.slice(0, 10), lang)} {entry.at.slice(0, 4)},{" "}
+                          {entry.at.slice(11, 16)} UTC
+                        </td>
+                        <td>{entry.actor}</td>
+                        <td>
+                          {t.entities[entry.entity]}
+                          <span className={styles.note}> {entry.number}</span>
+                        </td>
+                        <td>{t.actions[entry.action]}</td>
+                        <td>
+                          {format(t.change, {
+                            from: statusName(entry, entry.from, dict),
+                            to: statusName(entry, entry.to, dict),
+                          })}
+                          {entry.note && <span className={styles.note}> · {entry.note}</span>}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </ShowMoreList>
           </div>
         </>
       )}

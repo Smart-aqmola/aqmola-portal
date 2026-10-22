@@ -16,6 +16,7 @@ import styles from "./organization.module.css";
 
 export type OperatorDict = Pick<
   Dictionary,
+  | "list"
   | "cabinet"
   | "operator"
   | "status"

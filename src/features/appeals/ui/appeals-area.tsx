@@ -14,7 +14,10 @@ import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { useAppeals } from "./use-appeals";
 
 /** `contracts` is here only for the words "KB" and "MB" next to file sizes. */
-export type AppealsDict = Pick<Dictionary, "appeals" | "properties" | "account" | "contracts">;
+export type AppealsDict = Pick<
+  Dictionary,
+  "appeals" | "properties" | "account" | "contracts" | "list"
+>;
 
 export type AppealsContext = {
   ownerId: string;

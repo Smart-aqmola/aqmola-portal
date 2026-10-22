@@ -1,5 +1,6 @@
 "use client";
 
+import { ShowMoreList } from "@/shared/ui/show-more/show-more";
 import Link from "next/link";
 import { useState } from "react";
 import type { Locale } from "@/shared/i18n/config";
@@ -121,66 +122,70 @@ function List({ lang, dict, context }: RequestsListProps & { context: MetersCont
       <p className={styles.note} aria-live="polite">
         {format(t.count, { n: shown.length })}
       </p>
-      <ul className={styles.items}>
-        {shown.map((request) => {
-          const meter = meterOf(request);
-          const title = dict.meters.nav[request.kind];
-          return (
-            <li key={request.id}>
-              <article className={styles.item} aria-label={`${title}, ${request.number}`}>
-                <div className={styles.detailHead}>
-                  <h3 className={styles.itemTitle}>{title}</h3>
-                  <RequestBadge
-                    status={request.status}
-                    label={dict.meters.requestStatus[request.status]}
-                  />
-                </div>
-                <dl className={styles.facts}>
-                  <div>
-                    <dt>{f.number}</dt>
-                    <dd>{request.number}</dd>
-                  </div>
-                  <div>
-                    <dt>{f.object}</dt>
-                    <dd>{request.address}</dd>
-                  </div>
-                  <div>
-                    <dt>{f.meter}</dt>
-                    <dd>
-                      {meter
-                        ? meterLabel(meter, dict)
-                        : `${dict.meters.resources[request.resource]}. ${t.noMeter}`}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>{f.created}</dt>
-                    <dd>{day(request.createdAt, lang, "")}</dd>
-                  </div>
-                  <div>
-                    <dt>{f.scheduled}</dt>
-                    <dd>
-                      {request.scheduled ? slotText(request.scheduled, lang, dict) : t.notYet}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>{f.assignee}</dt>
-                    <dd>{request.assignee ?? t.notYet}</dd>
-                  </div>
-                </dl>
-                <div>
-                  <Link href={`/${lang}/meters/requests/${request.id}`} className={styles.open}>
-                    {t.open}
-                    <span className="visually-hidden">
-                      {" "}
-                      — {title}, {request.number}
-                    </span>
-                  </Link>
-                </div>
-              </article>
-            </li>
-          );
-        })}
-      </ul>
+      <ShowMoreList items={shown} labels={dict.list}>
+        {(visible) => (
+          <ul className={styles.items}>
+            {visible.map((request) => {
+              const meter = meterOf(request);
+              const title = dict.meters.nav[request.kind];
+              return (
+                <li key={request.id}>
+                  <article className={styles.item} aria-label={`${title}, ${request.number}`}>
+                    <div className={styles.detailHead}>
+                      <h3 className={styles.itemTitle}>{title}</h3>
+                      <RequestBadge
+                        status={request.status}
+                        label={dict.meters.requestStatus[request.status]}
+                      />
+                    </div>
+                    <dl className={styles.facts}>
+                      <div>
+                        <dt>{f.number}</dt>
+                        <dd>{request.number}</dd>
+                      </div>
+                      <div>
+                        <dt>{f.object}</dt>
+                        <dd>{request.address}</dd>
+                      </div>
+                      <div>
+                        <dt>{f.meter}</dt>
+                        <dd>
+                          {meter
+                            ? meterLabel(meter, dict)
+                            : `${dict.meters.resources[request.resource]}. ${t.noMeter}`}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>{f.created}</dt>
+                        <dd>{day(request.createdAt, lang, "")}</dd>
+                      </div>
+                      <div>
+                        <dt>{f.scheduled}</dt>
+                        <dd>
+                          {request.scheduled ? slotText(request.scheduled, lang, dict) : t.notYet}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>{f.assignee}</dt>
+                        <dd>{request.assignee ?? t.notYet}</dd>
+                      </div>
+                    </dl>
+                    <div>
+                      <Link href={`/${lang}/meters/requests/${request.id}`} className={styles.open}>
+                        {t.open}
+                        <span className="visually-hidden">
+                          {" "}
+                          — {title}, {request.number}
+                        </span>
+                      </Link>
+                    </div>
+                  </article>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </ShowMoreList>
     </>
   );
 }

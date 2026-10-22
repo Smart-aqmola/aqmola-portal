@@ -15,7 +15,10 @@ import { useMeterData } from "./use-meter-data";
 import styles from "./meters.module.css";
 
 /** `contracts` is here only for the words "KB" and "MB" next to file sizes. */
-export type MetersDict = Pick<Dictionary, "meters" | "properties" | "contracts" | "account">;
+export type MetersDict = Pick<
+  Dictionary,
+  "meters" | "properties" | "contracts" | "account" | "list"
+>;
 export type NavId = "my" | "submit" | RequestKind | "history" | "requests";
 
 /** The ten parts of the section "Meters", in the order of the specification (6.2). */

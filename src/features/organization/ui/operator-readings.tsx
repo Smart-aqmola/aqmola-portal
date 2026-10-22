@@ -1,5 +1,6 @@
 "use client";
 
+import { ShowMoreList } from "@/shared/ui/show-more/show-more";
 import { useState } from "react";
 import type { ProviderInfo } from "@/features/account/domain/availability";
 import { useAllProperties } from "@/features/account/ui/use-properties";
@@ -95,72 +96,76 @@ function Register({ lang, dict, context }: Props & { context: OperatorContext })
           {shown.length === 0 ? (
             <p>{c.noMatch}</p>
           ) : (
-            <ul className={styles.items}>
-              {shown.map((reading) => {
-                const meter = meterOf(reading.meterId);
-                const decimals = meter?.decimals ?? 3;
-                return (
-                  <li key={reading.id}>
-                    <article className={styles.item} aria-label={reading.number}>
-                      <div className={styles.detailHead}>
-                        <h3 className={styles.itemTitle}>
-                          {meter ? meterLabel(meter, dict) : reading.number}
-                        </h3>
-                        <ReadingBadge
-                          status={reading.status}
-                          label={dict.meters.status[reading.status]}
-                        />
-                      </div>
-                      <dl className={styles.facts}>
-                        <div>
-                          <dt>{t.fields.number}</dt>
-                          <dd>{reading.number}</dd>
-                        </div>
-                        <div>
-                          <dt>{t.fields.address}</dt>
-                          <dd>{meter?.address ?? c.noValue}</dd>
-                        </div>
-                        <div>
-                          <dt>{t.fields.value}</dt>
-                          <dd>{readingText(reading.value, decimals)}</dd>
-                        </div>
-                        <div>
-                          <dt>{t.fields.previous}</dt>
-                          <dd>{readingText(reading.previousValue, decimals)}</dd>
-                        </div>
-                        <div>
-                          <dt>{t.fields.date}</dt>
-                          <dd>
-                            {formatDate(reading.readingDate.slice(0, 10), lang)}{" "}
-                            {reading.readingDate.slice(0, 4)}
-                          </dd>
-                        </div>
-                        <div>
-                          <dt>{t.fields.photo}</dt>
-                          <dd>{reading.photo?.name ?? t.noPhoto}</dd>
-                        </div>
-                      </dl>
-                      <ReadingProviderPanel
-                        dict={dict}
-                        reading={reading}
-                        onChange={data.replaceReading}
-                        onDone={({ from, to, note }) =>
-                          context.record({
-                            entity: "reading",
-                            entityId: reading.id,
-                            number: reading.number,
-                            action: "status",
-                            from,
-                            to,
-                            note,
-                          })
-                        }
-                      />
-                    </article>
-                  </li>
-                );
-              })}
-            </ul>
+            <ShowMoreList items={shown} labels={dict.list}>
+              {(visible) => (
+                <ul className={styles.items}>
+                  {visible.map((reading) => {
+                    const meter = meterOf(reading.meterId);
+                    const decimals = meter?.decimals ?? 3;
+                    return (
+                      <li key={reading.id}>
+                        <article className={styles.item} aria-label={reading.number}>
+                          <div className={styles.detailHead}>
+                            <h3 className={styles.itemTitle}>
+                              {meter ? meterLabel(meter, dict) : reading.number}
+                            </h3>
+                            <ReadingBadge
+                              status={reading.status}
+                              label={dict.meters.status[reading.status]}
+                            />
+                          </div>
+                          <dl className={styles.facts}>
+                            <div>
+                              <dt>{t.fields.number}</dt>
+                              <dd>{reading.number}</dd>
+                            </div>
+                            <div>
+                              <dt>{t.fields.address}</dt>
+                              <dd>{meter?.address ?? c.noValue}</dd>
+                            </div>
+                            <div>
+                              <dt>{t.fields.value}</dt>
+                              <dd>{readingText(reading.value, decimals)}</dd>
+                            </div>
+                            <div>
+                              <dt>{t.fields.previous}</dt>
+                              <dd>{readingText(reading.previousValue, decimals)}</dd>
+                            </div>
+                            <div>
+                              <dt>{t.fields.date}</dt>
+                              <dd>
+                                {formatDate(reading.readingDate.slice(0, 10), lang)}{" "}
+                                {reading.readingDate.slice(0, 4)}
+                              </dd>
+                            </div>
+                            <div>
+                              <dt>{t.fields.photo}</dt>
+                              <dd>{reading.photo?.name ?? t.noPhoto}</dd>
+                            </div>
+                          </dl>
+                          <ReadingProviderPanel
+                            dict={dict}
+                            reading={reading}
+                            onChange={data.replaceReading}
+                            onDone={({ from, to, note }) =>
+                              context.record({
+                                entity: "reading",
+                                entityId: reading.id,
+                                number: reading.number,
+                                action: "status",
+                                from,
+                                to,
+                                note,
+                              })
+                            }
+                          />
+                        </article>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </ShowMoreList>
           )}
         </>
       )}

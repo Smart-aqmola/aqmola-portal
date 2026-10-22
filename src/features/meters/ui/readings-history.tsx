@@ -1,5 +1,6 @@
 "use client";
 
+import { ShowMoreList } from "@/shared/ui/show-more/show-more";
 import { useState } from "react";
 import type { Locale } from "@/shared/i18n/config";
 import { format } from "@/shared/i18n/format";
@@ -120,19 +121,23 @@ function List({ lang, dict, context }: ReadingsHistoryProps & { context: MetersC
       <p className={styles.note} aria-live="polite">
         {format(t.count, { n: shown.length })}
       </p>
-      <ul className={styles.items}>
-        {shown.map((reading) => (
-          <li key={reading.id}>
-            <ReadingCard
-              lang={lang}
-              dict={dict}
-              reading={reading}
-              meter={metersById.get(reading.meterId)}
-              onChange={data.replaceReading}
-            />
-          </li>
-        ))}
-      </ul>
+      <ShowMoreList items={shown} labels={dict.list}>
+        {(visible) => (
+          <ul className={styles.items}>
+            {visible.map((reading) => (
+              <li key={reading.id}>
+                <ReadingCard
+                  lang={lang}
+                  dict={dict}
+                  reading={reading}
+                  meter={metersById.get(reading.meterId)}
+                  onChange={data.replaceReading}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+      </ShowMoreList>
     </>
   );
 }

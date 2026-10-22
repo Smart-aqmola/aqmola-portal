@@ -1,3 +1,6 @@
+/** Told on `window` when the browser refused to save, so the page can warn the person. */
+export const STORAGE_FAILED_EVENT = "aqmola:storage-failed";
+
 type Options<T> = {
   key: string;
   /** Turns the stored text into a value. Must never throw and must return `empty` for bad input. */
@@ -54,6 +57,7 @@ export function createLocalStore<T>({ key, parse, empty }: Options<T>) {
       memory = null;
     } catch {
       memory = { value: value ?? empty };
+      window.dispatchEvent(new Event(STORAGE_FAILED_EVENT));
     }
     for (const listener of listeners) listener();
   }

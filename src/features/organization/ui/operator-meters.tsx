@@ -1,5 +1,6 @@
 "use client";
 
+import { ShowMoreList } from "@/shared/ui/show-more/show-more";
 import { useState } from "react";
 import type { ProviderInfo } from "@/features/account/domain/availability";
 import { requestStatuses, type RequestStatus } from "@/features/meters/domain/meter-request";
@@ -94,79 +95,85 @@ function Register({ lang, dict, context }: Props & { context: OperatorContext })
           {shown.length === 0 ? (
             <p>{c.noMatch}</p>
           ) : (
-            <ul className={styles.items}>
-              {shown.map((request) => {
-                const title = dict.meters.nav[request.kind];
-                return (
-                  <li key={request.id}>
-                    <article className={styles.item} aria-label={`${title}, ${request.number}`}>
-                      <div className={styles.detailHead}>
-                        <h3 className={styles.itemTitle}>{title}</h3>
-                        <RequestBadge
-                          status={request.status}
-                          label={dict.meters.requestStatus[request.status]}
-                        />
-                      </div>
-                      <dl className={styles.facts}>
-                        <div>
-                          <dt>{t.fields.number}</dt>
-                          <dd>{request.number}</dd>
-                        </div>
-                        <div>
-                          <dt>{t.fields.address}</dt>
-                          <dd>{request.address}</dd>
-                        </div>
-                        <div>
-                          <dt>{t.fields.phone}</dt>
-                          <dd>{request.contactPhone}</dd>
-                        </div>
-                        <div>
-                          <dt>{t.fields.created}</dt>
-                          <dd>
-                            {formatDate(request.createdAt.slice(0, 10), lang)}{" "}
-                            {request.createdAt.slice(0, 4)}
-                          </dd>
-                        </div>
-                        <div>
-                          <dt>{t.fields.slots}</dt>
-                          <dd>
-                            {request.slots.map((slot) => slotText(slot, lang, dict)).join("; ")}
-                          </dd>
-                        </div>
-                        <div>
-                          <dt>{t.fields.scheduled}</dt>
-                          <dd>
-                            {request.scheduled ? slotText(request.scheduled, lang, dict) : t.notYet}
-                          </dd>
-                        </div>
-                        <div>
-                          <dt>{t.fields.assignee}</dt>
-                          <dd>{request.assignee ?? t.notYet}</dd>
-                        </div>
-                      </dl>
-                      <RequestProviderPanel
-                        dict={dict}
-                        request={request}
-                        meters={data.meters}
-                        onRequest={data.replaceRequest}
-                        onMeters={data.saveMeters}
-                        onDone={({ from, to, note }) =>
-                          context.record({
-                            entity: "meter_request",
-                            entityId: request.id,
-                            number: request.number,
-                            action: "status",
-                            from,
-                            to,
-                            note,
-                          })
-                        }
-                      />
-                    </article>
-                  </li>
-                );
-              })}
-            </ul>
+            <ShowMoreList items={shown} labels={dict.list}>
+              {(visible) => (
+                <ul className={styles.items}>
+                  {visible.map((request) => {
+                    const title = dict.meters.nav[request.kind];
+                    return (
+                      <li key={request.id}>
+                        <article className={styles.item} aria-label={`${title}, ${request.number}`}>
+                          <div className={styles.detailHead}>
+                            <h3 className={styles.itemTitle}>{title}</h3>
+                            <RequestBadge
+                              status={request.status}
+                              label={dict.meters.requestStatus[request.status]}
+                            />
+                          </div>
+                          <dl className={styles.facts}>
+                            <div>
+                              <dt>{t.fields.number}</dt>
+                              <dd>{request.number}</dd>
+                            </div>
+                            <div>
+                              <dt>{t.fields.address}</dt>
+                              <dd>{request.address}</dd>
+                            </div>
+                            <div>
+                              <dt>{t.fields.phone}</dt>
+                              <dd>{request.contactPhone}</dd>
+                            </div>
+                            <div>
+                              <dt>{t.fields.created}</dt>
+                              <dd>
+                                {formatDate(request.createdAt.slice(0, 10), lang)}{" "}
+                                {request.createdAt.slice(0, 4)}
+                              </dd>
+                            </div>
+                            <div>
+                              <dt>{t.fields.slots}</dt>
+                              <dd>
+                                {request.slots.map((slot) => slotText(slot, lang, dict)).join("; ")}
+                              </dd>
+                            </div>
+                            <div>
+                              <dt>{t.fields.scheduled}</dt>
+                              <dd>
+                                {request.scheduled
+                                  ? slotText(request.scheduled, lang, dict)
+                                  : t.notYet}
+                              </dd>
+                            </div>
+                            <div>
+                              <dt>{t.fields.assignee}</dt>
+                              <dd>{request.assignee ?? t.notYet}</dd>
+                            </div>
+                          </dl>
+                          <RequestProviderPanel
+                            dict={dict}
+                            request={request}
+                            meters={data.meters}
+                            onRequest={data.replaceRequest}
+                            onMeters={data.saveMeters}
+                            onDone={({ from, to, note }) =>
+                              context.record({
+                                entity: "meter_request",
+                                entityId: request.id,
+                                number: request.number,
+                                action: "status",
+                                from,
+                                to,
+                                note,
+                              })
+                            }
+                          />
+                        </article>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </ShowMoreList>
           )}
         </>
       )}

@@ -1,5 +1,6 @@
 "use client";
 
+import { ShowMoreList } from "@/shared/ui/show-more/show-more";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { ProviderInfo } from "@/features/account/domain/availability";
@@ -188,13 +189,23 @@ function Registry({
       ) : (
         <>
           <h2 className="visually-hidden">{dict.applications.list}</h2>
-          <ul className={styles.items}>
-            {shown.map((item) => (
-              <li key={item.id}>
-                <Card lang={lang} dict={dict} item={item} now={now} days={config.regulationDays} />
-              </li>
-            ))}
-          </ul>
+          <ShowMoreList items={shown} labels={dict.list}>
+            {(visible) => (
+              <ul className={styles.items}>
+                {visible.map((item) => (
+                  <li key={item.id}>
+                    <Card
+                      lang={lang}
+                      dict={dict}
+                      item={item}
+                      now={now}
+                      days={config.regulationDays}
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </ShowMoreList>
         </>
       )}
       <p className={styles.note}>{t.archiveNote}</p>

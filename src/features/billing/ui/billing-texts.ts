@@ -7,7 +7,7 @@ import { totalsOf } from "../domain/charge";
 import { formatMoney } from "../domain/money";
 import type { Payment } from "../domain/payment";
 
-export type BillingDict = Pick<Dictionary, "billing" | "properties" | "account">;
+export type BillingDict = Pick<Dictionary, "billing" | "properties" | "account" | "list">;
 
 /** "Октябрь 2026" from "2026-10". The month names come from the dictionary. */
 export function periodLabel(period: string, dict: BillingDict): string {

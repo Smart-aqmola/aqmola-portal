@@ -1,5 +1,6 @@
 "use client";
 
+import { ShowMoreList } from "@/shared/ui/show-more/show-more";
 import Link from "next/link";
 import { useState } from "react";
 import { format } from "@/shared/i18n/format";
@@ -74,58 +75,63 @@ function List({ lang, dict, context }: AppealsAreaProps & { context: AppealsCont
       <p className={styles.note} aria-live="polite">
         {format(t.count, { n: shown.length })}
       </p>
-      <ul className={styles.items}>
-        {shown.map((item) => {
-          const answer = lastExecutorText(item);
-          const title = dict.appeals.categories[item.category];
-          return (
-            <li key={item.id}>
-              <article className={styles.item} aria-label={`${title}, ${item.number}`}>
-                <div className={styles.detailHead}>
-                  <h3 className={styles.itemTitle}>{title}</h3>
-                  <AppealBadge status={item.status} label={dict.appeals.status[item.status]} />
-                </div>
-                {awaitsApplicant(item) && <p className={styles.problems}>{t.needsReply}</p>}
-                <dl className={styles.facts}>
-                  <div>
-                    <dt>{f.number}</dt>
-                    <dd>{item.number}</dd>
-                  </div>
-                  <div>
-                    <dt>{f.created}</dt>
-                    <dd>
-                      {formatDate(item.createdAt.slice(0, 10), lang)} {item.createdAt.slice(0, 4)}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>{f.object}</dt>
-                    <dd>{item.address}</dd>
-                  </div>
-                  <div>
-                    <dt>{f.organization}</dt>
-                    <dd>{item.organizationName}</dd>
-                  </div>
-                  {answer && (
-                    <div>
-                      <dt>{f.answer}</dt>
-                      <dd>{answer}</dd>
+      <ShowMoreList items={shown} labels={dict.list}>
+        {(visible) => (
+          <ul className={styles.items}>
+            {visible.map((item) => {
+              const answer = lastExecutorText(item);
+              const title = dict.appeals.categories[item.category];
+              return (
+                <li key={item.id}>
+                  <article className={styles.item} aria-label={`${title}, ${item.number}`}>
+                    <div className={styles.detailHead}>
+                      <h3 className={styles.itemTitle}>{title}</h3>
+                      <AppealBadge status={item.status} label={dict.appeals.status[item.status]} />
                     </div>
-                  )}
-                </dl>
-                <div>
-                  <Link href={`/${lang}/appeals/${item.id}`} className={styles.open}>
-                    {t.open}
-                    <span className="visually-hidden">
-                      {" "}
-                      — {title}, {item.number}
-                    </span>
-                  </Link>
-                </div>
-              </article>
-            </li>
-          );
-        })}
-      </ul>
+                    {awaitsApplicant(item) && <p className={styles.problems}>{t.needsReply}</p>}
+                    <dl className={styles.facts}>
+                      <div>
+                        <dt>{f.number}</dt>
+                        <dd>{item.number}</dd>
+                      </div>
+                      <div>
+                        <dt>{f.created}</dt>
+                        <dd>
+                          {formatDate(item.createdAt.slice(0, 10), lang)}{" "}
+                          {item.createdAt.slice(0, 4)}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>{f.object}</dt>
+                        <dd>{item.address}</dd>
+                      </div>
+                      <div>
+                        <dt>{f.organization}</dt>
+                        <dd>{item.organizationName}</dd>
+                      </div>
+                      {answer && (
+                        <div>
+                          <dt>{f.answer}</dt>
+                          <dd>{answer}</dd>
+                        </div>
+                      )}
+                    </dl>
+                    <div>
+                      <Link href={`/${lang}/appeals/${item.id}`} className={styles.open}>
+                        {t.open}
+                        <span className="visually-hidden">
+                          {" "}
+                          — {title}, {item.number}
+                        </span>
+                      </Link>
+                    </div>
+                  </article>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </ShowMoreList>
     </>
   );
 }

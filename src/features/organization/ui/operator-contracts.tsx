@@ -1,5 +1,6 @@
 "use client";
 
+import { ShowMoreList } from "@/shared/ui/show-more/show-more";
 import { useState } from "react";
 import type { ProviderInfo } from "@/features/account/domain/availability";
 import { maskIin } from "@/features/account/domain/iin";
@@ -104,13 +105,23 @@ function Register({ lang, dict, context }: Props & { context: OperatorContext })
           {shown.length === 0 ? (
             <p>{c.noMatch}</p>
           ) : (
-            <ul className={styles.items}>
-              {shown.map((item) => (
-                <li key={item.id}>
-                  <Card lang={lang} dict={dict} app={item} context={context} onChange={replace} />
-                </li>
-              ))}
-            </ul>
+            <ShowMoreList items={shown} labels={dict.list}>
+              {(visible) => (
+                <ul className={styles.items}>
+                  {visible.map((item) => (
+                    <li key={item.id}>
+                      <Card
+                        lang={lang}
+                        dict={dict}
+                        app={item}
+                        context={context}
+                        onChange={replace}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </ShowMoreList>
           )}
         </>
       )}

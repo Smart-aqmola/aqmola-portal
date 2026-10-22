@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { createLocalStore } from "./local-store";
+import { STORAGE_FAILED_EVENT, createLocalStore } from "./local-store";
 
 const parse = (raw: string | null): string[] => (raw ? (JSON.parse(raw) as string[]) : []);
 
@@ -32,8 +32,12 @@ describe("createLocalStore", () => {
     const spy = vi.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
       throw new Error("denied");
     });
+    const failed = vi.fn();
+    window.addEventListener(STORAGE_FAILED_EVENT, failed);
     store.write(["kept"]);
     expect(store.getSnapshot()).toEqual(["kept"]);
+    expect(failed).toHaveBeenCalledTimes(1);
+    window.removeEventListener(STORAGE_FAILED_EVENT, failed);
     spy.mockRestore();
   });
 
