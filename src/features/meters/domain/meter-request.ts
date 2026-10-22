@@ -189,7 +189,7 @@ export type RequestErrors = {
   meterId?: "required";
   reason?: "required";
   details?: Partial<Record<DetailKey, "required" | "long" | "format" | "future" | "order">>;
-  currentReading?: "required" | "negative" | "format" | "digits" | "decimals";
+  currentReading?: "required" | "negative" | "format" | "digits" | "whole" | "decimals";
   contactPhone?: "required" | "format";
   slots?: "required" | "past" | "far" | "format" | "same";
   comment?: "long";

@@ -123,7 +123,7 @@ export function parseReading(text: string): number | null {
 export function readingProblem(
   text: string,
   capacity: { digits: number; decimals: number },
-): "required" | "negative" | "format" | "digits" | "decimals" | null {
+): "required" | "negative" | "format" | "digits" | "whole" | "decimals" | null {
   const clean = text.trim().replace(/\s+/g, "").replace(",", ".");
   if (!clean) return "required";
   if (clean.startsWith("-")) return "negative";
@@ -131,6 +131,7 @@ export function readingProblem(
   if (value === null) return "format";
   const [whole, fraction = ""] = clean.split(".");
   if (whole.replace(/^0+(?=\d)/, "").length > capacity.digits) return "digits";
+  if (fraction && capacity.decimals === 0) return "whole";
   if (fraction.length > capacity.decimals) return "decimals";
   return null;
 }

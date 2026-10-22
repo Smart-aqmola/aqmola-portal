@@ -95,7 +95,7 @@ describe("ContractsList", () => {
     renderList();
     const card = screen.getByRole("article");
     for (const expected of [
-      "Заключение договора на водоснабжение",
+      "Заключение договора на водоснабжение и водоотведение",
       "Водоканал Акмолы",
       "DEMO-DOG-2026-00001",
       "21 октября 2026",

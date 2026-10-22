@@ -51,6 +51,7 @@ async function NewContract({
   ]);
   const service = typeof query.service === "string" ? query.service : undefined;
   const property = typeof query.property === "string" ? query.property : undefined;
+  const provider = typeof query.provider === "string" ? query.provider : undefined;
 
   return (
     <>
@@ -70,6 +71,7 @@ async function NewContract({
           preset={{
             ...(service && contractServiceBySlug(service) ? { service } : {}),
             ...(property && ID.test(property) ? { property } : {}),
+            ...(provider && ID.test(provider) ? { provider } : {}),
           }}
         />
       </div>

@@ -55,7 +55,7 @@ const meter = (id: string, propertyId: string, resource: "cold_water" | "gas") =
       initialReading: "10",
     },
     { id, ownerId: "o-1", propertyId, address: "А" },
-    now,
+    new Date("2026-09-15T06:00:00Z"),
   );
 const meters = [
   meter("m-1", "p-1", "cold_water"),

@@ -145,12 +145,13 @@ function Card({
   const t = dict.cabinet.contracts;
   const f = t.fields;
   const empty = dict.cabinet.common.noValue;
-  const title = app.number ? `${app.serviceTitle}, ${app.number}` : app.serviceTitle;
+  const service = dict.contracts.sectorTitles[app.sector];
+  const title = app.number ? `${service}, ${app.number}` : service;
 
   return (
     <article className={styles.item} aria-label={title}>
       <div className={styles.detailHead}>
-        <h3 className={styles.itemTitle}>{app.serviceTitle}</h3>
+        <h3 className={styles.itemTitle}>{service}</h3>
         <StatusBadge status={app.status} label={dict.contracts.status[app.status]} />
       </div>
       <dl className={styles.facts}>

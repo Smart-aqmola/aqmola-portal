@@ -135,7 +135,7 @@ export function WizardReview({ app, lang, dict, readiness, onEdit }: WizardRevie
         <dl className={styles.facts}>
           <div>
             <dt>{dict.contracts.detail.service}</dt>
-            <dd>{app.serviceTitle}</dd>
+            <dd>{dict.contracts.sectorTitles[app.sector]}</dd>
           </div>
           <div>
             <dt>{dict.contracts.detail.provider}</dt>

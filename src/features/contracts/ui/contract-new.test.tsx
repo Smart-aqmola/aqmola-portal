@@ -183,6 +183,13 @@ describe("ContractNew", () => {
     expect(screen.getByLabelText(/^Поставщик/)).toHaveValue("akmola-heat");
   });
 
+  it("keeps the provider the person picked next to the object, not the default one", () => {
+    signIn();
+    seed(property("p-1", true));
+    renderNew({ preset: { service: "electricity-contract-resident", provider: "akmola-grid" } });
+    expect(screen.getByLabelText(/^Поставщик/)).toHaveValue("akmola-grid");
+  });
+
   it("starts from the object it was opened for", () => {
     signIn();
     seed(property("p-1", true), property("p-2", true));

@@ -33,7 +33,8 @@ export type ContractNewProps = {
   missing: Record<string, readonly Sector[]>;
   territories: { id: string; name: string }[];
   /** What the address asked for: a service of the catalog and/or an object. */
-  preset: { service?: string; property?: string };
+  /** From a link: the object, the service and, when the person picked one, the provider. */
+  preset: { service?: string; property?: string; provider?: string };
 };
 
 /** The page "make a contract": only for someone signed in. */
@@ -98,7 +99,11 @@ function Target({
     (confirmed.length === 1 ? confirmed[0].id : "");
   const [propertyId, setPropertyId] = useState(initialProperty);
   const [sector, setSector] = useState<ContractSector | "">(fromCatalog?.sector ?? "");
-  const [providerId, setProviderId] = useState(fromCatalog?.providerId ?? "");
+  const [providerId, setProviderId] = useState(
+    (preset.provider && providers.some((item) => item.id === preset.provider) && preset.provider) ||
+      fromCatalog?.providerId ||
+      "",
+  );
   const [errors, setErrors] = useState<{ property?: string; service?: string; provider?: string }>(
     {},
   );

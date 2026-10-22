@@ -55,7 +55,7 @@ export function PropertyServices({
                       {confirmed && (
                         <span className={styles.providerLinks}>
                           <Link
-                            href={`/${lang}/contracts/new?property=${property.id}&service=${serviceSlugFor(service.sector, provider.id)}`}
+                            href={`/${lang}/contracts/new?property=${property.id}&service=${serviceSlugFor(service.sector, provider.id)}&provider=${provider.id}`}
                             className={styles.open}
                           >
                             {labels.order}

@@ -73,7 +73,7 @@ function Loaded({ lang, id, dict, ownerId }: ContractPageProps & { ownerId: stri
   if (editing) {
     return (
       <>
-        <h1 className={styles.pageTitle}>{app.serviceTitle}</h1>
+        <h1 className={styles.pageTitle}>{t.sectorTitles[app.sector]}</h1>
         <ContractWizard
           app={app}
           lang={lang}
@@ -141,7 +141,7 @@ function Detail({ app, lang, dict, justSent, onChange, onRevise }: DetailProps) 
         ← {d.back}
       </Link>
       <div className={styles.detailHead}>
-        <h1 className={styles.pageTitle}>{app.serviceTitle}</h1>
+        <h1 className={styles.pageTitle}>{t.sectorTitles[app.sector]}</h1>
         <StatusBadge status={app.status} label={t.status[app.status]} />
       </div>
 

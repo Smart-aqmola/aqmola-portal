@@ -149,7 +149,9 @@
   padding: var(--space-4) var(--space-5);
   border-radius: var(--radius-md);
   background: var(--color-surface);
-  box-shadow: inset 4px 0 0 var(--color-danger);
+  background-image: linear-gradient(var(--color-danger), var(--color-danger));
+  background-size: 4px 100%;
+  background-repeat: no-repeat;
   color: var(--color-danger);
 }
 

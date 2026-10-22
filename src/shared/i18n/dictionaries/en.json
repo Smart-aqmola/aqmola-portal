@@ -1196,6 +1196,7 @@
       "negative": "Показания не могут быть отрицательными",
       "format": "Введите число, например 1234 или 1234,5",
       "digits": "В приборе {digits} цифр до запятой, а в значении их больше",
+      "whole": "Enter a whole number: this meter has no digits after the decimal point",
       "decimals": "После запятой может быть не больше {decimals} цифр",
       "duplicate": "Такие показания за эту дату уже отправлены"
     },

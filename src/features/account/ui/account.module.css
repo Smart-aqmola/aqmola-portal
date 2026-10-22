@@ -286,7 +286,9 @@
 
 .sector[data-state="no_network"],
 .sector[data-state="no_provider"] {
-  box-shadow: inset 4px 0 0 var(--color-danger);
+  background-image: linear-gradient(var(--color-danger), var(--color-danger));
+  background-size: 4px 100%;
+  background-repeat: no-repeat;
 }
 
 .providers {

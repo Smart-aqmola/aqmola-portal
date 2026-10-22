@@ -15,7 +15,7 @@ const meter = createMeter(
     initialReading: "100",
   },
   { id: "m-1", ownerId: "o-1", propertyId: "p-1", address: "Кокшетау" },
-  now,
+  new Date("2026-09-15T06:00:00Z"),
 );
 const reading = (() => {
   const result = submitReading(

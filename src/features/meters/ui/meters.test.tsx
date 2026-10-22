@@ -152,8 +152,14 @@ describe("MyMeters", () => {
       state: "working",
     });
     const card = screen.getByRole("article", { name: "Холодная вода, № SN-77" });
+    // The reading typed "for today" belongs to the day the meter was added, not to its installation.
+    const today = new Date().toLocaleDateString("ru-RU", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
     expect(within(card).getByText("Предыдущие показания").nextElementSibling).toHaveTextContent(
-      "120 · 1 мая 2024",
+      `120 · ${today.replace(" г.", "")}`,
     );
   });
 

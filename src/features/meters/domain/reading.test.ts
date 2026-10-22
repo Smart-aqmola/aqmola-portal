@@ -16,6 +16,8 @@ import {
 } from "./reading";
 
 const now = new Date("2026-10-21T06:00:00Z");
+/** The meter was added to the cabinet a month before the readings below. */
+const added = new Date("2026-09-15T06:00:00Z");
 
 function meter(patch: Partial<Meter> = {}): Meter {
   return {
@@ -29,7 +31,7 @@ function meter(patch: Partial<Meter> = {}): Meter {
         initialReading: "100",
       },
       { id: "m-1", ownerId: "o-1", propertyId: "p-1", address: "Кокшетау" },
-      now,
+      added,
     ),
     ...patch,
   };
@@ -57,7 +59,7 @@ function send(m: Meter, readings: Reading[], d: ReadingDraft, at = now): Reading
 
 describe("previousOf", () => {
   it("starts from the first reading of the meter", () => {
-    expect(previousOf(meter(), [])).toEqual({ value: 100, date: "2024-05-01" });
+    expect(previousOf(meter(), [])).toEqual({ value: 100, date: "2026-09-15" });
   });
 
   it("takes the newest reading that was not rejected, even before the provider looked", () => {

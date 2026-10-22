@@ -22,6 +22,28 @@
   font-weight: var(--weight-regular);
 }
 
+/* The browser's own "no file chosen" text is cut short on a phone (Safari shows "файлы…браны");
+   the forms list the chosen files themselves, so only the button stays visible. */
+.input[type="file"] {
+  padding: var(--space-2);
+  color: transparent;
+  cursor: pointer;
+}
+
+.input[type="file"]::file-selector-button {
+  min-height: calc(var(--tap-target) - 2 * var(--space-2) - 2px);
+  margin-right: var(--space-3);
+  padding: 0 var(--space-5);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-text);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+}
+
 .input[aria-invalid="true"] {
   border-color: var(--color-danger);
 }

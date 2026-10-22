@@ -49,6 +49,11 @@ describe("readingProblem", () => {
     expect(readingProblem("12,55", capacity)).toBe("decimals");
   });
 
+  it("asks for a whole number when the meter has no digits after the comma", () => {
+    expect(readingProblem("4520,5", { digits: 6, decimals: 0 })).toBe("whole");
+    expect(readingProblem("4520", { digits: 6, decimals: 0 })).toBeNull();
+  });
+
   it("accepts a number that fits the dials, ignoring leading zeros", () => {
     expect(readingProblem("00123,4", capacity)).toBeNull();
     expect(readingProblem("99999", capacity)).toBeNull();

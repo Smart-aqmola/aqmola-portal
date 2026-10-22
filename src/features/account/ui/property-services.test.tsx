@@ -85,7 +85,7 @@ describe("PropertyServices", () => {
     });
     expect(link).toHaveAttribute(
       "href",
-      "/ru/contracts/new?property=p-1&service=water-contract-resident",
+      "/ru/contracts/new?property=p-1&service=water-contract-resident&provider=akmola-water",
     );
   });
 

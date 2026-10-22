@@ -123,7 +123,9 @@ function List({ lang, dict, ownerId }: ContractsListProps & { ownerId: string })
                 <li key={item.id}>
                   <article className={styles.contract}>
                     <div className={styles.detailHead}>
-                      <h3 className={styles.wayTitle}>{item.serviceTitle}</h3>
+                      <h3 className={styles.wayTitle}>
+                        {dict.contracts.sectorTitles[item.sector]}
+                      </h3>
                       <StatusBadge
                         status={item.status}
                         label={dict.contracts.status[item.status]}
@@ -170,7 +172,10 @@ function List({ lang, dict, ownerId }: ContractsListProps & { ownerId: string })
                     <div>
                       <Link href={href} className={styles.open}>
                         {action}
-                        <span className="visually-hidden"> — {item.serviceTitle}</span>
+                        <span className="visually-hidden">
+                          {" "}
+                          — {dict.contracts.sectorTitles[item.sector]}
+                        </span>
                       </Link>
                     </div>
                   </article>

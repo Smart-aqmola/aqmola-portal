@@ -77,7 +77,7 @@ export function fromContract(app: ContractApplication, context: RegistryContext)
     kind: "contract",
     number: app.number,
     at: app.submittedAt ?? app.updatedAt,
-    title: app.serviceTitle,
+    title: dict.contracts.sectorTitles[app.sector],
     address: app.address,
     organization: app.providerName,
     description: app.previousContract.trim(),

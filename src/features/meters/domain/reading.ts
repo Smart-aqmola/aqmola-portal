@@ -72,7 +72,7 @@ export type ReadingDraft = {
 
 export type ReadingErrors = {
   meter?: "inactive";
-  value?: "required" | "negative" | "format" | "digits" | "decimals" | "duplicate";
+  value?: "required" | "negative" | "format" | "digits" | "whole" | "decimals" | "duplicate";
   date?: "required" | "format" | "future" | "old" | "beforePrevious";
   photo?: "required" | "type" | "size" | "empty";
   authentic?: "required";
@@ -99,12 +99,13 @@ export function readingsOf(meterId: string, readings: readonly Reading[]): Readi
  * looked at it yet. Without any, the first reading from the day the meter was added.
  */
 export function previousOf(
-  meter: Pick<Meter, "id" | "initialReading" | "installedAt">,
+  meter: Pick<Meter, "id" | "initialReading" | "createdAt">,
   readings: readonly Reading[],
 ): { value: number; date: string } {
   const latest = readingsOf(meter.id, readings).find(isCounted);
   if (latest) return { value: latest.value, date: latest.readingDate };
-  return { value: meter.initialReading, date: meter.installedAt };
+  // The form asks for the reading "for today", so it belongs to the day the meter was added.
+  return { value: meter.initialReading, date: meter.createdAt.slice(0, 10) };
 }
 
 /** The newest reading of any status: what the card of the meter shows as "check status" (spec 6.3). */
