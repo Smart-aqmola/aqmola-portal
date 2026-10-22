@@ -2,6 +2,7 @@ import type { StoredFile } from "@/features/account/domain/property";
 import { normalizePhone } from "@/features/account/domain/phone";
 import { MAX_FILES, checkFile } from "@/shared/lib/upload-rules";
 import { parseReading, readingProblem, withEvent, type Meter, type MeterResource } from "./meter";
+import { nextYearNumber } from "@/shared/lib/numbering";
 
 /** The five services for meters of the specification (8.2–8.6) and a report of a fault (6.2). */
 export const requestKinds = [
@@ -292,12 +293,11 @@ export const requestHasErrors = (errors: RequestErrors): boolean => Object.keys(
 
 /** Next free number of the year: DEMO-ZPR-2026-00001, ... */
 export function nextRequestNumber(existing: readonly { number: string }[], now: Date): string {
-  const prefix = `DEMO-ZPR-${now.getUTCFullYear()}-`;
-  const highest = existing.reduce((max, item) => {
-    if (!item.number.startsWith(prefix)) return max;
-    return Math.max(max, Number(item.number.slice(prefix.length)));
-  }, 0);
-  return `${prefix}${String(highest + 1).padStart(5, "0")}`;
+  return nextYearNumber(
+    "DEMO-ZPR",
+    existing.map((item) => item.number),
+    now,
+  );
 }
 
 /** Builds the request from a form that passed `validateRequest`. It is registered at once (spec 8.9). */

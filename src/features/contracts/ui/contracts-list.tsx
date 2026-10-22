@@ -18,7 +18,7 @@ import {
 } from "../domain/contract";
 import { StatusBadge } from "./status-badge";
 import { useContracts } from "./use-contracts";
-import styles from "./contracts.module.css";
+import styles from "./contracts-styles";
 
 type ContractsListProps = {
   lang: Locale;

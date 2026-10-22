@@ -24,7 +24,7 @@ import {
 } from "../domain/property";
 import { AddressSearch } from "./address-search";
 import { useProperties } from "./use-properties";
-import styles from "./account.module.css";
+import styles from "./account-styles";
 
 type PropertyFormProps = {
   lang: Locale;

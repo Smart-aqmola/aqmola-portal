@@ -5,7 +5,7 @@ import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { serviceSlugFor } from "@/features/contracts/domain/contract-services";
 import { canOfferContract, servicesAtAddress, type ProviderInfo } from "../domain/availability";
 import { canOrderServices, type Property } from "../domain/property";
-import styles from "./account.module.css";
+import styles from "./account-styles";
 
 type PropertyServicesProps = {
   lang: Locale;

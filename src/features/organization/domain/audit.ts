@@ -1,3 +1,5 @@
+import { isOneOf, isText, parseList } from "@/shared/lib/stored-data";
+
 /** What an employee's action changed (spec 12.7). */
 export const auditEntities = [
   "service_application",
@@ -48,10 +50,6 @@ export function createAuditEntry(
 }
 
 const ID = /^[a-z0-9-]{1,60}$/;
-const isText = (value: unknown, max = 200): value is string =>
-  typeof value === "string" && value.length <= max;
-const isOneOf = (value: unknown, list: readonly string[]): boolean =>
-  typeof value === "string" && list.includes(value);
 
 function isEntry(value: unknown): value is AuditEntry {
   if (typeof value !== "object" || value === null) return false;
@@ -74,12 +72,5 @@ function isEntry(value: unknown): value is AuditEntry {
 
 /** Reads the saved journal defensively: anything unexpected in storage is dropped. */
 export function parseAudit(raw: string | null): AuditEntry[] {
-  if (!raw) return [];
-  try {
-    const value: unknown = JSON.parse(raw);
-    if (!Array.isArray(value)) return [];
-    return value.filter(isEntry).slice(0, MAX_AUDIT);
-  } catch {
-    return [];
-  }
+  return parseList(raw, isEntry, MAX_AUDIT);
 }

@@ -24,7 +24,7 @@ import {
   type RegistrationInput,
 } from "../domain/profile";
 import { useProfiles } from "./use-profiles";
-import styles from "./account.module.css";
+import styles from "./account-styles";
 
 type SignUpFormProps = {
   labels: Dictionary["signUp"];

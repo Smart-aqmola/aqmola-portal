@@ -12,7 +12,7 @@ import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { Button } from "@/shared/ui/button/button";
 import { requestKinds, type RequestKind } from "../domain/meter-request";
 import { useMeterData } from "./use-meter-data";
-import styles from "./meters.module.css";
+import styles from "@/shared/ui/cabinet/cabinet.module.css";
 
 /** `contracts` is here only for the words "KB" and "MB" next to file sizes. */
 export type MetersDict = Pick<

@@ -14,7 +14,7 @@ import { CODE_LENGTH, DEMO_CODE, isCodeCorrect } from "../domain/otp";
 import { normalizePhone } from "../domain/phone";
 import { displayName, findByPhone, type Profile } from "../domain/profile";
 import { useProfiles } from "./use-profiles";
-import styles from "./account.module.css";
+import styles from "./account-styles";
 
 type PhoneSignInProps = {
   labels: Dictionary["signIn"]["phone"];

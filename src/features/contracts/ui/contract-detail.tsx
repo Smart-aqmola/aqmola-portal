@@ -27,7 +27,7 @@ import { ContractDocuments } from "./contract-documents";
 import { ContractWizard } from "./contract-wizard";
 import { StatusBadge } from "./status-badge";
 import { useContracts } from "./use-contracts";
-import styles from "./contracts.module.css";
+import styles from "./contracts-styles";
 
 type ContractPageProps = {
   lang: Locale;

@@ -6,7 +6,7 @@ import type { Locale } from "@/shared/i18n/config";
 import { formatDate } from "@/shared/i18n/format-date";
 import { integrationLog } from "../domain/integrations";
 import { AdminArea, type AdminDict } from "./admin-area";
-import styles from "./admin.module.css";
+import styles from "./admin-styles";
 
 type Props = { lang: Locale; dict: AdminDict; providers: readonly ProviderInfo[] };
 

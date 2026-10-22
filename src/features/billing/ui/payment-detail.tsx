@@ -27,7 +27,7 @@ import {
   type BillingDict,
 } from "./billing-texts";
 import { PaymentBadge } from "./payment-badge";
-import styles from "./billing.module.css";
+import styles from "./billing-styles";
 
 type PaymentDetailProps = {
   lang: Locale;

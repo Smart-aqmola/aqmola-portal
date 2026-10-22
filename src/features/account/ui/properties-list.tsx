@@ -9,7 +9,7 @@ import { addressLine } from "../domain/property";
 import { AccountGate } from "./account-gate";
 import { useProperties } from "./use-properties";
 import { VerificationBadge } from "./verification-badge";
-import styles from "./account.module.css";
+import styles from "./account-styles";
 
 type PropertiesListProps = {
   lang: Locale;

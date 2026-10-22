@@ -1,7 +1,5 @@
 import type { AppealStatus } from "../domain/appeal";
-import styles from "./appeals.module.css";
-
-type Tone = "new" | "work" | "done" | "problem";
+import { ToneBadge, type Tone } from "@/shared/ui/cabinet/tone-badge";
 
 export const APPEAL_TONES: Record<AppealStatus, Tone> = {
   registered: "new",
@@ -16,11 +14,6 @@ export const APPEAL_TONES: Record<AppealStatus, Tone> = {
   refused: "problem",
 };
 
-/** Colour alone is not enough, so the status is always written out. */
 export function AppealBadge({ status, label }: { status: AppealStatus; label: string }) {
-  return (
-    <span className={styles.badge} data-tone={APPEAL_TONES[status]}>
-      {label}
-    </span>
-  );
+  return <ToneBadge tone={APPEAL_TONES[status]} label={label} />;
 }

@@ -1,7 +1,5 @@
 import type { PaymentStatus } from "../domain/payment";
-import styles from "./billing.module.css";
-
-type Tone = "new" | "work" | "done" | "problem";
+import { ToneBadge, type Tone } from "@/shared/ui/cabinet/tone-badge";
 
 const TONES: Record<PaymentStatus, Tone> = {
   awaiting_payment: "new",
@@ -14,11 +12,6 @@ const TONES: Record<PaymentStatus, Tone> = {
   awaiting_confirmation: "work",
 };
 
-/** Colour alone is not enough, so the status is always written out. */
 export function PaymentBadge({ status, label }: { status: PaymentStatus; label: string }) {
-  return (
-    <span className={styles.badge} data-tone={TONES[status]}>
-      {label}
-    </span>
-  );
+  return <ToneBadge tone={TONES[status]} label={label} />;
 }

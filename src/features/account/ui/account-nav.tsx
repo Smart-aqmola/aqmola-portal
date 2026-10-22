@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Locale } from "@/shared/i18n/config";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
-import styles from "./account.module.css";
+import styles from "./account-styles";
 
 type AccountNavProps = {
   lang: Locale;

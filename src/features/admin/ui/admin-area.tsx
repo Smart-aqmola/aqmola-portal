@@ -10,7 +10,7 @@ import { Button } from "@/shared/ui/button/button";
 import { useToast } from "@/shared/ui/toast/toast-provider";
 import type { AdminConfig } from "../domain/config";
 import { useAdminConfig } from "./use-admin-config";
-import styles from "./admin.module.css";
+import styles from "./admin-styles";
 
 export type AdminDict = Pick<
   Dictionary,

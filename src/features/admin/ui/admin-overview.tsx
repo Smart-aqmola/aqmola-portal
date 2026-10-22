@@ -7,7 +7,7 @@ import { useAllProperties } from "@/features/account/ui/use-properties";
 import { useAllContracts } from "@/features/contracts/ui/use-contracts";
 import type { Locale } from "@/shared/i18n/config";
 import { AdminArea, type AdminDict } from "./admin-area";
-import styles from "./admin.module.css";
+import styles from "./admin-styles";
 
 type Props = { lang: Locale; dict: AdminDict; providers: readonly ProviderInfo[] };
 

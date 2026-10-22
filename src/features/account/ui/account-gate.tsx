@@ -6,7 +6,7 @@ import { type DemoSession } from "@/features/applications/domain/storage";
 import { useSession } from "@/features/applications/ui/use-session";
 import type { Locale } from "@/shared/i18n/config";
 import { Button } from "@/shared/ui/button/button";
-import styles from "./account.module.css";
+import styles from "./account-styles";
 
 type AccountGateProps = {
   lang: Locale;

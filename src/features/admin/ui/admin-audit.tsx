@@ -14,7 +14,7 @@ import { format } from "@/shared/i18n/format";
 import { formatDate } from "@/shared/i18n/format-date";
 import { Field } from "@/shared/ui/field/field";
 import { AdminArea, type AdminDict } from "./admin-area";
-import styles from "./admin.module.css";
+import styles from "./admin-styles";
 
 type Props = { lang: Locale; dict: AdminDict; providers: readonly ProviderInfo[] };
 

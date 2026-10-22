@@ -1,5 +1,6 @@
 import type { DocumentKey } from "@/features/catalog/domain/service-details";
 import { canTransition, type ApplicationStatus } from "./status";
+import { nextYearNumber } from "@/shared/lib/numbering";
 
 export type DemoRole = "resident" | "business" | "operator" | "admin";
 export type ApplicantRole = Exclude<DemoRole, "operator" | "admin">;
@@ -40,12 +41,11 @@ export const MAX_ADDRESS = 120;
 
 /** Next free number of the year: DEMO-2026-00001, DEMO-2026-00002, ... */
 export function nextNumber(existing: readonly { number: string }[], now: Date): string {
-  const year = now.getUTCFullYear();
-  const prefix = `DEMO-${year}-`;
-  const highest = existing
-    .filter((item) => item.number.startsWith(prefix))
-    .reduce((max, item) => Math.max(max, Number(item.number.slice(prefix.length))), 0);
-  return `${prefix}${String(highest + 1).padStart(5, "0")}`;
+  return nextYearNumber(
+    "DEMO",
+    existing.map((item) => item.number),
+    now,
+  );
 }
 
 /** Residents order services for residents, business for business; "both" suits either. */

@@ -5,7 +5,7 @@ import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { Button } from "@/shared/ui/button/button";
 import { Icon } from "@/shared/ui/icon/icon";
 import { useToast } from "@/shared/ui/toast/toast-provider";
-import styles from "./account.module.css";
+import styles from "./account-styles";
 
 type OtherSignInProps = {
   labels: Dictionary["signIn"]["other"];

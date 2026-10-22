@@ -28,7 +28,7 @@ import {
   type AppealInput,
 } from "../domain/appeal";
 import { AppealsArea, type AppealsAreaProps, type AppealsContext } from "./appeals-area";
-import styles from "./appeals.module.css";
+import styles from "@/shared/ui/cabinet/cabinet.module.css";
 
 /** The form "new appeal" (spec 11.2, 11.3). The organization is found from the topic and the address (11.4). */
 export function AppealForm(props: AppealsAreaProps) {

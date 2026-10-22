@@ -20,7 +20,7 @@ import { WizardApplication } from "./wizard-application";
 import { WizardDocuments } from "./wizard-documents";
 import { WizardReview } from "./wizard-review";
 import { WizardSign } from "./wizard-sign";
-import styles from "./contracts.module.css";
+import styles from "./contracts-styles";
 
 const STEPS = ["application", "documents", "review", "sign"] as const;
 type Step = (typeof STEPS)[number];

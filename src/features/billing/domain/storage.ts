@@ -7,17 +7,10 @@ import {
   paymentStatuses,
   type Payment,
 } from "./payment";
+import { isId, isObject, isOneOf, isText, parseList } from "@/shared/lib/stored-data";
 
 export const PAYMENTS_KEY = "aqmola:payments";
 
-const ID = /^[a-z0-9-]{1,60}$/;
-const isText = (value: unknown, max = 200): value is string =>
-  typeof value === "string" && value.length <= max;
-const isId = (value: unknown): value is string => isText(value, 60) && ID.test(value);
-const isOneOf = (value: unknown, list: readonly string[]): boolean =>
-  typeof value === "string" && list.includes(value);
-const isObject = (value: unknown): value is Record<string, unknown> =>
-  typeof value === "object" && value !== null && !Array.isArray(value);
 const isAmount = (value: unknown): value is number =>
   typeof value === "number" && Number.isInteger(value) && value >= 0 && value < 1e10;
 
@@ -76,12 +69,5 @@ function isPayment(value: unknown): value is Payment {
 
 /** Reads saved payments defensively: anything unexpected in storage is dropped. */
 export function parsePayments(raw: string | null): Payment[] {
-  if (!raw) return [];
-  try {
-    const value: unknown = JSON.parse(raw);
-    if (!Array.isArray(value)) return [];
-    return value.filter(isPayment).slice(0, MAX_PAYMENTS);
-  } catch {
-    return [];
-  }
+  return parseList(raw, isPayment, MAX_PAYMENTS);
 }

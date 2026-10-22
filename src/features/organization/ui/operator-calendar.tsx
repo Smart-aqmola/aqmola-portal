@@ -9,7 +9,7 @@ import type { Locale } from "@/shared/i18n/config";
 import { formatDate } from "@/shared/i18n/format-date";
 import { requestsOf } from "../domain/scope";
 import { OperatorArea, type OperatorContext, type OperatorDict } from "./operator-area";
-import styles from "./organization.module.css";
+import styles from "./organization-styles";
 
 type Props = { lang: Locale; dict: OperatorDict; providers: readonly ProviderInfo[] };
 

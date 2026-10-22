@@ -15,7 +15,7 @@ import {
 } from "../domain/appeal";
 import { AppealBadge } from "./appeal-badge";
 import { AppealsArea, type AppealsAreaProps, type AppealsContext } from "./appeals-area";
-import styles from "./appeals.module.css";
+import styles from "@/shared/ui/cabinet/cabinet.module.css";
 
 /** The page "my appeals": every appeal with its status and the organization's answer. */
 export function AppealsList(props: AppealsAreaProps) {

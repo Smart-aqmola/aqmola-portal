@@ -8,7 +8,7 @@ import { Button } from "@/shared/ui/button/button";
 import { CheckField } from "@/shared/ui/field/field";
 import type { ContractApplication } from "../domain/contract";
 import { contractFileText, formatStamp } from "./contract-texts";
-import styles from "./contracts.module.css";
+import styles from "./contracts-styles";
 
 type WizardSignProps = {
   app: ContractApplication;

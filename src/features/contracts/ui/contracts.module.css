@@ -6,28 +6,13 @@
   background: var(--color-surface-soft);
 }
 
-.heading {
-  font-size: var(--text-xl);
-  font-weight: var(--weight-regular);
-}
-
 .pageTitle {
   font-size: var(--text-xl);
   font-weight: var(--weight-regular);
 }
 
-.note {
-  color: var(--color-muted);
-  font-size: var(--text-sm);
-}
-
 .hint {
   font-size: var(--text-base);
-}
-
-.error {
-  color: var(--color-danger);
-  font-size: var(--text-sm);
 }
 
 .demo {
@@ -37,33 +22,12 @@
   font-size: var(--text-sm);
 }
 
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-}
-
 /* Long labels (especially in Kazakh) must wrap inside a card instead of sticking out of it. */
 .card [data-variant] {
   max-width: 100%;
   padding-block: var(--space-2);
   white-space: normal;
   text-align: center;
-}
-
-.back {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--tap-target);
-  color: var(--color-accent-text);
-}
-
-.detailHead {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  align-items: flex-start;
-  justify-content: space-between;
 }
 
 /* Steps. */
@@ -102,34 +66,6 @@
   outline: none;
 }
 
-/* Forms. */
-.form {
-  display: grid;
-  gap: var(--space-5);
-}
-
-.group {
-  display: grid;
-  gap: var(--space-4);
-  margin: 0;
-  padding: var(--space-5);
-  border: 0;
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
-}
-
-.legend {
-  padding: 0;
-  font-size: var(--text-lg);
-  font-weight: var(--weight-medium);
-}
-
-.pair {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: var(--space-4);
-}
-
 /* Documents. */
 .docs {
   display: grid;
@@ -144,24 +80,6 @@
   padding: var(--space-4) var(--space-5);
   border-radius: var(--radius-md);
   background: var(--color-surface);
-}
-
-.attached {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  align-items: center;
-  justify-content: space-between;
-  overflow-wrap: anywhere;
-}
-
-.remove {
-  min-height: var(--tap-target);
-  padding: 0 var(--space-2);
-  border: 0;
-  background: none;
-  color: var(--color-accent-text);
-  text-decoration: underline;
 }
 
 /* Review. */
@@ -263,38 +181,6 @@
   font-weight: var(--weight-medium);
 }
 
-/* Status of an application. The text is always there; colour only helps. */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  min-height: 28px;
-  padding: 0 var(--space-3);
-  border-radius: var(--radius-pill);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-medium);
-}
-
-.badge[data-tone="new"] {
-  background: var(--status-new-bg);
-  color: var(--status-new-fg);
-}
-
-.badge[data-tone="work"] {
-  background: var(--status-work-bg);
-  color: var(--status-work-fg);
-}
-
-.badge[data-tone="done"] {
-  background: var(--status-done-bg);
-  color: var(--status-done-fg);
-}
-
-.badge[data-tone="problem"] {
-  background: var(--color-surface-soft);
-  color: var(--color-danger);
-  box-shadow: inset 0 0 0 1px currentcolor;
-}
-
 .history {
   display: grid;
   gap: var(--space-3);
@@ -322,38 +208,12 @@
   min-width: 220px;
 }
 
-.objectTitle {
-  margin-bottom: var(--space-3);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-medium);
-  overflow-wrap: anywhere;
-}
-
-.items {
-  display: grid;
-  gap: var(--space-3);
-  padding: 0;
-  list-style: none;
-}
-
 .contract {
   display: grid;
   gap: var(--space-4);
   padding: var(--space-5);
   border-radius: var(--radius-lg);
   background: var(--color-surface-soft);
-}
-
-.open {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--tap-target);
-  color: var(--color-accent-text);
-  font-weight: var(--weight-medium);
-}
-
-.open:hover {
-  text-decoration: underline;
 }
 
 .fileRow {

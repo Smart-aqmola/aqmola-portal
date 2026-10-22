@@ -30,7 +30,7 @@ import {
 import { Group } from "./group";
 import { MetersArea, pathFor, type MetersContext, type MetersDict } from "./meters-area";
 import { fileSize, meterLabel } from "./meter-texts";
-import styles from "./meters.module.css";
+import styles from "@/shared/ui/cabinet/cabinet.module.css";
 
 type RequestFormProps = {
   lang: Locale;

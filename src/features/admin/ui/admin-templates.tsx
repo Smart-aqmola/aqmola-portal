@@ -11,7 +11,7 @@ import { Button } from "@/shared/ui/button/button";
 import { Field } from "@/shared/ui/field/field";
 import { MAX_TEMPLATE, type AdminConfig, type Templates } from "../domain/config";
 import { AdminArea, type AdminContext, type AdminDict } from "./admin-area";
-import styles from "./admin.module.css";
+import styles from "./admin-styles";
 
 type Props = {
   lang: Locale;

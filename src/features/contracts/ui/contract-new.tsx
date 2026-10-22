@@ -23,7 +23,7 @@ import { Field } from "@/shared/ui/field/field";
 import { createDraft, type ApplicantInfo } from "../domain/contract";
 import { contractServiceBySlug, serviceSlugFor } from "../domain/contract-services";
 import { useContracts } from "./use-contracts";
-import styles from "./contracts.module.css";
+import styles from "./contracts-styles";
 
 export type ContractNewProps = {
   lang: Locale;

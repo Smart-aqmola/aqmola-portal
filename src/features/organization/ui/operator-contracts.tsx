@@ -23,7 +23,7 @@ import { Field } from "@/shared/ui/field/field";
 import { useToast } from "@/shared/ui/toast/toast-provider";
 import { contractsOf } from "../domain/scope";
 import { OperatorArea, type OperatorContext, type OperatorDict } from "./operator-area";
-import styles from "./organization.module.css";
+import styles from "./organization-styles";
 
 type Props = { lang: Locale; dict: OperatorDict; providers: readonly ProviderInfo[] };
 

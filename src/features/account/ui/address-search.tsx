@@ -4,7 +4,7 @@ import { useId, useMemo, useState, type KeyboardEvent } from "react";
 import { format } from "@/shared/i18n/format";
 import { Field } from "@/shared/ui/field/field";
 import { filterAddresses, type AddressSuggestion } from "../domain/address-search";
-import styles from "./account.module.css";
+import styles from "./account-styles";
 
 type AddressSearchProps = {
   suggestions: readonly AddressSuggestion[];

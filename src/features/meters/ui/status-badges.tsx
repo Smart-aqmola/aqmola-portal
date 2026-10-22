@@ -1,8 +1,6 @@
 import type { RequestStatus } from "../domain/meter-request";
 import type { ReadingStatus } from "../domain/reading";
-import styles from "./meters.module.css";
-
-type Tone = "new" | "work" | "done" | "problem";
+import { ToneBadge, type Tone } from "@/shared/ui/cabinet/tone-badge";
 
 const READING_TONES: Record<ReadingStatus, Tone> = {
   draft: "new",
@@ -25,19 +23,10 @@ export const REQUEST_TONES: Record<RequestStatus, Tone> = {
   rejected: "problem",
 };
 
-/** Colour alone is not enough, so the status is always written out. */
 export function ReadingBadge({ status, label }: { status: ReadingStatus; label: string }) {
-  return (
-    <span className={styles.badge} data-tone={READING_TONES[status]}>
-      {label}
-    </span>
-  );
+  return <ToneBadge tone={READING_TONES[status]} label={label} />;
 }
 
 export function RequestBadge({ status, label }: { status: RequestStatus; label: string }) {
-  return (
-    <span className={styles.badge} data-tone={REQUEST_TONES[status]}>
-      {label}
-    </span>
-  );
+  return <ToneBadge tone={REQUEST_TONES[status]} label={label} />;
 }

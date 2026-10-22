@@ -12,7 +12,7 @@ import { BillingArea, type BillingContext } from "./billing-area";
 import { day, periodLabel } from "./billing-texts";
 import type { BillingPageProps } from "./charges-page";
 import { PaymentBadge } from "./payment-badge";
-import styles from "./billing.module.css";
+import styles from "./billing-styles";
 
 /** The part "History of payments" (spec 9.18). */
 export function PaymentsList(props: BillingPageProps) {

@@ -11,7 +11,7 @@ import {
   type ContractApplication,
   type ContractRules,
 } from "../domain/contract";
-import styles from "./contracts.module.css";
+import styles from "./contracts-styles";
 
 type WizardApplicationProps = {
   app: ContractApplication;

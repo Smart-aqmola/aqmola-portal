@@ -9,19 +9,9 @@ import {
   subcategories,
   type Appeal,
 } from "./appeal";
+import { isFile, isId, isObject, isOneOf, isText, parseList } from "@/shared/lib/stored-data";
 
 export const APPEALS_KEY = "aqmola:appeals";
-
-const ID = /^[a-z0-9-]{1,60}$/;
-const isText = (value: unknown, max = 200): value is string =>
-  typeof value === "string" && value.length <= max;
-const isId = (value: unknown): value is string => isText(value, 60) && ID.test(value);
-const isOneOf = (value: unknown, list: readonly string[]): boolean =>
-  typeof value === "string" && list.includes(value);
-const isObject = (value: unknown): value is Record<string, unknown> =>
-  typeof value === "object" && value !== null && !Array.isArray(value);
-const isFile = (value: unknown): boolean =>
-  isObject(value) && isText(value.name, 200) && typeof value.size === "number" && value.size >= 0;
 
 function isEvent(value: unknown): boolean {
   return (
@@ -78,12 +68,5 @@ function isAppeal(value: unknown): value is Appeal {
 
 /** Reads saved appeals defensively: anything unexpected in storage is dropped. */
 export function parseAppeals(raw: string | null): Appeal[] {
-  if (!raw) return [];
-  try {
-    const value: unknown = JSON.parse(raw);
-    if (!Array.isArray(value)) return [];
-    return value.filter(isAppeal).slice(0, MAX_APPEALS);
-  } catch {
-    return [];
-  }
+  return parseList(raw, isAppeal, MAX_APPEALS);
 }

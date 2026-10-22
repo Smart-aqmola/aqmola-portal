@@ -12,7 +12,7 @@ import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { Button } from "@/shared/ui/button/button";
 import { orgFromProviders, type OrgInfo } from "../domain/scope";
 import { useAudit } from "./use-audit";
-import styles from "./organization.module.css";
+import styles from "./organization-styles";
 
 export type OperatorDict = Pick<
   Dictionary,

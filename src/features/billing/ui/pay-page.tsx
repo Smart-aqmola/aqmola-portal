@@ -17,7 +17,7 @@ import {
 import { BillingArea, ObjectSelect, useChosenObject, type BillingContext } from "./billing-area";
 import { periodLabel } from "./billing-texts";
 import type { BillingPageProps } from "./charges-page";
-import styles from "./billing.module.css";
+import styles from "./billing-styles";
 
 /** The part "Payment": choose services and a way to pay, then go to the payment service (spec 9.10–9.14). */
 export function PayPage(props: BillingPageProps) {

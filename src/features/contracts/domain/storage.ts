@@ -13,16 +13,11 @@ import {
   type ContractApplication,
   type Signature,
 } from "./contract";
+import { isObject, isOneOf, isText, parseList } from "@/shared/lib/stored-data";
 
 export const CONTRACTS_KEY = "aqmola:contracts";
 
 const ID = /^[a-z0-9-]{1,60}$/;
-const isText = (value: unknown, max = 200): value is string =>
-  typeof value === "string" && value.length <= max;
-const isOneOf = (value: unknown, list: readonly string[]): boolean =>
-  typeof value === "string" && list.includes(value);
-const isObject = (value: unknown): value is Record<string, unknown> =>
-  typeof value === "object" && value !== null && !Array.isArray(value);
 
 function isSignature(value: unknown): value is Signature {
   return (
@@ -137,12 +132,5 @@ function isContract(value: unknown): value is ContractApplication {
 
 /** Reads saved contract applications defensively: anything unexpected in storage is dropped. */
 export function parseContracts(raw: string | null): ContractApplication[] {
-  if (!raw) return [];
-  try {
-    const value: unknown = JSON.parse(raw);
-    if (!Array.isArray(value)) return [];
-    return value.filter(isContract).slice(0, MAX_CONTRACTS);
-  } catch {
-    return [];
-  }
+  return parseList(raw, isContract, MAX_CONTRACTS);
 }

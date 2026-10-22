@@ -13,7 +13,7 @@ import {
   type Readiness,
 } from "../domain/contract";
 import { applicationFileText, fileSize } from "./contract-texts";
-import styles from "./contracts.module.css";
+import styles from "./contracts-styles";
 
 type WizardReviewProps = {
   app: ContractApplication;

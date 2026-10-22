@@ -23,7 +23,7 @@ import {
 import { MetersArea, type MetersContext, type MetersDict } from "./meters-area";
 import { day, fileSize, meterLabel, readingText } from "./meter-texts";
 import { ReadingBadge } from "./status-badges";
-import styles from "./meters.module.css";
+import styles from "@/shared/ui/cabinet/cabinet.module.css";
 
 type ReadingFormProps = {
   lang: Locale;

@@ -11,7 +11,7 @@ import { PERIODS_SHOWN, periodsBack, totalsOf, type Charge } from "../domain/cha
 import { formatMoney } from "../domain/money";
 import { BillingArea, ObjectSelect, useChosenObject, type BillingContext } from "./billing-area";
 import { day, periodLabel, type BillingDict } from "./billing-texts";
-import styles from "./billing.module.css";
+import styles from "./billing-styles";
 
 export type BillingPageProps = {
   lang: Locale;

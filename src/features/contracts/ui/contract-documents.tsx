@@ -7,7 +7,7 @@ import { downloadText } from "@/shared/lib/download-text";
 import { Button } from "@/shared/ui/button/button";
 import { hasContractText, type ContractApplication } from "../domain/contract";
 import { applicationFileText, contractFileText, fileSize, receiptText } from "./contract-texts";
-import styles from "./contracts.module.css";
+import styles from "./contracts-styles";
 
 type ContractDocumentsProps = {
   app: ContractApplication;

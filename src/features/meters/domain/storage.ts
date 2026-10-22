@@ -20,23 +20,14 @@ import {
   timeSlots,
   type MeterRequest,
 } from "./meter-request";
+import { isFile, isId, isObject, isOneOf, isText, parseList } from "@/shared/lib/stored-data";
 
 export const METERS_KEY = "aqmola:meters";
 export const READINGS_KEY = "aqmola:readings";
 export const METER_REQUESTS_KEY = "aqmola:meter-requests";
 
-const ID = /^[a-z0-9-]{1,60}$/;
-const isText = (value: unknown, max = 200): value is string =>
-  typeof value === "string" && value.length <= max;
-const isId = (value: unknown): value is string => isText(value, 60) && ID.test(value);
-const isOneOf = (value: unknown, list: readonly string[]): boolean =>
-  typeof value === "string" && list.includes(value);
-const isObject = (value: unknown): value is Record<string, unknown> =>
-  typeof value === "object" && value !== null && !Array.isArray(value);
 const isNumber = (value: unknown): value is number =>
   typeof value === "number" && Number.isFinite(value) && value >= 0;
-const isFile = (value: unknown): boolean =>
-  isObject(value) && isText(value.name, 200) && typeof value.size === "number" && value.size >= 0;
 
 function isMeter(value: unknown): value is Meter {
   if (!isObject(value)) return false;
@@ -161,17 +152,6 @@ function isRequest(value: unknown): value is MeterRequest {
     isText(q.createdAt, 40) &&
     isText(q.updatedAt, 40)
   );
-}
-
-function parseList<T>(raw: string | null, check: (value: unknown) => value is T, max: number): T[] {
-  if (!raw) return [];
-  try {
-    const value: unknown = JSON.parse(raw);
-    if (!Array.isArray(value)) return [];
-    return value.filter(check).slice(0, max);
-  } catch {
-    return [];
-  }
 }
 
 /** Reads saved data defensively: anything unexpected in storage is dropped. */

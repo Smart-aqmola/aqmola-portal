@@ -4,6 +4,7 @@ import type { StoredFile } from "@/features/account/domain/property";
 import { connectedProviders } from "@/features/billing/domain/connected";
 import type { Sector } from "@/features/catalog/domain/types";
 import { MAX_FILES, checkFile } from "@/shared/lib/upload-rules";
+import { nextYearNumber } from "@/shared/lib/numbering";
 
 /** The subjects of an appeal, in the order of the specification (11.1). */
 export const appealCategories = [
@@ -296,23 +297,23 @@ export function responsibleOrganization(
 
 /** Next free number of the year: DEMO-OBR-2026-00001, ... */
 export function nextAppealNumber(existing: readonly { number: string }[], now: Date): string {
-  const prefix = `DEMO-OBR-${now.getUTCFullYear()}-`;
-  const highest = existing.reduce((max, item) => {
-    if (!item.number.startsWith(prefix)) return max;
-    return Math.max(max, Number(item.number.slice(prefix.length)));
-  }, 0);
-  return `${prefix}${String(highest + 1).padStart(5, "0")}`;
+  return nextYearNumber(
+    "DEMO-OBR",
+    existing.map((item) => item.number),
+    now,
+  );
 }
 
 /** The number in the system of electronic appeals (demo): the same count, another prefix. */
-export function externalNumber(existing: readonly { external?: { number: string } }[], now: Date) {
-  const prefix = `ЭО-${now.getUTCFullYear()}-`;
-  const highest = existing.reduce((max, item) => {
-    const number = item.external?.number;
-    if (!number?.startsWith(prefix)) return max;
-    return Math.max(max, Number(number.slice(prefix.length)));
-  }, 0);
-  return `${prefix}${String(highest + 1).padStart(5, "0")}`;
+export function externalNumber(
+  existing: readonly { external?: { number: string } }[],
+  now: Date,
+): string {
+  return nextYearNumber(
+    "ЭО",
+    existing.map((item) => item.external?.number),
+    now,
+  );
 }
 
 /**

@@ -19,7 +19,7 @@ import { connectedProviders } from "../domain/connected";
 import { applyPayments } from "../domain/payment";
 import type { BillingDict } from "./billing-texts";
 import { usePayments } from "./use-payments";
-import styles from "./billing.module.css";
+import styles from "./billing-styles";
 
 export type BillingNavId = "charges" | "receipt" | "pay" | "payments";
 

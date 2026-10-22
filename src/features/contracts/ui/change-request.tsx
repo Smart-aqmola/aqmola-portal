@@ -16,7 +16,7 @@ import {
   type ContractApplication,
 } from "../domain/contract";
 import { formatStamp } from "./contract-texts";
-import styles from "./contracts.module.css";
+import styles from "./contracts-styles";
 
 type ChangeRequestProps = {
   app: ContractApplication;

@@ -1,6 +1,7 @@
 import type { StoredFile } from "@/features/account/domain/property";
 import { checkFile } from "@/shared/lib/upload-rules";
 import { isActive, parseReading, readingProblem, type Meter, type MeterResource } from "./meter";
+import { nextYearNumber } from "@/shared/lib/numbering";
 
 /** Statuses of a reading, in the words of the specification (7.9). */
 export const readingStatuses = [
@@ -172,12 +173,11 @@ export const hasErrors = (errors: ReadingErrors): boolean => Object.keys(errors)
 
 /** Next free number of the year: DEMO-POK-2026-00001, ... */
 export function nextReadingNumber(existing: readonly { number: string }[], now: Date): string {
-  const prefix = `DEMO-POK-${now.getUTCFullYear()}-`;
-  const highest = existing.reduce((max, item) => {
-    if (!item.number.startsWith(prefix)) return max;
-    return Math.max(max, Number(item.number.slice(prefix.length)));
-  }, 0);
-  return `${prefix}${String(highest + 1).padStart(5, "0")}`;
+  return nextYearNumber(
+    "DEMO-POK",
+    existing.map((item) => item.number),
+    now,
+  );
 }
 
 export type SubmitResult = { ok: true; reading: Reading } | { ok: false; errors: ReadingErrors };

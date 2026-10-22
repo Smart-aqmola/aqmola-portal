@@ -14,7 +14,7 @@ import {
   type StaffRole,
 } from "../domain/config";
 import { AdminArea, type AdminContext, type AdminDict } from "./admin-area";
-import styles from "./admin.module.css";
+import styles from "./admin-styles";
 
 type Props = {
   lang: Locale;

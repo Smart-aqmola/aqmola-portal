@@ -8,7 +8,7 @@ import { Button } from "@/shared/ui/button/button";
 import { CheckField } from "@/shared/ui/field/field";
 import { DEFAULT_CONFIG, optionalFields, type AdminConfig } from "../domain/config";
 import { AdminArea, type AdminContext, type AdminDict } from "./admin-area";
-import styles from "./admin.module.css";
+import styles from "./admin-styles";
 
 type Props = { lang: Locale; dict: AdminDict };
 

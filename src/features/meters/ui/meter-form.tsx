@@ -22,7 +22,7 @@ import {
 } from "../domain/meter";
 import { Group } from "./group";
 import type { MetersDict } from "./meters-area";
-import styles from "./meters.module.css";
+import styles from "@/shared/ui/cabinet/cabinet.module.css";
 
 type MeterFormProps = {
   dict: MetersDict;

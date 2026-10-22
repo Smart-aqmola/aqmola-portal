@@ -1,40 +1,22 @@
 "use client";
 
-import { useCallback, useMemo, useSyncExternalStore } from "react";
-import { createLocalStore } from "@/shared/lib/local-store";
+import { createCollection } from "@/shared/lib/collection";
 import { MAX_PAYMENTS, type Payment } from "../domain/payment";
 import { PAYMENTS_KEY, parsePayments } from "../domain/storage";
 
-const NONE: Payment[] = [];
-const store = createLocalStore<Payment[]>({
+const payments = createCollection<Payment>({
   key: PAYMENTS_KEY,
   parse: parsePayments,
-  empty: NONE,
+  max: MAX_PAYMENTS,
 });
 
-/** The payments of one person. With a server this becomes calls to the backend. */
+/** The payments of one person. `everyone` is every payment, so a new number never repeats. */
 export function usePayments(ownerId: string | null) {
-  const all = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot);
-  const mine = useMemo(
-    () => (ownerId ? all.filter((item) => item.ownerId === ownerId) : NONE),
-    [all, ownerId],
-  );
-
-  const add = useCallback((payment: Payment) => {
-    store.write([payment, ...store.getSnapshot()].slice(0, MAX_PAYMENTS));
-  }, []);
-
-  const replace = useCallback((changed: Payment) => {
-    store.write(store.getSnapshot().map((item) => (item.id === changed.id ? changed : item)));
-  }, []);
-
-  /** Every payment in this browser, so a new number never repeats. */
-  const everyone = useCallback(() => store.getSnapshot(), []);
-
-  return { mine, add, replace, everyone };
+  const mine = payments.useMine(ownerId);
+  return { mine, add: payments.add, replace: payments.replace, everyone: payments.snapshot };
 }
 
 /** Every payment in this browser, for the cabinet of an organization (spec 12.2). */
 export function useAllPayments() {
-  return useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot);
+  return payments.useAll();
 }

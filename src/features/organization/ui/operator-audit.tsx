@@ -10,7 +10,7 @@ import { Field } from "@/shared/ui/field/field";
 import { auditEntities, type AuditEntity, type AuditEntry } from "../domain/audit";
 import { OperatorArea, type OperatorContext, type OperatorDict } from "./operator-area";
 import { useAudit } from "./use-audit";
-import styles from "./organization.module.css";
+import styles from "./organization-styles";
 
 type Props = { lang: Locale; dict: OperatorDict; providers: readonly ProviderInfo[] };
 

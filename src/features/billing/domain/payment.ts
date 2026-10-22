@@ -1,5 +1,6 @@
 import type { ContractSector } from "@/features/account/domain/availability";
 import { isPayable, type Charge } from "./charge";
+import { nextYearNumber } from "@/shared/lib/numbering";
 
 /** Statuses of a payment, in the words of the specification (9.16). */
 export const paymentStatuses = [
@@ -79,12 +80,11 @@ export const isFinalPayment = (status: PaymentStatus): boolean =>
 
 /** Next free number of the year: DEMO-PAY-2026-00001, ... */
 export function nextPaymentNumber(existing: readonly { number: string }[], now: Date): string {
-  const prefix = `DEMO-PAY-${now.getUTCFullYear()}-`;
-  const highest = existing.reduce((max, item) => {
-    if (!item.number.startsWith(prefix)) return max;
-    return Math.max(max, Number(item.number.slice(prefix.length)));
-  }, 0);
-  return `${prefix}${String(highest + 1).padStart(5, "0")}`;
+  return nextYearNumber(
+    "DEMO-PAY",
+    existing.map((item) => item.number),
+    now,
+  );
 }
 
 /** "PAY-1A2B3C4D": the identifier to pay by, made from the id of the payment. */

@@ -38,7 +38,7 @@ import {
   type RegistryContext,
   type RegistryDict,
 } from "./registry-items";
-import styles from "./registry.module.css";
+import styles from "./registry-styles";
 
 type RequestsRegistryProps = {
   lang: Locale;

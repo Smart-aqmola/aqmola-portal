@@ -24,7 +24,7 @@ import { MetersArea, type MetersContext, type MetersDict } from "./meters-area";
 import { actText, day, fileSize, meterLabel, stamp } from "./meter-texts";
 import { slotText } from "./requests-list";
 import { RequestBadge } from "./status-badges";
-import styles from "./meters.module.css";
+import styles from "@/shared/ui/cabinet/cabinet.module.css";
 
 type RequestDetailProps = {
   lang: Locale;

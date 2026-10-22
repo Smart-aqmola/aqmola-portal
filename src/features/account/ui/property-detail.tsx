@@ -30,7 +30,7 @@ import { AccountGate } from "./account-gate";
 import { PropertyServices } from "./property-services";
 import { useProperties } from "./use-properties";
 import { VerificationBadge } from "./verification-badge";
-import styles from "./account.module.css";
+import styles from "./account-styles";
 
 type PropertyDetailProps = {
   lang: Locale;

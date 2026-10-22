@@ -4,6 +4,7 @@ import type { ContractSector } from "@/features/account/domain/availability";
 import { isValidIinShape } from "@/features/account/domain/iin";
 import { normalizePhone } from "@/features/account/domain/phone";
 import type { PropertyType, Relation } from "@/features/account/domain/property";
+import { nextYearNumber } from "@/shared/lib/numbering";
 
 /** Statuses of a contract application, in the words of the specification (5.4). */
 export const contractStatuses = [
@@ -114,12 +115,11 @@ export const MAX_CONTRACTS = 60;
 
 /** Next free number of the year: DEMO-DOG-2026-00001, DEMO-DOG-2026-00002, ... */
 export function nextContractNumber(existing: readonly { number?: string }[], now: Date): string {
-  const prefix = `DEMO-DOG-${now.getUTCFullYear()}-`;
-  const highest = existing.reduce((max, item) => {
-    if (!item.number?.startsWith(prefix)) return max;
-    return Math.max(max, Number(item.number.slice(prefix.length)));
-  }, 0);
-  return `${prefix}${String(highest + 1).padStart(5, "0")}`;
+  return nextYearNumber(
+    "DEMO-DOG",
+    existing.map((item) => item.number),
+    now,
+  );
 }
 
 // --- Draft -------------------------------------------------------------------------------------

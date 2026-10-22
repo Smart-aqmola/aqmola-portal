@@ -1,5 +1,5 @@
 import type { VerificationStatus } from "../domain/property";
-import styles from "./account.module.css";
+import styles from "./account-styles";
 
 /** Colour alone is not enough, so the status is always written out. */
 export function VerificationBadge({

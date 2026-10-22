@@ -14,7 +14,7 @@ import {
   type ContractDocumentKey,
 } from "../domain/contract";
 import { fileSize } from "./contract-texts";
-import styles from "./contracts.module.css";
+import styles from "./contracts-styles";
 
 type WizardDocumentsProps = {
   app: ContractApplication;

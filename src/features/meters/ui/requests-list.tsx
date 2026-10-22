@@ -17,7 +17,7 @@ import {
 import { MetersArea, type MetersContext, type MetersDict } from "./meters-area";
 import { day, meterLabel } from "./meter-texts";
 import { RequestBadge } from "./status-badges";
-import styles from "./meters.module.css";
+import styles from "@/shared/ui/cabinet/cabinet.module.css";
 
 type RequestsListProps = {
   lang: Locale;

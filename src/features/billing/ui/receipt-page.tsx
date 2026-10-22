@@ -10,7 +10,7 @@ import { formatMoney } from "../domain/money";
 import { BillingArea, ObjectSelect, useChosenObject, type BillingContext } from "./billing-area";
 import { day, periodLabel, receiptText } from "./billing-texts";
 import type { BillingPageProps } from "./charges-page";
-import styles from "./billing.module.css";
+import styles from "./billing-styles";
 
 /** The part "Single receipt": all services of an object for a month in one document (spec 9.4, 9.5, 9.9). */
 export function ReceiptPage(props: BillingPageProps) {

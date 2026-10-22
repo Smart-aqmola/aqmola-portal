@@ -1,5 +1,5 @@
 import { useId, type ReactNode } from "react";
-import styles from "./meters.module.css";
+import styles from "@/shared/ui/cabinet/cabinet.module.css";
 
 /** A titled block of fields. A `role="group"` with a heading draws cleanly where `fieldset` does not. */
 export function Group({ title, children }: { title: string; children: ReactNode }) {
