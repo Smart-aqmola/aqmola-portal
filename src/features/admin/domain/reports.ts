@@ -343,9 +343,14 @@ export function reportRows(
     .map((item) => [names[item.id], item.value === null ? "" : String(item.value)]);
 }
 
-/** One CSV text: values with a comma, a quote or a line break are quoted (RFC 4180). */
+/**
+ * One CSV text: values with a comma, a quote or a line break are quoted (RFC 4180). A text that
+ * starts like a formula gets a leading apostrophe, so a spreadsheet shows it instead of running it.
+ */
 export function toCsv(rows: readonly (readonly string[])[]): string {
-  const cell = (value: string) =>
-    /[",;\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
+  const cell = (raw: string) => {
+    const value = /^[=+\-@\t\r]/.test(raw) && !/^-\d+(\.\d+)?$/.test(raw) ? `'${raw}` : raw;
+    return /[",;\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
+  };
   return rows.map((row) => row.map(cell).join(";")).join("\r\n") + "\r\n";
 }

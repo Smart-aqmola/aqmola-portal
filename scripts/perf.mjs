@@ -11,6 +11,12 @@ const paths = [
   "/ru/services/water-meter-readings",
   "/ru/news",
   "/ru/tourism",
+  "/ru/sign-in",
+  "/ru/meters/submit",
+  "/ru/billing/pay",
+  "/ru/appeals/new",
+  "/ru/operator/contracts",
+  "/ru/admin/reports",
 ];
 
 const browser = await chromium.launch();
@@ -36,12 +42,16 @@ for (const path of paths) {
   await client.send("Emulation.setCPUThrottlingRate", { rate: 4 });
 
   let bytes = 0;
+  let jsBytes = 0;
   let requests = 0;
+  const scripts = new Set();
   client.on("Network.loadingFinished", (event) => {
     bytes += event.encodedDataLength;
+    if (scripts.has(event.requestId)) jsBytes += event.encodedDataLength;
   });
-  client.on("Network.responseReceived", () => {
+  client.on("Network.responseReceived", (event) => {
     requests += 1;
+    if (event.type === "Script") scripts.add(event.requestId);
   });
 
   await page.addInitScript(() => {
@@ -69,6 +79,7 @@ for (const path of paths) {
   rows.push({
     path,
     "KB loaded": Math.round(bytes / 1024),
+    "JS KB": Math.round(jsBytes / 1024),
     requests,
     "LCP ms": Math.round(metrics.lcp),
     "LCP element": metrics.lcpElement,

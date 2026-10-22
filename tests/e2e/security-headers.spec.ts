@@ -21,6 +21,9 @@ test.describe("security headers", () => {
       expect(csp).toContain("object-src 'none'");
       expect(csp).toContain("base-uri 'self'");
       expect(csp).toContain("form-action 'self'");
+      expect(csp).toContain("default-src 'self'");
+      expect(csp).toContain("connect-src 'self'");
+      expect(csp).not.toContain("unsafe-eval");
     });
   }
 
@@ -31,9 +34,11 @@ test.describe("security headers", () => {
     page.on("console", (message) => {
       if (/Content Security Policy|Refused to/i.test(message.text())) blocked.push(message.text());
     });
-    await page.goto("/ru");
-    await page.waitForLoadState("networkidle");
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    for (const path of ["/ru", "/ru/news", "/ru/tourism", "/ru/services", "/ru/sign-in"]) {
+      await page.goto(path);
+      await page.waitForLoadState("networkidle");
+      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    }
     expect(blocked).toEqual([]);
   });
 });

@@ -430,4 +430,10 @@ describe("export (17.3, 17.4)", () => {
       ]),
     ).toBe('a;"b;c"\r\n"d""e";"f\ng"\r\n');
   });
+
+  it("keeps a spreadsheet from running a cell as a formula, but leaves numbers alone", () => {
+    expect(toCsv([["=HYPERLINK(1)", "+1", "@x", "-5", "-1.5", "-x"]])).toBe(
+      "'=HYPERLINK(1);'+1;'@x;-5;-1.5;'-x\r\n",
+    );
+  });
 });
