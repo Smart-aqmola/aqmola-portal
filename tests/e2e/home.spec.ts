@@ -139,14 +139,6 @@ test.describe("home page", () => {
     await expect(page.getByRole("tab", { selected: true })).toContainText("Есептеу құралдары");
   });
 
-  test("the contact form is a demo and says nothing was sent", async ({ page }) => {
-    await page.goto("/ru");
-    await expect(page.getByText(/Демо-форма/)).toBeVisible();
-    await page.getByRole("textbox", { name: "Ваш вопрос" }).fill("Как передать показания?");
-    await page.getByRole("button", { name: "Отправить" }).click();
-    await expect(page.getByRole("status")).toContainText("сообщение не было отправлено");
-  });
-
   test("blocks below the first screen fade in when they are scrolled to", async ({ page }) => {
     await page.goto("/ru");
     const news = page.getByRole("heading", { name: "Новости области" });

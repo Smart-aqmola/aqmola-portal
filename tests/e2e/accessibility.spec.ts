@@ -51,6 +51,8 @@ const pages = [
   "/ru/tourism/burabay",
   "/ru/about",
   "/ru/situations",
+  "/ru/contacts",
+  "/kk/contacts",
   "/ru/situations/meters",
   "/kk/situations/contracts?category=water",
   "/en/services",

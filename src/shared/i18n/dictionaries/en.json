@@ -44,7 +44,8 @@
     "tourism": "Tourism",
     "rights": "© 2026 Aqmola, test data",
     "organizations": "Организации",
-    "help": "Помощь"
+    "help": "Помощь",
+    "contacts": "Contacts"
   },
   "home": {
     "hero": {
@@ -116,14 +117,6 @@
     "comingSoon": {
       "title": "Coming soon",
       "badge": "In development"
-    },
-    "contact": {
-      "title": "Still have questions?",
-      "demoNote": "Demo form: the message is not sent anywhere. Do not enter real personal data.",
-      "name": "Name",
-      "message": "Your question",
-      "submit": "Send",
-      "sent": "Thank you! This is a demo form, the message was not sent."
     },
     "credits": {
       "label": "Photo"
@@ -2811,5 +2804,44 @@
     "othersLead": "Choose the situation that fits to get the services you need",
     "empty": "There are no services in this category yet.",
     "results": "Services"
+  },
+  "contactsPage": {
+    "title": "Contacts",
+    "lead": "How to reach the portal and the utility providers. All contacts are test data.",
+    "phone": "Phone",
+    "email": "E-mail",
+    "address": "Address",
+    "hours": "Opening hours",
+    "openMap": "Open on the map",
+    "providersTitle": "Service providers",
+    "providersLead": "Customer desks: questions about contracts, charges and meter readings.",
+    "form": {
+      "title": "Any questions left?",
+      "lead": "Write to us and the operator will call back. Demo: the message stays in this browser, do not enter your real number.",
+      "name": "Name",
+      "phone": "Phone number",
+      "phoneHint": "For example, +7 701 123 45 67",
+      "topic": "Topic",
+      "topics": {
+        "question": "Question",
+        "idea": "Suggestion",
+        "problem": "Problem with the portal",
+        "other": "Other"
+      },
+      "comment": "Your comment",
+      "commentHint": "From 5 to 1000 characters",
+      "consent": "I agree to the processing of my personal data",
+      "submit": "Send",
+      "sentTitle": "Message sent",
+      "sentText": "Request number: {number}. The operator will contact you during working hours (demo).",
+      "again": "Write again",
+      "errors": {
+        "required": "Fill in this field",
+        "format": "Enter a number like +7 701 123 45 67",
+        "short": "Too short: at least 5 characters",
+        "long": "Too long",
+        "consent": "Consent is needed to send"
+      }
+    }
   }
 }

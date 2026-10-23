@@ -1,8 +1,9 @@
+import { loadOperator } from "@/features/contacts/load-contacts";
+import { ContactBlock } from "@/features/contacts/ui/contact-block";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ApplicationsPrompt } from "@/features/home/ui/applications-prompt";
 import { ComingSoon } from "@/features/home/ui/coming-soon";
-import { ContactForm } from "@/features/home/ui/contact-form";
 import { HomeSearch } from "@/features/home/ui/home-search";
 import { NewsList } from "@/features/home/ui/news-list";
 import { PortalSections } from "@/features/home/ui/portal-sections";
@@ -74,14 +75,15 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         </Reveal>
 
         <Reveal>
-          <div className={styles.columns}>
-            <ContactForm labels={t.contact} />
-            <ComingSoon
-              title={t.comingSoon.title}
-              badge={t.comingSoon.badge}
-              items={home.comingSoon}
-            />
-          </div>
+          <ComingSoon
+            title={t.comingSoon.title}
+            badge={t.comingSoon.badge}
+            items={home.comingSoon}
+          />
+        </Reveal>
+
+        <Reveal>
+          <ContactBlock labels={dict.contactsPage} operator={loadOperator(lang)} />
         </Reveal>
 
         <PhotoCredits label={t.credits.label} credits={home.credits} />

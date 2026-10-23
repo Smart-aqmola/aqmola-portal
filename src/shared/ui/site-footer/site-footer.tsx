@@ -31,6 +31,7 @@ export function SiteFooter({ lang, dict }: SiteFooterProps) {
       links: [
         { href: "organizations", label: footer.organizations },
         { href: "help", label: footer.help },
+        { href: "contacts", label: footer.contacts },
         { href: "about", label: footer.aboutRegion },
         { href: "news", label: footer.news },
         { href: "tourism", label: footer.tourism },

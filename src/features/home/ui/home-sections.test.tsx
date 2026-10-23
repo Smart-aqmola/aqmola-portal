@@ -5,7 +5,6 @@ import en from "@/shared/i18n/dictionaries/en.json";
 import type { HomeNews } from "../load-home";
 import { ApplicationsPrompt } from "./applications-prompt";
 import { ComingSoon } from "./coming-soon";
-import { ContactForm } from "./contact-form";
 import { HomeSearch } from "./home-search";
 import { NewsList } from "./news-list";
 import { PlacesGrid, type HomePlace } from "./places-grid";
@@ -198,38 +197,5 @@ describe("ComingSoon", () => {
     expect(screen.getByRole("heading", { name: "Скоро на портале" })).toBeInTheDocument();
     expect(screen.getAllByText("В разработке")).toHaveLength(2);
     expect(screen.getByText("Транспорт")).toBeInTheDocument();
-  });
-});
-
-describe("ContactForm", () => {
-  it("warns that it is a demo and asks for no phone or e-mail", () => {
-    render(<ContactForm labels={ru.home.contact} />);
-    expect(screen.getByText(/Демо-форма/)).toBeInTheDocument();
-    expect(screen.queryByLabelText(/телефон|e-mail|почт/i)).not.toBeInTheDocument();
-  });
-
-  it("needs a question before it can be sent", () => {
-    render(<ContactForm labels={ru.home.contact} />);
-    expect(screen.getByRole("textbox", { name: "Ваш вопрос" })).toBeRequired();
-  });
-
-  it("confirms that nothing was sent and clears the fields", () => {
-    render(<ContactForm labels={ru.home.contact} />);
-    const message = screen.getByRole("textbox", { name: "Ваш вопрос" });
-    fireEvent.change(message, { target: { value: "Как передать показания?" } });
-    fireEvent.submit(message.closest("form")!);
-
-    expect(screen.getByRole("status")).toHaveTextContent("сообщение не было отправлено");
-    expect(message).toHaveValue("");
-  });
-
-  it("hides the confirmation when the visitor starts typing again", () => {
-    render(<ContactForm labels={ru.home.contact} />);
-    const message = screen.getByRole("textbox", { name: "Ваш вопрос" });
-    fireEvent.submit(message.closest("form")!);
-    expect(screen.getByRole("status")).not.toBeEmptyDOMElement();
-
-    fireEvent.change(message, { target: { value: "ещё вопрос" } });
-    expect(screen.getByRole("status")).toBeEmptyDOMElement();
   });
 });
