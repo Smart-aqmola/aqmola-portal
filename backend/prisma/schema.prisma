@@ -132,8 +132,21 @@ model Property {
   verification Json @default("{\"status\":\"unverified\",\"documents\":[]}")
   version Int @default(1)
   createdAt DateTime @default(now())
+  documents Attachment[]
   @@index([ownerId, createdAt])
   @@index([territoryId])
+}
+
+model Attachment {
+  id String @id @default(uuid())
+  propertyId String
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Restrict)
+  name String
+  mimeType String
+  size Int
+  sha256 String
+  uploadedAt DateTime @default(now())
+  @@index([propertyId])
 }
 
 model Organization {

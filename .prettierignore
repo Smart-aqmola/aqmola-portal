@@ -12,3 +12,5 @@ backend/.pnpm-store/
 .pnpm-store/
 backend/.local-sms/
 backend/.postgres/
+.private-documents/
+backend/.private-documents/

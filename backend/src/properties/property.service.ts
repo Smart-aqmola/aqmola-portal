@@ -5,7 +5,7 @@ import { ApiFault } from "../api-errors";
 import { PropertyInputDto, UpdatePropertyDto } from "./property.dto";
 
 const unverified = { status: "unverified", documents: [] };
-function view(row: Property) {
+export function propertyView(row: Property) {
   return {
     id: row.id,
     ownerId: row.ownerId,
@@ -84,12 +84,12 @@ export class PropertyService {
         where: { ownerId },
         orderBy: [{ createdAt: "desc" }, { id: "asc" }],
       })
-    ).map(view);
+    ).map(propertyView);
   }
   async get(ownerId: string, id: string) {
     const row = await this.db.property.findFirst({ where: { id, ownerId } });
     if (!row) throw new ApiFault(404, "not_found");
-    return view(row);
+    return propertyView(row);
   }
   async create(ownerId: string, input: PropertyInputDto) {
     const data = await this.normalize(input);
@@ -111,7 +111,7 @@ export class PropertyService {
           after: { version: row.version, verification: "unverified" },
         },
       });
-      return view(row);
+      return propertyView(row);
     });
   }
   async update(ownerId: string, id: string, input: UpdatePropertyDto) {
@@ -138,11 +138,16 @@ export class PropertyService {
           action: "updated",
           entityType: "property",
           entityId: id,
-          before: { version: previous.version, verification: previous.verification },
+          before: {
+            version: previous.version,
+            verification: {
+              status: (previous.verification as { status: string }).status,
+            },
+          },
           after: { version: row.version, verification: unverified, fields: changed },
         },
       });
-      return view(row);
+      return propertyView(row);
     });
   }
 }

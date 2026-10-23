@@ -22,6 +22,11 @@ import { SecurityService } from "./security/security.service";
 import { RolesGuard, OrganizationGuard } from "./security/security.guards";
 import { PropertyController } from "./properties/property.controller";
 import { PropertyService } from "./properties/property.service";
+import {
+  PropertyReviewController,
+  PropertyVerificationController,
+} from "./properties/verification.controller";
+import { VerificationService } from "./properties/verification.service";
 
 @ApiTags("Catalog")
 @Controller()
@@ -89,6 +94,8 @@ class HealthController {
     SecurityAdminController,
     OrganizationController,
     PropertyController,
+    PropertyVerificationController,
+    PropertyReviewController,
   ],
   providers: [
     Database,
@@ -100,6 +107,7 @@ class HealthController {
     RolesGuard,
     OrganizationGuard,
     PropertyService,
+    VerificationService,
   ],
 })
 class AppModule {}

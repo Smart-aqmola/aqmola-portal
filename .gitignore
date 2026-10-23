@@ -21,6 +21,7 @@
 /build
 
 # misc
+.private-documents/
 .DS_Store
 *.pem
 
