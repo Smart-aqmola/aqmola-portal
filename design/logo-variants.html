@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Логотип Aqmola — варианты</title>
+    <style>
+      :root {
+        --accent: #1c7c9c;
+        --accent-strong: #156680;
+        --ink: #10242e;
+        --sun: #e9b23c;
+        --soft: #f4f7f8;
+        --line: #e3e9ec;
+        --muted: #5d6c73;
+        font-family:
+          "Onest",
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      body {
+        background: #fff;
+        color: var(--ink);
+        padding: 32px 16px 64px;
+      }
+      .wrap {
+        max-width: 1120px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-weight: 300;
+        font-size: 40px;
+        letter-spacing: -0.02em;
+      }
+      .lead {
+        color: var(--muted);
+        margin-top: 8px;
+        max-width: 46rem;
+      }
+      .variant {
+        margin-top: 40px;
+        padding: 28px;
+        border-radius: 24px;
+        background: var(--soft);
+      }
+      .variant h2 {
+        font-size: 22px;
+        font-weight: 500;
+      }
+      .variant p.idea {
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 220px 1fr 1fr;
+        gap: 20px;
+        margin-top: 20px;
+        align-items: stretch;
+      }
+      .tile {
+        border-radius: 18px;
+        background: #fff;
+        display: grid;
+        place-items: center;
+        padding: 20px;
+        min-height: 140px;
+      }
+      .tile.dark {
+        background: var(--ink);
+      }
+      .lockup {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 18px 10px 12px;
+        border-radius: 999px;
+        background: #e6f2f6;
+      }
+      .dark .lockup {
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .word {
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        color: var(--ink);
+      }
+      .dark .word {
+        color: #fff;
+      }
+      .small {
+        display: flex;
+        gap: 24px;
+        align-items: end;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+      .small figure {
+        display: grid;
+        justify-items: center;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 10px 10px 0 0;
+        background: #fff;
+        border: 1px solid var(--line);
+        font-size: 13px;
+        color: var(--ink);
+      }
+      .app {
+        width: 88px;
+        height: 88px;
+        border-radius: 22px;
+        display: grid;
+        place-items: center;
+        background: var(--accent);
+      }
+      .app.light {
+        background: #fff;
+        border: 1px solid var(--line);
+      }
+      @media (max-width: 800px) {
+        .row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Логотип Aqmola — три варианта</h1>
+      <p class="lead">
+        Свои знаки без герба и госсимволики, в цветах портала. Выберите один: его поставлю в шапку,
+        сделаю иконку вкладки и иконку для телефона, а палитру опишу в docs/brand.md.
+      </p>
+
+      <svg width="0" height="0" style="position: absolute">
+        <defs>
+          <!-- A. Mountains and sun -->
+          <symbol id="a" viewBox="0 0 48 48">
+            <circle cx="33" cy="13" r="5.5" fill="#e9b23c" />
+            <path d="M3 40 L17 17 L24 27 L29 20 L45 40 Z" fill="#1c7c9c" />
+            <path d="M17 17 L21.5 24.2 L18.6 23 L15.6 25.4 L13.5 22.8 Z" fill="#fff" opacity=".9" />
+          </symbol>
+          <symbol id="a-white" viewBox="0 0 48 48">
+            <circle cx="33" cy="13" r="5.5" fill="#e9b23c" />
+            <path d="M3 40 L17 17 L24 27 L29 20 L45 40 Z" fill="#fff" />
+          </symbol>
+          <!-- B. House-drop: the letter A as a roof with a drop inside -->
+          <symbol id="b" viewBox="0 0 48 48">
+            <rect x="2" y="2" width="44" height="44" rx="13" fill="#1c7c9c" />
+            <path
+              d="M10 33 L24 12 L38 33"
+              fill="none"
+              stroke="#fff"
+              stroke-width="4.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M24 22 C24 22 29 28 29 31.5 A5 5 0 0 1 19 31.5 C19 28 24 22 24 22 Z"
+              fill="#e9b23c"
+            />
+          </symbol>
+          <symbol id="b-white" viewBox="0 0 48 48">
+            <rect x="2" y="2" width="44" height="44" rx="13" fill="#fff" />
+            <path
+              d="M10 33 L24 12 L38 33"
+              fill="none"
+              stroke="#10242e"
+              stroke-width="4.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M24 22 C24 22 29 28 29 31.5 A5 5 0 0 1 19 31.5 C19 28 24 22 24 22 Z"
+              fill="#e9b23c"
+            />
+          </symbol>
+          <!-- C. Ornament: a ram's-horn curl (қошқар мүйіз) forming an A -->
+          <symbol id="c" viewBox="0 0 48 48">
+            <circle cx="24" cy="24" r="22" fill="#10242e" />
+            <path
+              d="M12 36 L24 13 L36 36"
+              fill="none"
+              stroke="#fff"
+              stroke-width="3.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M16.5 29 C14 29 12.5 27 13.5 25 C14.5 23 17.5 23.5 17.5 25.8 M31.5 29 C34 29 35.5 27 34.5 25 C33.5 23 30.5 23.5 30.5 25.8 M17.5 29 H30.5"
+              fill="none"
+              stroke="#e9b23c"
+              stroke-width="2.6"
+              stroke-linecap="round"
+            />
+          </symbol>
+          <symbol id="c-white" viewBox="0 0 48 48">
+            <circle cx="24" cy="24" r="22" fill="#1c7c9c" />
+            <path
+              d="M12 36 L24 13 L36 36"
+              fill="none"
+              stroke="#fff"
+              stroke-width="3.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M16.5 29 C14 29 12.5 27 13.5 25 C14.5 23 17.5 23.5 17.5 25.8 M31.5 29 C34 29 35.5 27 34.5 25 C33.5 23 30.5 23.5 30.5 25.8 M17.5 29 H30.5"
+              fill="none"
+              stroke="#e9b23c"
+              stroke-width="2.6"
+              stroke-linecap="round"
+            />
+          </symbol>
+        </defs>
+      </svg>
+
+      <section class="variant">
+        <h2>A. Горы и солнце</h2>
+        <p class="idea">
+          Доработка нынешнего знака: два пика (горы Кокшетау, Бурабай) и солнце. Спокойный,
+          узнаваемый, лучше всего продолжает фото-главную «Панорама».
+        </p>
+        <div class="row">
+          <div class="tile">
+            <svg width="120" height="120"><use href="#a" /></svg>
+          </div>
+          <div class="tile">
+            <span class="lockup"
+              ><svg width="34" height="34"><use href="#a" /></svg
+              ><span class="word">Aqmola</span></span
+            >
+          </div>
+          <div class="tile dark">
+            <span class="lockup"
+              ><svg width="34" height="34"><use href="#a-white" /></svg
+              ><span class="word">Aqmola</span></span
+            >
+          </div>
+        </div>
+        <div class="small">
+          <figure>
+            <span class="tab"
+              ><svg width="16" height="16"><use href="#a" /></svg>Aqmola</span
+            >
+            <figcaption>вкладка, 16 px</figcaption>
+          </figure>
+          <figure>
+            <svg width="32" height="32"><use href="#a" /></svg>
+            <figcaption>32 px</figcaption>
+          </figure>
+          <figure>
+            <span class="app light"
+              ><svg width="60" height="60"><use href="#a" /></svg
+            ></span>
+            <figcaption>иконка приложения</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="variant">
+        <h2>B. Дом-капля</h2>
+        <p class="idea">
+          Буква «A» — крыша дома, внутри капля: коммунальные услуги для жилья. Самый
+          «функциональный» знак, хорошо читается в маленьком размере.
+        </p>
+        <div class="row">
+          <div class="tile">
+            <svg width="120" height="120"><use href="#b" /></svg>
+          </div>
+          <div class="tile">
+            <span class="lockup"
+              ><svg width="34" height="34"><use href="#b" /></svg
+              ><span class="word">Aqmola</span></span
+            >
+          </div>
+          <div class="tile dark">
+            <span class="lockup"
+              ><svg width="34" height="34"><use href="#b-white" /></svg
+              ><span class="word">Aqmola</span></span
+            >
+          </div>
+        </div>
+        <div class="small">
+          <figure>
+            <span class="tab"
+              ><svg width="16" height="16"><use href="#b" /></svg>Aqmola</span
+            >
+            <figcaption>вкладка, 16 px</figcaption>
+          </figure>
+          <figure>
+            <svg width="32" height="32"><use href="#b" /></svg>
+            <figcaption>32 px</figcaption>
+          </figure>
+          <figure>
+            <span class="app"
+              ><svg width="72" height="72"><use href="#b-white" /></svg
+            ></span>
+            <figcaption>иконка приложения</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="variant">
+        <h2>C. Орнамент</h2>
+        <p class="idea">
+          Буква «A» с мотивом «қошқар мүйіз» (бараньи рога) — местный характер без госсимволики.
+          Самый «региональный», но в 16 px орнамент теряется.
+        </p>
+        <div class="row">
+          <div class="tile">
+            <svg width="120" height="120"><use href="#c" /></svg>
+          </div>
+          <div class="tile">
+            <span class="lockup"
+              ><svg width="34" height="34"><use href="#c" /></svg
+              ><span class="word">Aqmola</span></span
+            >
+          </div>
+          <div class="tile dark">
+            <span class="lockup"
+              ><svg width="34" height="34"><use href="#c-white" /></svg
+              ><span class="word">Aqmola</span></span
+            >
+          </div>
+        </div>
+        <div class="small">
+          <figure>
+            <span class="tab"
+              ><svg width="16" height="16"><use href="#c" /></svg>Aqmola</span
+            >
+            <figcaption>вкладка, 16 px</figcaption>
+          </figure>
+          <figure>
+            <svg width="32" height="32"><use href="#c" /></svg>
+            <figcaption>32 px</figcaption>
+          </figure>
+          <figure>
+            <span class="app light"
+              ><svg width="72" height="72"><use href="#c" /></svg
+            ></span>
+            <figcaption>иконка приложения</figcaption>
+          </figure>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
