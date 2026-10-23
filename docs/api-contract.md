@@ -185,6 +185,7 @@
 | `GET /notifications`, `POST /notifications/:id/read`                        | Уведомления                                                                           | 16.1–16.4 |
 | `GET /events?genre=&venue=`, `GET /events/:slug`, `GET /venues`             | Афиша и площадки                                                                      | —         |
 | `GET /surveys?category=`, `GET /surveys/:slug`, `POST /surveys/:slug/votes` | Опросы, голос, итоги                                                                  | —         |
+| `GET /region/today`                                                         | Погода и курс валют для «Мой регион» (сервер кэширует внешний источник)               | —         |
 | `POST /feedback`                                                            | Вопрос через форму обратной связи                                                     | —         |
 | `GET /org/...`                                                              | Реестры кабинета организации                                                          | 12.2      |
 | `POST /org/contract-applications/:id/actions`                               | Действия сотрудника: проверить, вернуть, отклонить, согласовать, сформировать договор | 12.4      |
