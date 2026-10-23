@@ -33,6 +33,7 @@ export function SiteFooter({ lang, dict }: SiteFooterProps) {
         { href: "help", label: footer.help },
         { href: "contacts", label: footer.contacts },
         { href: "events", label: footer.events },
+        { href: "surveys", label: footer.surveys },
         { href: "about", label: footer.aboutRegion },
         { href: "news", label: footer.news },
         { href: "tourism", label: footer.tourism },

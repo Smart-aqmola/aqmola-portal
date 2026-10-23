@@ -46,7 +46,8 @@
     "organizations": "Организации",
     "help": "Помощь",
     "contacts": "Contacts",
-    "events": "Events"
+    "events": "Events",
+    "surveys": "Surveys"
   },
   "home": {
     "hero": {
@@ -2886,5 +2887,64 @@
     "others": "Other events",
     "venueEvents": "Events at {name}",
     "breadcrumbs": "Breadcrumbs"
+  },
+  "surveysPage": {
+    "title": "Surveys",
+    "lead": "Your opinion helps decide what to do first.",
+    "demo": "Demo: the surveys and votes are made up; your answer is kept only in this browser.",
+    "categoriesLabel": "Categories",
+    "all": "All",
+    "categories": {
+      "utilities": "Utilities",
+      "city": "Improvement",
+      "ecology": "Ecology",
+      "digital": "Portal",
+      "tourism": "Tourism"
+    },
+    "popular": "Popular surveys",
+    "open": "Open now",
+    "finished": "Finished",
+    "empty": "No surveys in this category yet.",
+    "count": "Surveys: {n}",
+    "left": {
+      "weeks": "Ends in {n} wk",
+      "days": "Ends in {n} d"
+    },
+    "closed": "Finished",
+    "participants": "Participants: {n}",
+    "back": "Back",
+    "tabs": {
+      "label": "About the survey",
+      "about": "About",
+      "terms": "Terms",
+      "results": "Results and impact"
+    },
+    "type": "Type",
+    "typeValue": "Survey",
+    "category": "Category",
+    "terms": [
+      "The survey is anonymous: we do not ask for a name, phone or address.",
+      "You can take it once. The answer cannot be changed after sending.",
+      "Results are shown right after you answer, and to everyone once the survey ends."
+    ],
+    "takeTitle": "Take the survey",
+    "until": "Open until",
+    "time": "Time to complete",
+    "minutes": "{n} min",
+    "attempts": "Attempts",
+    "start": "Start",
+    "send": "Send answer",
+    "cancel": "Cancel",
+    "single": "Choose one answer",
+    "multiple": "You can choose several",
+    "missing": "Answer this question",
+    "thanks": "Thank you! Your answer is counted.",
+    "done": "You have taken this survey",
+    "resultsAfter": "Results appear after you answer.",
+    "votes": "Votes: {n}",
+    "mine": "your answer",
+    "others": "Other surveys",
+    "impactTitle": "How the results are used",
+    "participantsLabel": "Participants"
   }
 }

@@ -129,6 +129,10 @@
 
 `Venue`: `id`, `name`, `address`, `territoryId`, `photo?`. `Event`: `id`, `slug`, `genre` (`concerts` | `theatre` | `exhibitions` | `kids` | `sport` | `festivals` | `masterclasses`), `title`, `summary`, `description`, `venueId`, `startsAt` (местное время Казахстана, UTC+5), `durationMinutes`, `age` (`0+` … `18+`), `price` (тенге или `null` — бесплатно), `note?`, `popular`, `photo?`. Тексты — ru/kk/en. Фронт сам считает «ближайшие выходные» и прячет прошедшие. В демо даты сдвигаются к текущей неделе; с сервера приходят настоящие. Продажа билетов не подключена.
 
+### Survey — опрос жителей
+
+`id`, `slug`, `category` (`utilities` | `city` | `ecology` | `digital` | `tourism`), `title`, `summary`, `description`, `impact` (как используют результаты), `endsOn` (включительно), `minutes`, `participants`, `popular`, `questions[]` (`id`, `kind`: `single` | `multiple`, `text`, `options[]`: `id`, `text`, `votes`). Голос: `{ surveyId, answers: { questionId: optionId[] }, at }`, один на человека (сервер проверяет по учётной записи или устройству), после голосования и после завершения опроса отдаются итоги. Фронт хранит свой голос в `aqmola:survey-votes`.
+
 ### Feedback — вопрос через форму «Остались вопросы?»
 
 `id`, `number` (`DEMO-FB-ГГГГ-NNNNN`), `name` (до 80 знаков), `phone` (+7XXXXXXXXXX), `topic` (`question` | `idea` | `problem` | `other`), `comment` (5–1000 знаков), `consent` (обязательно `true`), `createdAt`. Фронт хранит отправленное в `localStorage` `aqmola:feedback`. Сервер: `POST /feedback` с ограничением частоты (защита от спама), ответ — номер.
@@ -147,44 +151,45 @@
 
 ## Маршруты (предложение)
 
-| Метод и путь                                                    | Назначение                                                                            | ТЗ        |
-| --------------------------------------------------------------- | ------------------------------------------------------------------------------------- | --------- |
-| `POST /auth/register`                                           | Регистрация (ИИН, ФИО, телефон, email)                                                | 2.1       |
-| `POST /auth/otp/request`, `POST /auth/otp/verify`               | Код из SMS и вход                                                                     | 2.2       |
-| `GET /me`, `PATCH /me`                                          | Профиль                                                                               | 2.1       |
-| `GET /properties`, `POST /properties`                           | Мои объекты, добавление                                                               | 2.4, 3.1  |
-| `GET /properties/:id`, `PATCH /properties/:id`                  | Карточка объекта                                                                      | 3.1       |
-| `POST /properties/:id/verification`                             | Подтверждение объекта                                                                 | 3.4–3.6   |
-| `GET /properties/:id/services`                                  | Услуги и поставщики по адресу                                                         | 1.4, 3.7  |
-| `GET /addresses/search?q=`                                      | Поиск адреса                                                                          | 3.2       |
-| `GET /services`, `GET /services/:code`                          | Каталог услуг                                                                         | 1.2, 1.3  |
-| `POST /contract-applications`                                   | Создать или сохранить черновик                                                        | 4.4       |
-| `PUT /contract-applications/:id`                                | Изменить черновик                                                                     | 4.19      |
-| `POST /contract-applications/:id/submit`                        | Отправить заявление                                                                   | 4.8–4.10  |
-| `GET /contract-applications/:id/receipt`                        | Подтверждение подачи                                                                  | 4.11      |
-| `POST /contract-applications/:id/sign`                          | Подписание (через ЭЦП-сервис)                                                         | 4.12–4.14 |
-| `POST /attachments`                                             | Загрузка файла (multipart)                                                            | 4.7       |
-| `GET /contracts`, `GET /contracts/:id`                          | Мои договоры                                                                          | 5.1–5.4   |
-| `GET /contracts/:id/documents/:docId`                           | Скачивание (подписанная ссылка)                                                       | 5.5, 19.5 |
-| `POST /contracts/:id/change-requests`                           | Заявка на изменение                                                                   | 5.6       |
-| `GET /properties/:id/meters`, `POST /properties/:id/meters`     | Приборы учёта                                                                         | 6.1–6.5   |
-| `POST /meters/:id/readings`                                     | Передача показаний (с ключом идемпотентности)                                         | 7.1, 7.5  |
-| `GET /meters/:id/readings`                                      | История показаний                                                                     | 7.13      |
-| `POST /meter-requests`                                          | Заявка по прибору (тип в теле)                                                        | 8.2–8.6   |
-| `GET /meter-requests/:id`                                       | Карточка заявки и история                                                             | 8.8–8.9   |
-| `GET /properties/:id/charges?period=`                           | Начисления                                                                            | 9.1–9.3   |
-| `GET /properties/:id/receipts/:period.pdf`                      | Квитанция                                                                             | 9.4–9.9   |
-| `POST /payments`                                                | Создать платёж, получить ссылку шлюза                                                 | 9.10–9.15 |
-| `POST /payments/callback`                                       | Уведомление шлюза (проверка подписи, идемпотентно)                                    | 9.15–9.17 |
-| `GET /requests`                                                 | Единый реестр заявок всех видов                                                       | 10.1–10.3 |
-| `POST /appeals`, `GET /appeals/:id`                             | Обращения и жалобы                                                                    | 11.1–11.8 |
-| `GET /notifications`, `POST /notifications/:id/read`            | Уведомления                                                                           | 16.1–16.4 |
-| `GET /events?genre=&venue=`, `GET /events/:slug`, `GET /venues` | Афиша и площадки                                                                      | —         |
-| `POST /feedback`                                                | Вопрос через форму обратной связи                                                     | —         |
-| `GET /org/...`                                                  | Реестры кабинета организации                                                          | 12.2      |
-| `POST /org/contract-applications/:id/actions`                   | Действия сотрудника: проверить, вернуть, отклонить, согласовать, сформировать договор | 12.4      |
-| `GET /admin/...`                                                | Администрирование и справочники                                                       | 13.2      |
-| `GET /reports?...&format=xlsx\|csv\|pdf`                        | Отчёты                                                                                | 17.1–17.3 |
+| Метод и путь                                                                | Назначение                                                                            | ТЗ        |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | --------- |
+| `POST /auth/register`                                                       | Регистрация (ИИН, ФИО, телефон, email)                                                | 2.1       |
+| `POST /auth/otp/request`, `POST /auth/otp/verify`                           | Код из SMS и вход                                                                     | 2.2       |
+| `GET /me`, `PATCH /me`                                                      | Профиль                                                                               | 2.1       |
+| `GET /properties`, `POST /properties`                                       | Мои объекты, добавление                                                               | 2.4, 3.1  |
+| `GET /properties/:id`, `PATCH /properties/:id`                              | Карточка объекта                                                                      | 3.1       |
+| `POST /properties/:id/verification`                                         | Подтверждение объекта                                                                 | 3.4–3.6   |
+| `GET /properties/:id/services`                                              | Услуги и поставщики по адресу                                                         | 1.4, 3.7  |
+| `GET /addresses/search?q=`                                                  | Поиск адреса                                                                          | 3.2       |
+| `GET /services`, `GET /services/:code`                                      | Каталог услуг                                                                         | 1.2, 1.3  |
+| `POST /contract-applications`                                               | Создать или сохранить черновик                                                        | 4.4       |
+| `PUT /contract-applications/:id`                                            | Изменить черновик                                                                     | 4.19      |
+| `POST /contract-applications/:id/submit`                                    | Отправить заявление                                                                   | 4.8–4.10  |
+| `GET /contract-applications/:id/receipt`                                    | Подтверждение подачи                                                                  | 4.11      |
+| `POST /contract-applications/:id/sign`                                      | Подписание (через ЭЦП-сервис)                                                         | 4.12–4.14 |
+| `POST /attachments`                                                         | Загрузка файла (multipart)                                                            | 4.7       |
+| `GET /contracts`, `GET /contracts/:id`                                      | Мои договоры                                                                          | 5.1–5.4   |
+| `GET /contracts/:id/documents/:docId`                                       | Скачивание (подписанная ссылка)                                                       | 5.5, 19.5 |
+| `POST /contracts/:id/change-requests`                                       | Заявка на изменение                                                                   | 5.6       |
+| `GET /properties/:id/meters`, `POST /properties/:id/meters`                 | Приборы учёта                                                                         | 6.1–6.5   |
+| `POST /meters/:id/readings`                                                 | Передача показаний (с ключом идемпотентности)                                         | 7.1, 7.5  |
+| `GET /meters/:id/readings`                                                  | История показаний                                                                     | 7.13      |
+| `POST /meter-requests`                                                      | Заявка по прибору (тип в теле)                                                        | 8.2–8.6   |
+| `GET /meter-requests/:id`                                                   | Карточка заявки и история                                                             | 8.8–8.9   |
+| `GET /properties/:id/charges?period=`                                       | Начисления                                                                            | 9.1–9.3   |
+| `GET /properties/:id/receipts/:period.pdf`                                  | Квитанция                                                                             | 9.4–9.9   |
+| `POST /payments`                                                            | Создать платёж, получить ссылку шлюза                                                 | 9.10–9.15 |
+| `POST /payments/callback`                                                   | Уведомление шлюза (проверка подписи, идемпотентно)                                    | 9.15–9.17 |
+| `GET /requests`                                                             | Единый реестр заявок всех видов                                                       | 10.1–10.3 |
+| `POST /appeals`, `GET /appeals/:id`                                         | Обращения и жалобы                                                                    | 11.1–11.8 |
+| `GET /notifications`, `POST /notifications/:id/read`                        | Уведомления                                                                           | 16.1–16.4 |
+| `GET /events?genre=&venue=`, `GET /events/:slug`, `GET /venues`             | Афиша и площадки                                                                      | —         |
+| `GET /surveys?category=`, `GET /surveys/:slug`, `POST /surveys/:slug/votes` | Опросы, голос, итоги                                                                  | —         |
+| `POST /feedback`                                                            | Вопрос через форму обратной связи                                                     | —         |
+| `GET /org/...`                                                              | Реестры кабинета организации                                                          | 12.2      |
+| `POST /org/contract-applications/:id/actions`                               | Действия сотрудника: проверить, вернуть, отклонить, согласовать, сформировать договор | 12.4      |
+| `GET /admin/...`                                                            | Администрирование и справочники                                                       | 13.2      |
+| `GET /reports?...&format=xlsx\|csv\|pdf`                                    | Отчёты                                                                                | 17.1–17.3 |
 
 ## Что фронт сейчас делает в браузере (для переноса)
 

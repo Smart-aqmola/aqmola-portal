@@ -78,6 +78,7 @@ domain/ — чистые функции и типы: проверки, стат�
 | `aqmola:audit`                         | `organization/ui/use-audit.ts`          | AuditEntry                                            |
 | `aqmola:admin-config`                  | `admin/ui/use-admin-config.ts`          | AdminConfig                                           |
 | `aqmola:feedback`                      | `contacts/ui/feedback-form.tsx`         | Feedback                                              |
+| `aqmola:survey-votes`                  | `surveys/ui/survey-view.tsx`            | Survey (голос)                                        |
 | `aqmola:favorites`, `aqmola:display`   | `display/…`, избранное                  | Настройки пользователя; `display` остаётся в браузере |
 | `aqmola:draft:<ключ>` (sessionStorage) | `shared/lib/use-draft-state.ts`         | Черновик формы. Остаётся в браузере                   |
 

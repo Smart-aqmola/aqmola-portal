@@ -53,6 +53,8 @@ const pages = [
   "/ru/situations",
   "/ru/contacts",
   "/ru/events",
+  "/ru/surveys",
+  "/kk/surveys/heating-season",
   "/ru/events?genre=sport",
   "/kk/events/steppe-sounds",
   "/kk/contacts",
