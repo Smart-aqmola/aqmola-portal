@@ -19,13 +19,16 @@ model User {
   iin String @unique
   firstName String
   lastName String
-  patronymic String?
+  middleName String? @map("patronymic")
   email String?
   phoneVerifiedAt DateTime
   consentAt DateTime
   blocked Boolean @default(false)
+  roles String[] @default(["resident"])
+  version Int @default(1)
   createdAt DateTime @default(now())
   sessions Session[]
+  auditEntries AuditEntry[]
 }
 
 model OtpChallenge {
@@ -49,11 +52,26 @@ model Session {
   tokenHash String @unique
   userId String
   createdAt DateTime @default(now())
+  lastSeenAt DateTime @default(now())
   expiresAt DateTime
   revokedAt DateTime?
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@index([userId])
   @@index([expiresAt])
+}
+
+model AuditEntry {
+  id String @id @default(uuid())
+  userId String
+  action String
+  entityType String
+  entityId String
+  before Json
+  after Json
+  at DateTime @default(now())
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+  @@index([userId, at])
+  @@index([entityType, entityId])
 }
 
 model Territory {

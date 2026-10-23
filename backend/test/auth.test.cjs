@@ -8,7 +8,7 @@ const { Database } = require("../dist/src/database.js");
 let app, db, base;
 const userIds = new Set(),
   ids = new Set();
-const profile = (iin = String(randomInt(1_000_000, 9_000_000)).padStart(12, "0")) => ({
+const profile = (iin = "900101" + String(randomInt(0, 1_000_000)).padStart(6, "0")) => ({
   iin,
   firstName: "Тест",
   lastName: "Проверочный",
@@ -27,6 +27,7 @@ before(async () => {
 after(async () => {
   try {
     if (db) {
+      await db.auditEntry.deleteMany({ where: { userId: { in: [...userIds] } } });
       await db.user.deleteMany({ where: { id: { in: [...userIds] } } });
       await db.otpChallenge.deleteMany({ where: { id: { in: [...ids] } } });
     }
@@ -38,7 +39,7 @@ after(async () => {
   }
 });
 async function request(path, body, token, method = "POST") {
-  const response = await fetch(`${base}/api/v1/auth/${path}`, {
+  const response = await fetch(`${base}/api/v1/${path === "me" ? "me" : `auth/${path}`}`, {
     method,
     headers: {
       ...(body ? { "Content-Type": "application/json" } : {}),
@@ -55,7 +56,7 @@ async function request(path, body, token, method = "POST") {
   return result;
 }
 async function code(number, purpose) {
-  const response = await request("codes", { phone: number, purpose });
+  const response = await request("otp/request", { phone: number, purpose });
   assert.equal(response.status, 202, JSON.stringify(response.body));
   assert.ok(!("code" in response.body));
   ids.add(response.body.challengeId);
@@ -72,7 +73,7 @@ async function allowResend(number) {
 }
 async function register(number = phone(), data = profile()) {
   const otp = await code(number, "register");
-  const result = await request("register", { ...otp, ...data });
+  const result = await request("register", { ...otp, ...data, phone: number });
   assert.equal(result.status, 201, JSON.stringify(result.body));
   return { ...result.body, phone: number, otp, profile: data };
 }
@@ -81,6 +82,8 @@ test("registration, normalized phone, private profile and hashed credentials", a
   const number = phone();
   const otp = await code("8 (700) " + number.slice(5), "register");
   const data = profile();
+  const differentPhone = number.slice(0, -1) + (number.endsWith("0") ? "1" : "0");
+  assert.equal((await request("register", { ...otp, ...data, phone: differentPhone })).status, 401);
   const result = await request("register", { ...otp, ...data, email: "test@example.invalid" });
   assert.equal(result.status, 201);
   assert.equal(result.body.user.phone, number);
@@ -88,7 +91,7 @@ test("registration, normalized phone, private profile and hashed credentials", a
   assert.equal((await request("me", undefined, undefined, "GET")).status, 401);
   const me = await request("me", undefined, result.body.token, "GET");
   assert.equal(me.status, 200);
-  assert.equal(me.body.iin, data.iin);
+  assert.equal(me.body.iin, `${data.iin.slice(0, 6)}••••${data.iin.slice(10)}`);
   assert.equal(me.headers.get("cache-control"), "no-store");
   assert.ok(!("blocked" in me.body));
   const stored = await db.session.findFirst({ where: { userId: result.body.user.id } });
@@ -103,7 +106,7 @@ test("registration, normalized phone, private profile and hashed credentials", a
 test("login, logout and logout-all revoke server sessions", async () => {
   const user = await register();
   await allowResend(user.phone);
-  const login = await request("login", await code(user.phone, "login"));
+  const login = await request("otp/verify", await code(user.phone, "login"));
   assert.equal(login.status, 200);
   assert.equal(login.body.user.id, user.user.id);
   assert.notEqual(login.body.token, user.token);
@@ -128,13 +131,13 @@ test("five wrong attempts lock a code; expiration and unknown accounts fail", as
   });
   assert.equal((await request("register", { ...expired, ...profile() })).status, 401);
   const unknown = await code(phone(), "login");
-  assert.equal((await request("login", unknown)).status, 401);
+  assert.equal((await request("otp/verify", unknown)).status, 401);
 });
 
 test("resend invalidates the old code and registration conflicts cannot overwrite users", async () => {
   const number = phone();
   const old = await code(number, "register");
-  assert.equal((await request("codes", { phone: number, purpose: "register" })).status, 429);
+  assert.equal((await request("otp/request", { phone: number, purpose: "register" })).status, 429);
   await allowResend(number);
   const replacement = await code(number, "register");
   assert.equal((await request("register", { ...old, ...profile() })).status, 401);
@@ -170,8 +173,11 @@ test("parallel use consumes a code once; expired and blocked sessions fail", asy
 });
 
 test("validation rejects malformed identity, missing consent and privilege fields", async () => {
-  assert.equal((await request("codes", { phone: "+123", purpose: "login" })).status, 400);
-  assert.equal((await request("login", { challengeId: randomUUID(), code: "123456" })).status, 401);
+  assert.equal((await request("otp/request", { phone: "+123", purpose: "login" })).status, 400);
+  assert.equal(
+    (await request("otp/verify", { challengeId: randomUUID(), code: "123456" })).status,
+    401,
+  );
   for (const extra of [
     { consent: false },
     { firstName: "   " },
@@ -193,6 +199,106 @@ test("validation rejects malformed identity, missing consent and privilege field
   }
 });
 
+test("profile contract, version conflicts and audit are enforced", async () => {
+  const user = await register(phone(), { ...profile(), middleName: "" });
+  assert.deepEqual(user.user.roles, ["resident"]);
+  assert.equal(user.user.status, "active");
+  assert.ok(!("patronymic" in user.user));
+  assert.equal(user.session.name, "Проверочный Тест");
+  const result = await request(
+    "me",
+    { version: user.user.version, middleName: "Тестович", email: "test@example.invalid" },
+    user.token,
+    "PATCH",
+  );
+  assert.equal(result.status, 200);
+  assert.equal(result.body.middleName, "Тестович");
+  assert.equal(result.body.version, user.user.version + 1);
+  const stale = await request(
+    "me",
+    { version: user.user.version, firstName: "Другое" },
+    user.token,
+    "PATCH",
+  );
+  assert.equal(stale.status, 409);
+  assert.equal(stale.body.error.code, "stale");
+  assert.equal(await db.auditEntry.count({ where: { userId: user.user.id } }), 1);
+  const audit = await db.auditEntry.findFirst({ where: { userId: user.user.id } });
+  assert.deepEqual(Object.keys(audit.after).sort(), ["email", "middleName"]);
+  const cleared = await request(
+    "me",
+    { version: result.body.version, middleName: "", email: "" },
+    user.token,
+    "PATCH",
+  );
+  assert.equal(cleared.status, 200);
+  assert.ok(!("middleName" in cleared.body));
+  const noChanges = await request("me", { version: cleared.body.version }, user.token, "PATCH");
+  assert.equal(noChanges.status, 400);
+  const forbidden = await request(
+    "me",
+    { version: cleared.body.version, roles: ["system_admin"], phone: phone() },
+    user.token,
+    "PATCH",
+  );
+  assert.equal(forbidden.status, 400);
+  assert.equal(forbidden.body.error.fields.roles, "format");
+});
+
+test("idle sessions expire without being revived and activity extends idle time", async () => {
+  const user = await register();
+  const lifetime = Number(process.env.SESSION_IDLE_MINUTES ?? 30) * 60_000;
+  const activeAt = new Date(Date.now() - 60_000);
+  await db.session.updateMany({ where: { userId: user.user.id }, data: { lastSeenAt: activeAt } });
+  assert.equal((await request("me", undefined, user.token, "GET")).status, 200);
+  const active = await db.session.findFirst({ where: { userId: user.user.id } });
+  assert.ok(active.lastSeenAt > activeAt);
+  assert.ok(new Date(user.idleExpiresAt) <= new Date(user.expiresAt));
+  const expiredAt = new Date(Date.now() - lifetime - 1000);
+  await db.session.updateMany({ where: { userId: user.user.id }, data: { lastSeenAt: expiredAt } });
+  assert.equal((await request("me", undefined, user.token, "GET")).status, 401);
+  const expired = await db.session.findFirst({ where: { userId: user.user.id } });
+  assert.equal(expired.lastSeenAt.getTime(), expiredAt.getTime());
+});
+
+test("error envelope, field codes, canonical routes and private validation", async () => {
+  const malformed = await request("register", {
+    challengeId: randomUUID(),
+    code: "123456",
+    ...profile(),
+    firstName: "A".repeat(61),
+    lastName: "123",
+    iin: "900032000000",
+  });
+  assert.equal(malformed.status, 400);
+  assert.equal(malformed.body.error.code, "validation_error");
+  assert.equal(malformed.body.error.fields.firstName, "long");
+  assert.equal(malformed.body.error.fields.lastName, "format");
+  assert.equal(malformed.body.error.fields.iin, "format");
+  const invalid = await request("otp/verify", { challengeId: randomUUID(), code: "123456" });
+  assert.equal(invalid.body.error.code, "otp_invalid_or_expired");
+  assert.deepEqual(Object.keys(invalid.body), ["error"]);
+  const response = await fetch(`${base}/api/docs-json`);
+  const doc = await response.json();
+  assert.ok(doc.paths["/api/v1/auth/otp/request"]);
+  assert.ok(doc.paths["/api/v1/auth/otp/verify"]);
+  assert.ok(doc.paths["/api/v1/me"].patch);
+  assert.ok(!doc.paths["/api/v1/auth/codes"]);
+  const unknown = await fetch(`${base}/api/v1/unknown-private-path`);
+  const error = await unknown.json();
+  assert.equal(error.error.code, "not_found");
+  assert.ok(!JSON.stringify(error).includes("unknown-private-path"));
+  const malformedJson = await fetch(`${base}/api/v1/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: '{"private-value": secret',
+  });
+  const malformedError = await malformedJson.json();
+  assert.equal(malformedJson.status, 400);
+  assert.equal(malformedError.error.code, "bad_request");
+  assert.ok(!JSON.stringify(malformedError).includes("private-value"));
+});
+
 test("hourly phone and IP limits are stored in PostgreSQL", async () => {
   const number = phone(),
     now = new Date();
@@ -212,7 +318,7 @@ test("hourly phone and IP limits are stored in PostgreSQL", async () => {
   await db.otpChallenge.createMany({
     data: Array.from({ length: 5 }, () => dummy(number, "test-only-rate-limit")),
   });
-  assert.equal((await request("codes", { phone: number, purpose: "login" })).status, 429);
+  assert.equal((await request("otp/request", { phone: number, purpose: "login" })).status, 429);
   const seed = await db.otpChallenge.findFirst({
     where: { id: { in: [...ids] }, NOT: { ipHash: "test-only-rate-limit" } },
   });
@@ -220,7 +326,7 @@ test("hourly phone and IP limits are stored in PostgreSQL", async () => {
   const rows = Array.from({ length: 20 }, () => dummy(phone(), seed.ipHash));
   await db.otpChallenge.createMany({ data: rows });
   try {
-    assert.equal((await request("codes", { phone: phone(), purpose: "login" })).status, 429);
+    assert.equal((await request("otp/request", { phone: phone(), purpose: "login" })).status, 429);
   } finally {
     await db.otpChallenge.deleteMany({ where: { id: { in: rows.map((row) => row.id) } } });
   }

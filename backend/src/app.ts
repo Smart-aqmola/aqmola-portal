@@ -13,7 +13,8 @@ import { ApiOperation, ApiTags, DocumentBuilder, SwaggerModule } from "@nestjs/s
 import { Database } from "./database";
 import { CatalogService } from "./catalog.service";
 import { CatalogQuery, TerritoryQuery } from "./catalog.dto";
-import { AuthController, SessionGuard } from "./auth/auth.controller";
+import { AuthController, ProfileController, SessionGuard } from "./auth/auth.controller";
+import { ApiExceptionFilter, validationFault } from "./api-errors";
 import { AuthService } from "./auth/auth.service";
 import { LocalSms } from "./auth/local-sms";
 
@@ -75,7 +76,7 @@ class HealthController {
 }
 
 @Module({
-  controllers: [CatalogController, HealthController, AuthController],
+  controllers: [CatalogController, HealthController, AuthController, ProfileController],
   providers: [Database, CatalogService, AuthService, LocalSms, SessionGuard],
 })
 class AppModule {}
@@ -91,14 +92,23 @@ export async function createApp() {
       response: { setHeader(name: string, value: string): void },
       next: () => void,
     ) => {
-      if (request.originalUrl.startsWith("/api/v1/auth"))
+      if (
+        request.originalUrl.startsWith("/api/v1/auth") ||
+        request.originalUrl.startsWith("/api/v1/me")
+      )
         response.setHeader("Cache-Control", "no-store");
       next();
     },
   );
   app.setGlobalPrefix("api/v1");
+  app.useGlobalFilters(new ApiExceptionFilter());
   app.useGlobalPipes(
-    new ValidationPipe({ transform: true, whitelist: true, forbidNonWhitelisted: true }),
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      exceptionFactory: validationFault,
+    }),
   );
   app.enableCors({ origin: process.env.WEB_ORIGIN ?? "http://127.0.0.1:3000" });
   app.enableShutdownHooks();
@@ -110,6 +120,34 @@ export async function createApp() {
     )
     .addBearerAuth()
     .build();
-  SwaggerModule.setup("api/docs", app, SwaggerModule.createDocument(app, config));
+  const document = SwaggerModule.createDocument(app, config);
+  document.components ??= {};
+  document.components.schemas ??= {};
+  document.components.schemas.ApiError = {
+    type: "object",
+    required: ["error"],
+    properties: {
+      error: {
+        type: "object",
+        required: ["code", "message"],
+        properties: {
+          code: { type: "string" },
+          message: { type: "string" },
+          fields: { type: "object", additionalProperties: { type: "string" } },
+        },
+      },
+    },
+  };
+  for (const item of Object.values(document.paths)) {
+    for (const method of ["get", "post", "patch", "put", "delete"] as const) {
+      const operation = item?.[method];
+      if (operation)
+        operation.responses.default = {
+          description: "Error envelope; frontend translates error.code and error.fields",
+          content: { "application/json": { schema: { $ref: "#/components/schemas/ApiError" } } },
+        };
+    }
+  }
+  SwaggerModule.setup("api/docs", app, document);
   return app;
 }

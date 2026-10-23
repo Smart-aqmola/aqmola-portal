@@ -15,8 +15,9 @@ import {
 } from "node:crypto";
 import { Database } from "../database";
 import { LocalSms } from "./local-sms";
-import { RegisterDto, RequestCodeDto, VerifyCodeDto } from "./auth.dto";
+import { RegisterDto, RequestCodeDto, VerifyCodeDto, UpdateProfileDto } from "./auth.dto";
 import { Prisma } from "../../generated/prisma/client";
+import { ApiFault } from "../api-errors";
 
 const MINUTE = 60_000;
 const HOUR = 60 * MINUTE;
@@ -27,7 +28,10 @@ const userFields = {
   iin: true,
   firstName: true,
   lastName: true,
-  patronymic: true,
+  middleName: true,
+  roles: true,
+  version: true,
+  blocked: true,
   email: true,
   phoneVerifiedAt: true,
   createdAt: true,
@@ -37,6 +41,7 @@ const digestToken = (token: string) => createHash("sha256").update(token).digest
 @Injectable()
 export class AuthService {
   private readonly secret: string;
+  private readonly idleMs: number;
   constructor(
     private readonly db: Database,
     private readonly sms: LocalSms,
@@ -45,6 +50,10 @@ export class AuthService {
     if (!secret || Buffer.byteLength(secret) < 32)
       throw new Error("AUTH_OTP_SECRET must contain at least 32 bytes");
     this.secret = secret;
+    const minutes = Number(process.env.SESSION_IDLE_MINUTES ?? 30);
+    if (!Number.isInteger(minutes) || minutes < 1 || minutes > 1440)
+      throw new Error("Invalid SESSION_IDLE_MINUTES");
+    this.idleMs = minutes * MINUTE;
   }
 
   private hash(value: string) {
@@ -118,6 +127,7 @@ export class AuthService {
           !challenge.deliveredAt ||
           challenge.attempts >= 5 ||
           challenge.expiresAt <= now ||
+          (registration?.phone !== undefined && registration.phone !== challenge.phone) ||
           challenge.purpose !== (registration ? "register" : "login")
         ) {
           return { error: "invalid" } as const;
@@ -147,7 +157,7 @@ export class AuthService {
               iin: registration.iin,
               firstName: registration.firstName,
               lastName: registration.lastName,
-              patronymic: registration.patronymic,
+              middleName: registration.middleName,
               email: registration.email,
               phoneVerifiedAt: now,
               consentAt: now,
@@ -163,14 +173,31 @@ export class AuthService {
         }
         const expiresAt = new Date(now.getTime() + SESSION_LIFETIME);
         await tx.session.create({
-          data: { tokenHash: digestToken(token), userId: user.id, expiresAt },
+          data: { tokenHash: digestToken(token), userId: user.id, expiresAt, lastSeenAt: now },
         });
-        return { user, expiresAt };
+        return {
+          user,
+          expiresAt,
+          idleExpiresAt: new Date(Math.min(now.getTime() + this.idleMs, expiresAt.getTime())),
+        };
       });
       // Throw outside the transaction, so incorrect attempts and consumed codes remain recorded.
       if (result.error === "conflict") throw new ConflictException("REGISTRATION_CONFLICT");
       if (result.error) throw new UnauthorizedException("OTP_INVALID_OR_EXPIRED");
-      return { token, tokenType: "Bearer", expiresAt: result.expiresAt, user: result.user };
+      const user = this.presentUser(result.user);
+      return {
+        token,
+        tokenType: "Bearer",
+        expiresAt: result.expiresAt,
+        idleExpiresAt: result.idleExpiresAt,
+        session: {
+          role: user.roles[0] ?? "resident",
+          name: `${user.lastName} ${user.firstName}`,
+          expiresAt: result.expiresAt,
+          idleExpiresAt: result.idleExpiresAt,
+        },
+        user,
+      };
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
         throw new ConflictException("REGISTRATION_CONFLICT");
@@ -182,15 +209,79 @@ export class AuthService {
   async authenticate(header?: string | string[]) {
     if (typeof header !== "string" || !/^Bearer [A-Za-z0-9_-]{43}$/.test(header))
       throw new UnauthorizedException("SESSION_REQUIRED");
-    const session = await this.db.session.findUnique({
-      where: { tokenHash: digestToken(header.slice(7)) },
-      include: { user: { select: { ...userFields, blocked: true } } },
+    const now = new Date();
+    const tokenHash = digestToken(header.slice(7));
+    const session = await this.db.$transaction(async (tx) => {
+      const updated = await tx.session.updateMany({
+        where: {
+          tokenHash,
+          revokedAt: null,
+          expiresAt: { gt: now },
+          lastSeenAt: { gt: new Date(now.getTime() - this.idleMs) },
+          user: { blocked: false },
+        },
+        data: { lastSeenAt: now },
+      });
+      if (!updated.count) return null;
+      return tx.session.findUnique({
+        where: { tokenHash },
+        include: { user: { select: userFields } },
+      });
     });
-    if (!session || session.revokedAt || session.expiresAt <= new Date() || session.user.blocked) {
+    if (!session || session.user.blocked)
       throw new UnauthorizedException("SESSION_INVALID_OR_EXPIRED");
-    }
-    const { blocked: _blocked, ...user } = session.user;
-    return { sessionId: session.id, user };
+    return { sessionId: session.id, user: this.presentUser(session.user) };
+  }
+
+  private presentUser(user: Prisma.UserGetPayload<{ select: typeof userFields }>) {
+    return {
+      id: user.id,
+      iin: `${user.iin.slice(0, 6)}••••${user.iin.slice(10)}`,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      ...(user.middleName ? { middleName: user.middleName } : {}),
+      phone: user.phone,
+      ...(user.email ? { email: user.email } : {}),
+      roles: user.roles,
+      status: user.blocked ? "blocked" : "active",
+      version: user.version,
+      createdAt: user.createdAt,
+    };
+  }
+
+  async updateProfile(userId: string, input: UpdateProfileDto) {
+    const version = input.version;
+    const changes = Object.fromEntries(
+      Object.entries(input).filter(([key, value]) => key !== "version" && value !== undefined),
+    ) as Omit<UpdateProfileDto, "version">;
+    if (!Object.keys(changes).length) throw new ApiFault(400, "validation_error");
+    const user = await this.db.$transaction(async (tx) => {
+      await tx.$queryRaw`SELECT id FROM "User" WHERE id = ${userId} FOR UPDATE`;
+      const before = await tx.user.findUnique({ where: { id: userId }, select: userFields });
+      if (!before || before.blocked) throw new UnauthorizedException("SESSION_INVALID_OR_EXPIRED");
+      const changed = await tx.user.updateMany({
+        where: { id: userId, version, blocked: false },
+        data: { ...changes, version: { increment: 1 } },
+      });
+      if (!changed.count) throw new ApiFault(409, "stale");
+      const after = await tx.user.findUniqueOrThrow({ where: { id: userId }, select: userFields });
+      const snapshot = (row: typeof before) =>
+        Object.fromEntries(
+          Object.keys(changes).map((key) => [key, row[key as keyof typeof changes] ?? null]),
+        );
+      await tx.auditEntry.create({
+        data: {
+          userId,
+          action: "profile_updated",
+          entityType: "user",
+          entityId: userId,
+          before: snapshot(before),
+          after: snapshot(after),
+        },
+      });
+      return after;
+    });
+    return this.presentUser(user);
   }
 
   async logout(sessionId: string) {
