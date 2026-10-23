@@ -45,7 +45,8 @@
     "rights": "© 2026 Aqmola, test data",
     "organizations": "Организации",
     "help": "Помощь",
-    "contacts": "Contacts"
+    "contacts": "Contacts",
+    "events": "Events"
   },
   "home": {
     "hero": {
@@ -2843,5 +2844,47 @@
         "consent": "Consent is needed to send"
       }
     }
+  },
+  "eventsPage": {
+    "title": "Events",
+    "lead": "Concerts, plays, exhibitions and festivals of Akmola region.",
+    "demo": "Demo: the events are made up; dates are counted from the current week.",
+    "genresLabel": "Genres",
+    "all": "All",
+    "genres": {
+      "concerts": "Concerts",
+      "theatre": "Theatre",
+      "exhibitions": "Exhibitions and museums",
+      "kids": "For children",
+      "sport": "Sport",
+      "festivals": "Festivals",
+      "masterclasses": "Workshops"
+    },
+    "popular": "Popular",
+    "weekend": "This weekend",
+    "weekendEmpty": "Nothing on this weekend — see the whole poster.",
+    "free": "Free",
+    "venues": "All venues",
+    "allEvents": "All events",
+    "count": "Events: {n}",
+    "empty": "No matching events yet.",
+    "reset": "All events",
+    "freeEntry": "Free entry",
+    "about": "About the event",
+    "place": "Venue",
+    "address": "Address",
+    "date": "Date and time",
+    "genre": "Genre",
+    "age": "Age rating",
+    "cost": "Price",
+    "note": "Note",
+    "duration": "Duration",
+    "minutes": "{n} min",
+    "addToCalendar": "Add to calendar",
+    "tickets": "Tickets",
+    "ticketsNote": "Ticket sales are not connected: this is a demo poster.",
+    "others": "Other events",
+    "venueEvents": "Events at {name}",
+    "breadcrumbs": "Breadcrumbs"
   }
 }

@@ -64,6 +64,20 @@ const icons = {
   bell: <path d="M6 17v-6a6 6 0 0 1 12 0v6l2 2H4zM10 21h4" />,
   close: <path d="M6 6l12 12M18 6L6 18" />,
   plus: <path d="M12 5v14M5 12h14" />,
+  music: (
+    <path d="M9 18V5l11-2v13M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM20 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+  ),
+  mask: <path d="M4 5c5 2 11 2 16 0v6a8 8 0 0 1-16 0zM8.5 10h2M13.5 10h2M9 14c2 1.5 4 1.5 6 0" />,
+  frame: <path d="M4 4h16v16H4zM4 16l5-5 4 4 3-3 4 4M15 8.5h.01" />,
+  balloon: (
+    <path d="M12 3a6 6 0 0 1 6 6c0 4-3 7-6 7s-6-3-6-7a6 6 0 0 1 6-6zM12 16l-1 2h2zM12 18c0 2-2 2-2 3" />
+  ),
+  ball: (
+    <path d="M12 3a9 9 0 1 1 0 18 9 9 0 0 1 0-18zM12 7l4 3-1.5 4.5h-5L8 10zM12 3v4M20 10l-4 0M17 19l-2.5-4.5M7 19l2.5-4.5M4 10h4" />
+  ),
+  star: <path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z" />,
+  brush: <path d="M14 4l6 6-8 8H6v-6zM12 6l6 6M6 18c0 2-1 3-3 3 0-2 1-3 3-3" />,
+  calendar: <path d="M4 6h16v14H4zM4 10h16M8 3v4M16 3v4" />,
   grid: <path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z" />,
 } satisfies Record<string, ReactNode>;
 
