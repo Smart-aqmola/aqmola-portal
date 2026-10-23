@@ -46,6 +46,7 @@ model User {
   createdAt DateTime @default(now())
   sessions Session[]
   auditEntries AuditEntry[]
+  properties Property[]
 }
 
 model OtpChallenge {
@@ -96,6 +97,43 @@ model Territory {
   kind String
   name Json
   organizations OrganizationTerritory[]
+  properties Property[]
+}
+
+enum PropertyType {
+  apartment
+  house
+  non_residential
+  other
+}
+
+enum PropertyRelation {
+  owner
+  representative
+  tenant
+  lawful_user
+}
+
+model Property {
+  id String @id @default(uuid())
+  ownerId String
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Restrict)
+  territoryId String
+  territory Territory @relation(fields: [territoryId], references: [id], onDelete: Restrict)
+  locality String
+  street String
+  house String
+  flat String?
+  type PropertyType
+  relation PropertyRelation
+  personalAccount String?
+  ownerInfo String
+  addressId String?
+  verification Json @default("{\"status\":\"unverified\",\"documents\":[]}")
+  version Int @default(1)
+  createdAt DateTime @default(now())
+  @@index([ownerId, createdAt])
+  @@index([territoryId])
 }
 
 model Organization {

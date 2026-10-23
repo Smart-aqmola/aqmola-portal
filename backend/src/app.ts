@@ -20,6 +20,8 @@ import { LocalSms } from "./auth/local-sms";
 import { SecurityAdminController, OrganizationController } from "./security/security.controller";
 import { SecurityService } from "./security/security.service";
 import { RolesGuard, OrganizationGuard } from "./security/security.guards";
+import { PropertyController } from "./properties/property.controller";
+import { PropertyService } from "./properties/property.service";
 
 @ApiTags("Catalog")
 @Controller()
@@ -86,6 +88,7 @@ class HealthController {
     ProfileController,
     SecurityAdminController,
     OrganizationController,
+    PropertyController,
   ],
   providers: [
     Database,
@@ -96,6 +99,7 @@ class HealthController {
     SecurityService,
     RolesGuard,
     OrganizationGuard,
+    PropertyService,
   ],
 })
 class AppModule {}
@@ -111,7 +115,7 @@ export async function createApp() {
       response: { setHeader(name: string, value: string): void },
       next: () => void,
     ) => {
-      if (/^\/api\/v1\/(auth|me|admin|org)([/?]|$)/.test(request.originalUrl))
+      if (/^\/api\/v1\/(auth|me|admin|org|properties)([/?]|$)/.test(request.originalUrl))
         response.setHeader("Cache-Control", "no-store");
       next();
     },
