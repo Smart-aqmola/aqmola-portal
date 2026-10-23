@@ -285,7 +285,6 @@
 
 .takeFacts dt {
   font-size: var(--text-sm);
-  opacity: 0.9;
 }
 
 .takeFacts dd {

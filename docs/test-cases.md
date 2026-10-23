@@ -34,16 +34,16 @@
 
 ## Соответствие классов дефектов (ТЗ 21.4) тестам
 
-| Класс дефекта                                      | Где проверяется                                                               |
-| -------------------------------------------------- | ----------------------------------------------------------------------------- |
-| Потеря данных при «Назад», смене языка, обновлении | `interface.spec.ts`, `use-draft-state.test.tsx`, `apply-wizard.test.tsx`      |
-| Непонятная ошибка / нет страницы                   | `interface.spec.ts` (404), `system-pages.test.tsx`, `system-messages.test.ts` |
-| Чужие данные в кабинете оператора                  | `operator-cabinet.spec.ts`, `scope.test.ts`                                   |
-| Блокировка организации                             | `operator-cabinet.spec.ts`, `admin.spec.ts`                                   |
-| Двойная оплата                                     | `billing.spec.ts`, `payment.test.ts`                                          |
-| Недопустимый переход статуса                       | тесты доменов `contract`, `reading`, `meter-request`, `appeal`                |
-| Доступность                                        | `accessibility.spec.ts`, `touch-forms.spec.ts`                                |
-| Заголовки безопасности                             | `security-headers.spec.ts`                                                    |
+| Класс дефекта                                      | Где проверяется                                                                                             |
+| -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Потеря данных при «Назад», смене языка, обновлении | `interface.spec.ts`, `use-draft-state.test.tsx`, `apply-wizard.test.tsx`                                    |
+| Непонятная ошибка / нет страницы                   | `interface.spec.ts` (404), `system-pages.test.tsx`, `system-messages.test.ts`                               |
+| Чужие данные в кабинете оператора                  | `operator-cabinet.spec.ts`, `scope.test.ts`                                                                 |
+| Блокировка организации                             | `operator-cabinet.spec.ts`, `admin.spec.ts`                                                                 |
+| Двойная оплата                                     | `billing.spec.ts`, `payment.test.ts`                                                                        |
+| Недопустимый переход статуса                       | тесты доменов `contract`, `reading`, `meter-request`, `appeal`                                              |
+| Доступность                                        | `axe.spec.ts` (WCAG 2.2 AA), `accessibility.spec.ts`, `accessibility-filled.spec.ts`, `touch-forms.spec.ts` |
+| Заголовки безопасности                             | `security-headers.spec.ts`                                                                                  |
 
 ## Не проверяется на фронте
 
