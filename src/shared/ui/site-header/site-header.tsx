@@ -55,9 +55,18 @@ export function SiteHeader({ lang, dict }: SiteHeaderProps) {
       <div className={`container ${styles.bar}`}>
         <Link href={home} className={styles.brand}>
           <span className={styles.brandPill}>
-            <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true" focusable="false">
-              <path d="M2 22l8-12 5 6 3-4 8 10z" fill="#1c7c9c" />
-              <circle cx="20" cy="7" r="3" fill="#e9b23c" />
+            {/* The portal's mark "house and drop" (design/logo, variant B). */}
+            <svg width="30" height="30" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+              <rect x="2" y="2" width="44" height="44" rx="13" fill="#1c7c9c" />
+              <path
+                d="M10 33 24 12l14 21"
+                fill="none"
+                stroke="#fff"
+                strokeWidth="4.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path d="M24 22s5 6 5 9.5a5 5 0 0 1-10 0C19 28 24 22 24 22z" fill="#e9b23c" />
             </svg>
             <span className={styles.brandName}>{dict.brand.name}</span>
           </span>
