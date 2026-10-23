@@ -128,7 +128,8 @@ export function SurveyView({
       <div className={styles.main}>
         {taking ? (
           <form ref={formRef} className={styles.form} noValidate onSubmit={send}>
-            <h2 className={styles.panelTitle}>{labels.takeTitle}</h2>
+            {/* The box beside already says "Take the survey"; the form keeps the heading for screen readers. */}
+            <h2 className="visually-hidden">{labels.takeTitle}</h2>
             {survey.questions.map((question) => {
               const single = question.kind === "single";
               const errorId = `${id}-${question.id}-error`;
