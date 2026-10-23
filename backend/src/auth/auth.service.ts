@@ -18,6 +18,7 @@ import { LocalSms } from "./local-sms";
 import { RegisterDto, RequestCodeDto, VerifyCodeDto, UpdateProfileDto } from "./auth.dto";
 import { Prisma } from "../../generated/prisma/client";
 import { ApiFault } from "../api-errors";
+import { sessionRole } from "../security/roles";
 
 const MINUTE = 60_000;
 const HOUR = 60 * MINUTE;
@@ -30,6 +31,7 @@ const userFields = {
   lastName: true,
   middleName: true,
   roles: true,
+  organizationId: true,
   version: true,
   blocked: true,
   email: true,
@@ -191,7 +193,8 @@ export class AuthService {
         expiresAt: result.expiresAt,
         idleExpiresAt: result.idleExpiresAt,
         session: {
-          role: user.roles[0] ?? "resident",
+          role: sessionRole(user.roles),
+          ...(user.organizationId ? { organizationId: user.organizationId } : {}),
           name: `${user.lastName} ${user.firstName}`,
           expiresAt: result.expiresAt,
           idleExpiresAt: result.idleExpiresAt,
@@ -243,6 +246,7 @@ export class AuthService {
       phone: user.phone,
       ...(user.email ? { email: user.email } : {}),
       roles: user.roles,
+      ...(user.organizationId ? { organizationId: user.organizationId } : {}),
       status: user.blocked ? "blocked" : "active",
       version: user.version,
       createdAt: user.createdAt,

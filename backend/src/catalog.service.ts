@@ -25,7 +25,7 @@ export class CatalogService {
       include: { territories: true },
       orderBy: { id: "asc" },
     });
-    return rows.map(({ servesAll, territories, ...row }) => ({
+    return rows.map(({ servesAll, territories, blocked: _blocked, version: _version, ...row }) => ({
       ...row,
       territories: servesAll ? "all" : territories.map((t) => t.territoryId),
     }));

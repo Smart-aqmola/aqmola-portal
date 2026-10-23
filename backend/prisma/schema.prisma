@@ -13,6 +13,21 @@ enum OtpPurpose {
   login
 }
 
+enum Role {
+  resident
+  representative
+  tenant
+  lawful_user
+  provider_employee
+  contact_operator
+  request_specialist
+  inspector
+  meter_specialist
+  accountant
+  organization_admin
+  system_admin
+}
+
 model User {
   id String @id @default(uuid())
   phone String @unique
@@ -24,7 +39,9 @@ model User {
   phoneVerifiedAt DateTime
   consentAt DateTime
   blocked Boolean @default(false)
-  roles String[] @default(["resident"])
+  roles Role[] @default([resident])
+  organizationId String?
+  organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Restrict)
   version Int @default(1)
   createdAt DateTime @default(now())
   sessions Session[]
@@ -86,6 +103,9 @@ model Organization {
   name Json
   sector String
   servesAll Boolean @default(false)
+  blocked Boolean @default(false)
+  version Int @default(1)
+  employees User[]
   territories OrganizationTerritory[]
   services Service[]
 }

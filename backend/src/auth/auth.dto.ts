@@ -122,6 +122,7 @@ export class UpdateProfileDto {
   email?: string | null;
 }
 export class UserResponseDto {
+  @ApiPropertyOptional() organizationId?: string;
   @ApiProperty({ format: "uuid" }) id!: string;
   @ApiProperty({ example: "900101••••23" }) iin!: string;
   @ApiProperty() firstName!: string;
@@ -135,6 +136,7 @@ export class UserResponseDto {
   @ApiProperty({ format: "date-time" }) createdAt!: Date;
 }
 export class SessionInfoDto {
+  @ApiPropertyOptional() organizationId?: string;
   @ApiProperty() role!: string;
   @ApiProperty() name!: string;
   @ApiProperty({ format: "date-time" }) expiresAt!: Date;

@@ -17,6 +17,9 @@ import { AuthController, ProfileController, SessionGuard } from "./auth/auth.con
 import { ApiExceptionFilter, validationFault } from "./api-errors";
 import { AuthService } from "./auth/auth.service";
 import { LocalSms } from "./auth/local-sms";
+import { SecurityAdminController, OrganizationController } from "./security/security.controller";
+import { SecurityService } from "./security/security.service";
+import { RolesGuard, OrganizationGuard } from "./security/security.guards";
 
 @ApiTags("Catalog")
 @Controller()
@@ -76,8 +79,24 @@ class HealthController {
 }
 
 @Module({
-  controllers: [CatalogController, HealthController, AuthController, ProfileController],
-  providers: [Database, CatalogService, AuthService, LocalSms, SessionGuard],
+  controllers: [
+    CatalogController,
+    HealthController,
+    AuthController,
+    ProfileController,
+    SecurityAdminController,
+    OrganizationController,
+  ],
+  providers: [
+    Database,
+    CatalogService,
+    AuthService,
+    LocalSms,
+    SessionGuard,
+    SecurityService,
+    RolesGuard,
+    OrganizationGuard,
+  ],
 })
 class AppModule {}
 
@@ -92,10 +111,7 @@ export async function createApp() {
       response: { setHeader(name: string, value: string): void },
       next: () => void,
     ) => {
-      if (
-        request.originalUrl.startsWith("/api/v1/auth") ||
-        request.originalUrl.startsWith("/api/v1/me")
-      )
+      if (/^\/api\/v1\/(auth|me|admin|org)([/?]|$)/.test(request.originalUrl))
         response.setHeader("Cache-Control", "no-store");
       next();
     },

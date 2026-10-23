@@ -28,8 +28,8 @@ import {
   SessionResponseDto,
 } from "./auth.dto";
 
-type Identity = Awaited<ReturnType<AuthService["authenticate"]>>;
-type AuthRequest = {
+export type Identity = Awaited<ReturnType<AuthService["authenticate"]>>;
+export type AuthRequest = {
   headers: Record<string, string | string[] | undefined>;
   socket: { remoteAddress?: string };
   identity: Identity;

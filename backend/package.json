@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
+    "admin:bootstrap": "node --env-file=.env --import tsx scripts/bootstrap-admin.ts",
     "setup:env": "node scripts/setup-env.mjs",
     "generate": "prisma generate",
     "build": "tsc -p tsconfig.json",
