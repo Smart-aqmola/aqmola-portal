@@ -47,7 +47,8 @@
     "help": "Помощь",
     "contacts": "Contacts",
     "events": "Events",
-    "surveys": "Surveys"
+    "surveys": "Surveys",
+    "myRegion": "My region"
   },
   "home": {
     "hero": {
@@ -2946,5 +2947,57 @@
     "others": "Other surveys",
     "impactTitle": "How the results are used",
     "participantsLabel": "Participants"
+  },
+  "myRegionPage": {
+    "title": "My region",
+    "heroTitle": "Aqmola — your helper with utility services",
+    "heroText": "Services, contracts, meters and payments in one place. Here is what matters today.",
+    "heroLink": "Go to services",
+    "demo": "Weather and exchange rates are demo values, not real data.",
+    "photoOfDay": "Photo of the day",
+    "prevPhoto": "Previous photo",
+    "nextPhoto": "Next photo",
+    "photoN": "Photo {n} of {total}",
+    "weather": {
+      "clear": "Clear",
+      "cloudy": "Cloudy",
+      "rain": "Rain",
+      "snow": "Snow"
+    },
+    "weatherLabel": "Weather in Kokshetau",
+    "currency": "Currency",
+    "rate": "{value} ₸",
+    "eventTag": "Event",
+    "newsTag": "News",
+    "tiles": {
+      "events": {
+        "title": "Events",
+        "text": "Concerts, plays and festivals of the region.",
+        "link": "See the poster"
+      },
+      "cabinet": {
+        "title": "My account",
+        "text": "Requests, contracts, meters and payments in one place.",
+        "link": "Open my account"
+      },
+      "surveys": {
+        "title": "Surveys",
+        "text": "Open surveys: {n}. Share your opinion.",
+        "link": "Take a survey"
+      },
+      "situations": {
+        "title": "Life situations",
+        "text": "What to do if… — all the services step by step.",
+        "link": "Choose a situation"
+      },
+      "services": {
+        "title": "Popular services",
+        "link": "All services"
+      }
+    },
+    "news": "News",
+    "allNews": "All news",
+    "events": "Events",
+    "allEvents": "All events"
   }
 }
