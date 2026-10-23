@@ -2798,5 +2798,18 @@
   "list": {
     "shown": "Showing {n} of {total}",
     "more": "Show {n} more"
+  },
+  "situationPage": {
+    "label": "Life situation",
+    "back": "Back",
+    "title": "Life situations",
+    "lead": "Choose what has happened, and we will show all the services you need by category.",
+    "categories": "Service categories",
+    "all": "All",
+    "count": "Services: {n}",
+    "others": "Other life situations",
+    "othersLead": "Choose the situation that fits to get the services you need",
+    "empty": "There are no services in this category yet.",
+    "results": "Services"
   }
 }

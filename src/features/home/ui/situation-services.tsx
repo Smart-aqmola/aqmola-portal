@@ -105,7 +105,7 @@ export function SituationServices({
       >
         <div className={styles.panelHead}>
           <h3 className={styles.panelTitle}>{format(labels.popularIn, { name: active.name })}</h3>
-          <Link href={`/${lang}/services?situation=${active.id}`} className={styles.all}>
+          <Link href={`/${lang}/situations/${active.id}`} className={styles.all}>
             {labels.allServices}
           </Link>
         </div>

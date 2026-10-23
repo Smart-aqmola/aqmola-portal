@@ -74,6 +74,15 @@ a.tag:hover {
   margin-top: var(--space-8);
 }
 
+.relatedAll {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  margin-top: var(--space-4);
+  color: var(--color-accent-text);
+  font-weight: var(--weight-medium);
+}
+
 .relatedTitle {
   margin-bottom: var(--space-5);
   font-size: var(--text-2xl);

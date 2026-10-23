@@ -50,6 +50,9 @@ const pages = [
   "/ru/tourism",
   "/ru/tourism/burabay",
   "/ru/about",
+  "/ru/situations",
+  "/ru/situations/meters",
+  "/kk/situations/contracts?category=water",
   "/en/services",
 ];
 

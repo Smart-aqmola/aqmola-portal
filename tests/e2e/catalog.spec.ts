@@ -77,10 +77,44 @@ test.describe("catalog", () => {
     expect(await page.getByRole("heading", { level: 3 }).first().innerText()).not.toBe(first);
   });
 
-  test("a life situation address opens the catalog with that situation", async ({ page }) => {
-    await page.goto("/ru/situations/meters");
-    await expect(page).toHaveURL(/\/ru\/services\?situation=meters/);
-    await expect(page.getByRole("combobox", { name: "Жизненная ситуация" })).toHaveValue("meters");
+  test("a life situation has its own page with categories, services and the other situations", async ({
+    page,
+  }) => {
+    await page.goto("/ru/situations");
+    await page.getByRole("link", { name: /Приборы учёта и показания/ }).click();
+    await expect(page).toHaveURL(/\/ru\/situations\/meters$/);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Приборы учёта и показания");
+
+    const categories = page.getByRole("navigation", { name: "Категории услуг" });
+    // On a phone the list is folded into one line, as on the reference site.
+    const fold = categories.locator("summary");
+    if (await fold.isVisible()) await fold.click();
+    const all = categories.getByRole("link", { name: /^Все/ }).first();
+    await expect(all).toHaveAttribute("aria-current", "true");
+    const total = Number((await page.getByRole("status").innerText()).replace(/\D/g, ""));
+    expect(total).toBeGreaterThan(0);
+
+    const first = categories.getByRole("link").nth(1);
+    const name = (await first.innerText()).split("\n")[0];
+    await first.click();
+    await expect(page).toHaveURL(/\?category=/);
+    if (await fold.isVisible()) await fold.click();
+    await expect(categories.getByRole("link", { name: new RegExp(name) }).first()).toHaveAttribute(
+      "aria-current",
+      "true",
+    );
+
+    await expect(
+      page.getByRole("heading", { level: 2, name: "Другие жизненные ситуации" }),
+    ).toBeVisible();
+    await page.getByRole("link", { name: /Договоры, лицевые счета и ЕПД/ }).click();
+    await expect(page).toHaveURL(/\/ru\/situations\/contracts$/);
+  });
+
+  test("an unknown life situation is a missing page", async ({ page }) => {
+    const response = await page.goto("/ru/situations/space");
+    expect(response?.status()).not.toBe(500);
+    await expect(page.getByText("404")).toBeVisible();
   });
 
   test("tells with a message that a service was added to and removed from favorites", async ({

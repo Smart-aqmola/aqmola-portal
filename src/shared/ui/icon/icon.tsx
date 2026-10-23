@@ -64,6 +64,7 @@ const icons = {
   bell: <path d="M6 17v-6a6 6 0 0 1 12 0v6l2 2H4zM10 21h4" />,
   close: <path d="M6 6l12 12M18 6L6 18" />,
   plus: <path d="M12 5v14M5 12h14" />,
+  grid: <path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z" />,
 } satisfies Record<string, ReactNode>;
 
 export type IconName = keyof typeof icons;

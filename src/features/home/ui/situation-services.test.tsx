@@ -92,7 +92,7 @@ describe("SituationServices", () => {
     fireEvent.click(screen.getByRole("tab", { name: "Подключение" }));
     expect(screen.getByRole("link", { name: "Все услуги" })).toHaveAttribute(
       "href",
-      "/ru/services?situation=connection",
+      "/ru/situations/connection",
     );
   });
 

@@ -108,6 +108,9 @@ export default async function ServicePage({ params }: Props) {
               </li>
             ))}
           </ul>
+          <Link href={`/${lang}/situations/${details.situation.id}`} className={styles.relatedAll}>
+            {dict.home.situations.allServices}: {details.situation.name}
+          </Link>
         </section>
       )}
     </div>

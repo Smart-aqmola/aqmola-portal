@@ -98,7 +98,7 @@ test.describe("home page", () => {
     await expect(panel.getByRole("article")).toHaveCount(3);
     await expect(panel.getByRole("link", { name: "Все услуги" })).toHaveAttribute(
       "href",
-      "/ru/services?situation=connection",
+      "/ru/situations/connection",
     );
   });
 
