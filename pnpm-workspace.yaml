@@ -1,4 +1,5 @@
 minimumReleaseAge: 10080
+verifyDepsBeforeRun: warn
 allowBuilds:
   sharp: true
   unrs-resolver: true

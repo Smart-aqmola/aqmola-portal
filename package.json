@@ -7,17 +7,18 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/build.mjs",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:build-tools": "node --test scripts/windows-build-fs.test.mjs",
     "test:e2e": "playwright test",
     "perf": "node scripts/perf.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build"
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test:build-tools && pnpm test && pnpm build"
   },
   "dependencies": {
     "next": "16.4.0",
