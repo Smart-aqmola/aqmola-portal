@@ -31,7 +31,7 @@ export class AvailabilityService {
     if (matches.length !== 1) throw new ApiFault(422, "not_serviced");
     return matches[0];
   }
-  private async evaluate(tx: Prisma.TransactionClient, ownerId: string, id: string, lang: string) {
+  async evaluate(tx: Prisma.TransactionClient, ownerId: string, id: string, lang: string) {
     const property = await tx.property.findFirst({ where: { id, ownerId } });
     if (!property) throw new ApiFault(404, "not_found");
     if ((property.verification as { status?: string }).status !== "confirmed")

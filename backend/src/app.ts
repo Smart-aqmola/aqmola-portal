@@ -1,4 +1,6 @@
 import "reflect-metadata";
+import { DraftController } from "./contracts/draft.controller";
+import { DraftService } from "./contracts/draft.service";
 import { AvailabilityController } from "./addresses/availability.controller";
 import { AvailabilityService } from "./addresses/availability.service";
 import { AddressController } from "./addresses/address.controller";
@@ -92,6 +94,7 @@ class HealthController {
 @Module({
   controllers: [
     CatalogController,
+    DraftController,
     AddressController,
     AvailabilityController,
     HealthController,
@@ -106,6 +109,7 @@ class HealthController {
   providers: [
     Database,
     CatalogService,
+    DraftService,
     AddressService,
     AvailabilityService,
     AuthService,
@@ -131,7 +135,11 @@ export async function createApp() {
       response: { setHeader(name: string, value: string): void },
       next: () => void,
     ) => {
-      if (/^\/api\/v1\/(auth|me|admin|org|properties)([/?]|$)/.test(request.originalUrl))
+      if (
+        /^\/api\/v1\/(auth|me|admin|org|properties|contract-applications)([/?]|$)/.test(
+          request.originalUrl,
+        )
+      )
         response.setHeader("Cache-Control", "no-store");
       next();
     },
