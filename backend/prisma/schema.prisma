@@ -98,6 +98,7 @@ model Territory {
   name Json
   organizations OrganizationTerritory[]
   properties Property[]
+  addresses Address[]
 }
 
 enum PropertyType {
@@ -207,4 +208,15 @@ model Service {
   @@index([organizationId])
   @@index([categoryId])
   @@index([situationId])
+}
+
+model Address {
+  id String @id
+  territoryId String
+  territory Territory @relation(fields: [territoryId], references: [id], onDelete: Restrict)
+  locality Json
+  street Json
+  without String[] @default([])
+  searchText String
+  @@index([territoryId])
 }

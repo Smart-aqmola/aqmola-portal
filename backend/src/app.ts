@@ -1,4 +1,8 @@
 import "reflect-metadata";
+import { AvailabilityController } from "./addresses/availability.controller";
+import { AvailabilityService } from "./addresses/availability.service";
+import { AddressController } from "./addresses/address.controller";
+import { AddressService } from "./addresses/address.service";
 import {
   Controller,
   Get,
@@ -88,6 +92,8 @@ class HealthController {
 @Module({
   controllers: [
     CatalogController,
+    AddressController,
+    AvailabilityController,
     HealthController,
     AuthController,
     ProfileController,
@@ -100,6 +106,8 @@ class HealthController {
   providers: [
     Database,
     CatalogService,
+    AddressService,
+    AvailabilityService,
     AuthService,
     LocalSms,
     SessionGuard,

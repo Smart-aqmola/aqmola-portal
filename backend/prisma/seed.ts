@@ -5,6 +5,7 @@ import { organizations } from "../../src/features/catalog/data/organizations";
 import { categories } from "../../src/features/catalog/data/categories";
 import { situations } from "../../src/features/catalog/data/situations";
 import { services } from "../../src/features/catalog/data/services";
+import { seedAddresses } from "./address-seed";
 
 async function main() {
   const connectionString = process.env.DATABASE_URL;
@@ -51,6 +52,7 @@ async function main() {
       },
       { timeout: 30000 },
     );
+    await seedAddresses(db);
     console.log(
       `Seed complete: ${territories.length} territories, ${organizations.length} organizations, ${services.length} services (fictional).`,
     );

@@ -16,6 +16,7 @@ const messages: Record<string, string> = {
   otp_invalid_or_expired: "Код неверен или срок его действия истёк.",
   session_required: "Войдите в личный кабинет.",
   session_invalid_or_expired: "Сессия завершена. Войдите повторно.",
+  not_serviced: "Услуга по этому адресу недоступна.",
   service_not_found: "Услуга не найдена.",
   database_unavailable: "Сервис временно недоступен.",
   bad_request: "Не удалось обработать запрос.",
