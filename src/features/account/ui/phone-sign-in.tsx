@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { residentSession } from "@/features/applications/domain/storage";
-import { useSession } from "@/features/applications/ui/use-session";
+import { residentSession } from "@/features/session/domain/session";
+import { useSession } from "@/features/session/ui/use-session";
 import { format } from "@/shared/i18n/format";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { Button } from "@/shared/ui/button/button";

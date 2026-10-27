@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useAdminConfig } from "@/features/admin/ui/use-admin-config";
 import { AccountGate } from "@/features/account/ui/account-gate";
-import type { DemoSession } from "@/features/applications/domain/storage";
+import type { DemoSession } from "@/features/session/domain/session";
 import type { Locale } from "@/shared/i18n/config";
 import { format } from "@/shared/i18n/format";
 import { formatDate } from "@/shared/i18n/format-date";

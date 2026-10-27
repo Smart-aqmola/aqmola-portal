@@ -5,11 +5,7 @@ import { createProperty, type Property } from "@/features/account/domain/propert
 import { PROPERTIES_KEY } from "@/features/account/domain/storage";
 import { createAppeal, emptyAppealInput } from "@/features/appeals/domain/appeal";
 import { APPEALS_KEY, parseAppeals } from "@/features/appeals/domain/storage";
-import {
-  DEMO_PROFILES,
-  SESSION_KEY,
-  operatorSession,
-} from "@/features/applications/domain/storage";
+import { DEMO_PROFILES, SESSION_KEY, operatorSession } from "@/features/session/domain/session";
 import type { Charge } from "@/features/billing/domain/charge";
 import { createPayment } from "@/features/billing/domain/payment";
 import { PAYMENTS_KEY } from "@/features/billing/domain/storage";

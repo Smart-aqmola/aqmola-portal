@@ -1,4 +1,4 @@
-import type { ContractSector } from "@/features/account/domain/availability";
+import type { ContractSector } from "@/features/catalog/domain/contract-services";
 import { isPayable, type Charge } from "./charge";
 import { nextYearNumber } from "@/shared/lib/numbering";
 

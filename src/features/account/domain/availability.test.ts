@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { CONTRACT_SECTORS, canOfferContract, servicesAtAddress } from "./availability";
+import { canOfferContract, servicesAtAddress } from "./availability";
+import { CONTRACT_SECTORS } from "@/features/catalog/domain/contract-services";
 import { loadMissingNetworks, loadProviders } from "../load-providers";
 
 const stateOf = (services: ReturnType<typeof servicesAtAddress>) =>

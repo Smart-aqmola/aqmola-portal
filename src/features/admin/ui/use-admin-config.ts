@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useSyncExternalStore } from "react";
-import { useSession } from "@/features/applications/ui/use-session";
+import { useSession } from "@/features/session/ui/use-session";
 import { useAudit } from "@/features/organization/ui/use-audit";
 import { createLocalStore } from "@/shared/lib/local-store";
 import type { Locale } from "@/shared/i18n/config";

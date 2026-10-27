@@ -1,10 +1,6 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
-import {
-  DEMO_PROFILES,
-  SESSION_KEY,
-  operatorSession,
-} from "@/features/applications/domain/storage";
+import { DEMO_PROFILES, SESSION_KEY, operatorSession } from "@/features/session/domain/session";
 import ru from "@/shared/i18n/dictionaries/ru.json";
 import { createDraft, type ContractApplication } from "../domain/contract";
 import { CONTRACTS_KEY } from "../domain/storage";

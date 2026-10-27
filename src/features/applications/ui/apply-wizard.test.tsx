@@ -1,7 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import ru from "@/shared/i18n/dictionaries/ru.json";
-import { APPLICATIONS_KEY, DEMO_PROFILES, SESSION_KEY, parseApplications } from "../domain/storage";
+import { APPLICATIONS_KEY, parseApplications } from "../domain/storage";
+import { DEMO_PROFILES, SESSION_KEY } from "@/features/session/domain/session";
 import { ApplyWizard, type ApplyService } from "./apply-wizard";
 
 const push = vi.fn();

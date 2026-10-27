@@ -1,4 +1,4 @@
-import type { ContractSector } from "@/features/account/domain/availability";
+import type { ContractSector } from "@/features/catalog/domain/contract-services";
 
 /**
  * What a provider has charged for one object and one month (spec 9.2). The portal only shows it

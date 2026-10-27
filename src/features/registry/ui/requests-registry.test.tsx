@@ -8,12 +8,8 @@ import {
 } from "@/features/account/domain/property";
 import { PROPERTIES_KEY } from "@/features/account/domain/storage";
 import { createApplication, changeStatus } from "@/features/applications/domain/application";
-import {
-  APPLICATIONS_KEY,
-  DEMO_PROFILES,
-  SESSION_KEY,
-  operatorSession,
-} from "@/features/applications/domain/storage";
+import { APPLICATIONS_KEY } from "@/features/applications/domain/storage";
+import { DEMO_PROFILES, SESSION_KEY, operatorSession } from "@/features/session/domain/session";
 import {
   createDraft,
   providerChange,

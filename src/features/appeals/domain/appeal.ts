@@ -1,4 +1,5 @@
-import type { ContractSector, ProviderInfo } from "@/features/account/domain/availability";
+import type { ProviderInfo } from "@/features/account/domain/availability";
+import type { ContractSector } from "@/features/catalog/domain/contract-services";
 import { normalizePhone } from "@/features/account/domain/phone";
 import type { StoredFile } from "@/features/account/domain/property";
 import { connectedProviders } from "@/features/billing/domain/connected";

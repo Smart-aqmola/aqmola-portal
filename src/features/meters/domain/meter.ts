@@ -1,4 +1,4 @@
-import type { ContractSector } from "@/features/account/domain/availability";
+import type { ContractSector } from "@/features/catalog/domain/contract-services";
 
 /** Resources that have a meter in the home (spec 6.3). Sewerage and waste have no meters. */
 export const meterResources = ["electricity", "cold_water", "hot_water", "heat", "gas"] as const;

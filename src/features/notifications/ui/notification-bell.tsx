@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { isStaffRole } from "@/features/applications/domain/application";
-import { useSession } from "@/features/applications/ui/use-session";
+import { isStaffRole } from "@/features/session/domain/session";
+import { useSession } from "@/features/session/ui/use-session";
 import type { Locale } from "@/shared/i18n/config";
 import { format } from "@/shared/i18n/format";
 import { Icon } from "@/shared/ui/icon/icon";

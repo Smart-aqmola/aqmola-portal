@@ -1,4 +1,5 @@
-import type { ContractSector, ProviderInfo } from "@/features/account/domain/availability";
+import type { ProviderInfo } from "@/features/account/domain/availability";
+import type { ContractSector } from "@/features/catalog/domain/contract-services";
 import type { Property } from "@/features/account/domain/property";
 import type { Appeal } from "@/features/appeals/domain/appeal";
 import type { Payment, PaymentLine } from "@/features/billing/domain/payment";

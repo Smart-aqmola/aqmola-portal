@@ -6,8 +6,8 @@ import { format } from "@/shared/i18n/format";
 import { Button } from "@/shared/ui/button/button";
 import { Icon } from "@/shared/ui/icon/icon";
 import { useState } from "react";
-import { DEMO_PROFILES, adminSession, operatorSession } from "../domain/storage";
-import { useSession } from "./use-session";
+import { DEMO_PROFILES, adminSession, operatorSession } from "@/features/session/domain/session";
+import { useSession } from "@/features/session/ui/use-session";
 import styles from "./panel.module.css";
 
 type SignInPanelProps = {

@@ -6,11 +6,7 @@ import {
   type Property,
 } from "@/features/account/domain/property";
 import { PROPERTIES_KEY } from "@/features/account/domain/storage";
-import {
-  DEMO_PROFILES,
-  SESSION_KEY,
-  operatorSession,
-} from "@/features/applications/domain/storage";
+import { DEMO_PROFILES, SESSION_KEY, operatorSession } from "@/features/session/domain/session";
 import ru from "@/shared/i18n/dictionaries/ru.json";
 import { READ_KEY } from "../domain/read-state";
 import type { AppNotification } from "../domain/notifications";

@@ -1,4 +1,14 @@
-import type { ContractSector } from "@/features/account/domain/availability";
+import type { Sector } from "./types";
+
+/** The utilities a household signs contracts for (spec 4.2); water and sewage are one provider here. */
+export const CONTRACT_SECTORS = [
+  "electricity",
+  "water",
+  "heat",
+  "gas",
+  "waste",
+] as const satisfies readonly Sector[];
+export type ContractSector = (typeof CONTRACT_SECTORS)[number];
 
 /**
  * The services of the catalog that are contracts with a utility provider. Ordering them leads to

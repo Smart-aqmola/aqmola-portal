@@ -8,15 +8,19 @@ import { format } from "@/shared/i18n/format";
 import { formatDate } from "@/shared/i18n/format-date";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { useAdminConfig } from "@/features/admin/ui/use-admin-config";
-import { OperatorNav } from "@/features/organization/ui/operator-area";
+import { OperatorNav } from "./operator-area";
 import { Button } from "@/shared/ui/button/button";
-import { buildSamples, countByStatus, forOrganization } from "../domain/operator";
-import { statuses, type ApplicationStatus } from "../domain/status";
-import { StatusBadge } from "./status-badge";
-import { useApplications } from "./use-applications";
-import { useSession } from "./use-session";
-import styles from "./applications.module.css";
-import panel from "./panel.module.css";
+import {
+  buildSamples,
+  countByStatus,
+  forOrganization,
+} from "@/features/applications/domain/operator";
+import { statuses, type ApplicationStatus } from "@/features/applications/domain/status";
+import { StatusBadge } from "@/features/applications/ui/status-badge";
+import { useApplications } from "@/features/applications/ui/use-applications";
+import { useSession } from "@/features/session/ui/use-session";
+import styles from "@/features/applications/ui/applications.module.css";
+import panel from "@/features/applications/ui/panel.module.css";
 
 type Props = {
   lang: Locale;

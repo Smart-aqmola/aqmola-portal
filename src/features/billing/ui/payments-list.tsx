@@ -6,7 +6,7 @@ import { useState } from "react";
 import { format } from "@/shared/i18n/format";
 import { Button } from "@/shared/ui/button/button";
 import { Field } from "@/shared/ui/field/field";
-import { formatMoney } from "../domain/money";
+import { formatMoney } from "@/shared/lib/money";
 import { paymentStatuses, type PaymentStatus } from "../domain/payment";
 import { BillingArea, type BillingContext } from "./billing-area";
 import { day, periodLabel } from "./billing-texts";

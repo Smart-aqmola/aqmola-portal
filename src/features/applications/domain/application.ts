@@ -1,13 +1,7 @@
 import type { DocumentKey } from "@/features/catalog/domain/service-details";
 import { canTransition, type ApplicationStatus } from "./status";
 import { nextYearNumber } from "@/shared/lib/numbering";
-
-export type DemoRole = "resident" | "business" | "operator" | "admin";
-export type ApplicantRole = Exclude<DemoRole, "operator" | "admin">;
-
-/** Staff of an organization and of the portal: they work in their own cabinets, not as applicants (spec 19.6). */
-export const isStaffRole = (role: DemoRole): role is "operator" | "admin" =>
-  role === "operator" || role === "admin";
+import { isStaffRole, type ApplicantRole, type DemoRole } from "@/features/session/domain/session";
 
 export type ApplicationForm = {
   territoryId: string;

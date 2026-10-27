@@ -1,6 +1,6 @@
 import { format } from "@/shared/i18n/format";
 import { MAX_FILES, checkFile, type FileProblem } from "@/shared/lib/upload-rules";
-import type { ContractSector } from "@/features/account/domain/availability";
+import type { ContractSector } from "@/features/catalog/domain/contract-services";
 import { isValidIinShape } from "@/features/account/domain/iin";
 import { normalizePhone } from "@/features/account/domain/phone";
 import type { PropertyType, Relation } from "@/features/account/domain/property";

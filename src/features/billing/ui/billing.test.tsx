@@ -7,12 +7,12 @@ import {
   type Property,
 } from "@/features/account/domain/property";
 import { PROPERTIES_KEY } from "@/features/account/domain/storage";
-import { DEMO_PROFILES, SESSION_KEY } from "@/features/applications/domain/storage";
+import { DEMO_PROFILES, SESSION_KEY } from "@/features/session/domain/session";
 import ru from "@/shared/i18n/dictionaries/ru.json";
 import { stubChargeRepository } from "../data/stub-charge-repository";
 import { periodOf, totalsOf, type Charge } from "../domain/charge";
 import { connectedProviders } from "../domain/connected";
-import { formatMoney } from "../domain/money";
+import { formatMoney } from "@/shared/lib/money";
 import { createPayment, type Payment } from "../domain/payment";
 import { PAYMENTS_KEY, parsePayments } from "../domain/storage";
 import { ChargesPage, type BillingPageProps } from "./charges-page";

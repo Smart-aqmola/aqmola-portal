@@ -1,4 +1,4 @@
-import { CONTRACT_SECTORS } from "@/features/account/domain/availability";
+import { CONTRACT_SECTORS } from "@/features/catalog/domain/contract-services";
 import { propertyTypes, relations } from "@/features/account/domain/property";
 import { MAX_FILES } from "@/shared/lib/upload-rules";
 import {

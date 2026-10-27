@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ownerIdOf } from "@/features/applications/domain/storage";
+import { ownerIdOf } from "@/features/session/domain/session";
 import type { Locale } from "@/shared/i18n/config";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { Button } from "@/shared/ui/button/button";

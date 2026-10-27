@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { ProviderInfo } from "@/features/account/domain/availability";
-import { useSession } from "@/features/applications/ui/use-session";
+import { useSession } from "@/features/session/ui/use-session";
 import type { Locale } from "@/shared/i18n/config";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { Button } from "@/shared/ui/button/button";

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { loadMissingNetworks, loadProviders } from "@/features/account/load-providers";
 import { loadTerritoryOptions } from "@/features/applications/load-territories";
-import { contractServiceBySlug } from "@/features/contracts/domain/contract-services";
+import { contractServiceBySlug } from "@/features/catalog/domain/contract-services";
 import { ContractNew } from "@/features/contracts/ui/contract-new";
 import { hasLocale } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";

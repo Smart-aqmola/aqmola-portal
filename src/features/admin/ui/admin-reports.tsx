@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { CONTRACT_SECTORS, type ProviderInfo } from "@/features/account/domain/availability";
+import type { ProviderInfo } from "@/features/account/domain/availability";
+import { CONTRACT_SECTORS } from "@/features/catalog/domain/contract-services";
 import { useProfiles } from "@/features/account/ui/use-profiles";
 import { useAllProperties } from "@/features/account/ui/use-properties";
 import { useAllAppeals } from "@/features/appeals/ui/use-appeals";
 import { useApplications } from "@/features/applications/ui/use-applications";
-import { formatMoney } from "@/features/billing/domain/money";
+import { formatMoney } from "@/shared/lib/money";
 import { useAllPayments } from "@/features/billing/ui/use-payments";
 import { useAllContracts } from "@/features/contracts/ui/use-contracts";
 import { useAllMeterData } from "@/features/meters/ui/use-meter-data";

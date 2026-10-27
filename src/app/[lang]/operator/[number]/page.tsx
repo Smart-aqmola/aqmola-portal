@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { loadTerritoryOptions } from "@/features/applications/load-territories";
-import { ApplicationDetail } from "@/features/applications/ui/application-detail";
+import { OperatorApplication } from "@/features/organization/ui/operator-application";
 import { NUMBER_PATTERN } from "@/features/applications/domain/application";
 import { hasLocale } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
@@ -47,8 +47,7 @@ async function Detail({ params }: { params: Props["params"] }) {
         ]}
       />
       <div className={styles.narrow}>
-        <ApplicationDetail
-          mode="operator"
+        <OperatorApplication
           lang={lang}
           number={number}
           justCreated={false}

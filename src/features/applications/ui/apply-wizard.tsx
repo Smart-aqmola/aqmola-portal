@@ -13,15 +13,15 @@ import {
   MAX_COMMENT,
   canApply,
   createApplication,
-  isStaffRole,
   stepNames,
   validateStep,
   type ApplicationForm,
   type FormErrors,
   type StepName,
 } from "../domain/application";
+import { isStaffRole } from "@/features/session/domain/session";
 import { useApplications } from "./use-applications";
-import { useSession } from "./use-session";
+import { useSession } from "@/features/session/ui/use-session";
 import styles from "./panel.module.css";
 
 export type ApplyService = {

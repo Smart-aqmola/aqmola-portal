@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { formatMoney } from "@/features/billing/domain/money";
+import { formatMoney } from "@/shared/lib/money";
 import type { Locale } from "@/shared/i18n/config";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { Icon } from "@/shared/ui/icon/icon";

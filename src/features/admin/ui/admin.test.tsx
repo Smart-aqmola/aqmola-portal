@@ -6,7 +6,7 @@ import {
   SESSION_KEY,
   adminSession,
   operatorSession,
-} from "@/features/applications/domain/storage";
+} from "@/features/session/domain/session";
 import { createProperty, requestVerification } from "@/features/account/domain/property";
 import { PROPERTIES_KEY } from "@/features/account/domain/storage";
 import { AUDIT_KEY, parseAudit } from "@/features/organization/domain/audit";

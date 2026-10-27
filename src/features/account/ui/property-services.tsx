@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Sector } from "@/features/catalog/domain/types";
 import type { Locale } from "@/shared/i18n/config";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
-import { serviceSlugFor } from "@/features/contracts/domain/contract-services";
+import { serviceSlugFor } from "@/features/catalog/domain/contract-services";
 import { canOfferContract, servicesAtAddress, type ProviderInfo } from "../domain/availability";
 import { canOrderServices, type Property } from "../domain/property";
 import styles from "./account-styles";

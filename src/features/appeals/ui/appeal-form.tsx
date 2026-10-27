@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, type ChangeEvent } from "react";
-import { CONTRACT_SECTORS, type ContractSector } from "@/features/account/domain/availability";
+import { CONTRACT_SECTORS, type ContractSector } from "@/features/catalog/domain/contract-services";
 import type { StoredFile } from "@/features/account/domain/property";
 import { format } from "@/shared/i18n/format";
 import { sameShapeAs, useDraftState } from "@/shared/lib/use-draft-state";

@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import type { ReactNode } from "react";
 import type { Locale } from "@/shared/i18n/config";
 import { formatDate } from "@/shared/i18n/format-date";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { Button } from "@/shared/ui/button/button";
 import { StatusBadge } from "./status-badge";
-import { StatusForm } from "./status-form";
 import { useApplications } from "./use-applications";
-import { useSession } from "./use-session";
+import type { Application } from "../domain/application";
+import { useSession } from "@/features/session/ui/use-session";
 import styles from "./applications.module.css";
 import panel from "./panel.module.css";
 
@@ -19,6 +20,8 @@ type Props = {
   /** Who looks: the applicant ("owner") or the operator of the organization. */
   mode?: "owner" | "operator";
   territories: { id: string; name: string }[];
+  /** Controls shown under the summary, such as the operator's status form. */
+  actions?: (application: Application) => ReactNode;
   dict: Pick<Dictionary, "applications" | "status" | "serviceDetails" | "operator">;
 };
 
@@ -33,6 +36,7 @@ export function ApplicationDetail({
   territories,
   dict,
   mode = "owner",
+  actions,
 }: Props) {
   const { session, ready } = useSession();
   const { applications } = useApplications();
@@ -117,9 +121,7 @@ export function ApplicationDetail({
         ))}
       </dl>
 
-      {mode === "operator" && (
-        <StatusForm application={application} labels={dict.operator.change} />
-      )}
+      {actions?.(application)}
 
       <section>
         <h3 className={styles.sub}>{t.detail.history}</h3>

@@ -7,7 +7,7 @@ import { AccountGate } from "@/features/account/ui/account-gate";
 import { AccountNav } from "@/features/account/ui/account-nav";
 import { useProfiles } from "@/features/account/ui/use-profiles";
 import { useProperties } from "@/features/account/ui/use-properties";
-import { ownerIdOf } from "@/features/applications/domain/storage";
+import { ownerIdOf } from "@/features/session/domain/session";
 import type { Sector } from "@/features/catalog/domain/types";
 import type { Locale } from "@/shared/i18n/config";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";

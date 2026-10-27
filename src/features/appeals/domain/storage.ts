@@ -1,4 +1,4 @@
-import { CONTRACT_SECTORS } from "@/features/account/domain/availability";
+import { CONTRACT_SECTORS } from "@/features/catalog/domain/contract-services";
 import {
   EXTERNAL_PATTERN,
   MAX_APPEALS,

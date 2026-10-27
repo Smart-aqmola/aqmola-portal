@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { Suspense } from "react";
-import { formatMoney } from "@/features/billing/domain/money";
+import { formatMoney } from "@/shared/lib/money";
 import { loadEvent } from "@/features/events/load-events";
 import { EventActions } from "@/features/events/ui/event-actions";
 import { EventCard } from "@/features/events/ui/event-card";

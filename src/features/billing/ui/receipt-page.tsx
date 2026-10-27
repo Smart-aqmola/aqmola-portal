@@ -6,7 +6,7 @@ import { format } from "@/shared/i18n/format";
 import { Button } from "@/shared/ui/button/button";
 import { Field } from "@/shared/ui/field/field";
 import { PERIODS_SHOWN, periodsBack, totalsOf } from "../domain/charge";
-import { formatMoney } from "../domain/money";
+import { formatMoney } from "@/shared/lib/money";
 import { BillingArea, ObjectSelect, useChosenObject, type BillingContext } from "./billing-area";
 import { day, periodLabel, receiptText } from "./billing-texts";
 import type { BillingPageProps } from "./charges-page";

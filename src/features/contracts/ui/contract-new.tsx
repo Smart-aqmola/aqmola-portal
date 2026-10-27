@@ -6,14 +6,18 @@ import { AccountGate } from "@/features/account/ui/account-gate";
 import { useProfiles } from "@/features/account/ui/use-profiles";
 import { useProperties } from "@/features/account/ui/use-properties";
 import {
-  CONTRACT_SECTORS,
   canOfferContract,
   servicesAtAddress,
-  type ContractSector,
   type ProviderInfo,
 } from "@/features/account/domain/availability";
+import {
+  CONTRACT_SECTORS,
+  contractServiceBySlug,
+  serviceSlugFor,
+  type ContractSector,
+} from "@/features/catalog/domain/contract-services";
 import { addressLine, canOrderServices, type Property } from "@/features/account/domain/property";
-import { ownerIdOf, type DemoSession } from "@/features/applications/domain/storage";
+import { ownerIdOf, type DemoSession } from "@/features/session/domain/session";
 import type { Sector } from "@/features/catalog/domain/types";
 import type { Locale } from "@/shared/i18n/config";
 import { format } from "@/shared/i18n/format";
@@ -21,7 +25,6 @@ import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { Button } from "@/shared/ui/button/button";
 import { Field } from "@/shared/ui/field/field";
 import { createDraft, type ApplicantInfo } from "../domain/contract";
-import { contractServiceBySlug, serviceSlugFor } from "../domain/contract-services";
 import { useContracts } from "./use-contracts";
 import styles from "./contracts-styles";
 

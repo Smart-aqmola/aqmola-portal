@@ -3,7 +3,7 @@
 import type { ProviderInfo } from "@/features/account/domain/availability";
 import { PaymentBadge } from "@/features/billing/ui/payment-badge";
 import { useAllPayments } from "@/features/billing/ui/use-payments";
-import { formatMoney } from "@/features/billing/domain/money";
+import { formatMoney } from "@/shared/lib/money";
 import type { Locale } from "@/shared/i18n/config";
 import { format } from "@/shared/i18n/format";
 import { formatDate } from "@/shared/i18n/format-date";

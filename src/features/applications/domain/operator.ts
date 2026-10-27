@@ -1,6 +1,6 @@
 import { changeStatus, createApplication, nextNumber, type Application } from "./application";
 import { statuses, type ApplicationStatus } from "./status";
-import { DEMO_PROFILES } from "./storage";
+import { DEMO_PROFILES } from "@/features/session/domain/session";
 
 export function forOrganization(
   applications: readonly Application[],

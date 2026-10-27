@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { catalogHref } from "@/features/catalog/domain/catalog-params";
 import { listServiceSlugs, loadService } from "@/features/catalog/load-service";
-import { orderPath } from "@/features/contracts/domain/contract-services";
+import { orderPath } from "@/features/catalog/domain/contract-services";
 import { ServiceCard } from "@/features/catalog/ui/service-card";
 import { DocumentsList, FactsPanel, StepsList } from "@/features/catalog/ui/service-info";
 import { FavoriteButton } from "@/features/favorites/ui/favorite-button";

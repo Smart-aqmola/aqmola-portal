@@ -1,4 +1,4 @@
-import type { ContractSector } from "@/features/account/domain/availability";
+import type { ContractSector } from "@/features/catalog/domain/contract-services";
 import type { Charge } from "./charge";
 
 /** The providers of an object as the billing needs them (the names are in the visitor's language). */

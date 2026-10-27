@@ -1,8 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
 import ru from "@/shared/i18n/dictionaries/ru.json";
-import { createApplication } from "../domain/application";
-import { APPLICATIONS_KEY, parseApplications } from "../domain/storage";
+import { createApplication } from "@/features/applications/domain/application";
+import { APPLICATIONS_KEY, parseApplications } from "@/features/applications/domain/storage";
 import { StatusForm } from "./status-form";
 
 const application = createApplication({

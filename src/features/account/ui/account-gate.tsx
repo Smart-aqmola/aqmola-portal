@@ -1,9 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { isStaffRole } from "@/features/applications/domain/application";
-import { type DemoSession } from "@/features/applications/domain/storage";
-import { useSession } from "@/features/applications/ui/use-session";
+import { isStaffRole, type DemoSession } from "@/features/session/domain/session";
+import { useSession } from "@/features/session/ui/use-session";
 import type { Locale } from "@/shared/i18n/config";
 import { Button } from "@/shared/ui/button/button";
 import styles from "./account-styles";

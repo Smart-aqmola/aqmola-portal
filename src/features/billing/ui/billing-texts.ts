@@ -4,7 +4,7 @@ import { formatDate } from "@/shared/i18n/format-date";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import type { Charge } from "../domain/charge";
 import { totalsOf } from "../domain/charge";
-import { formatMoney } from "../domain/money";
+import { formatMoney } from "@/shared/lib/money";
 import type { Payment } from "../domain/payment";
 
 export type BillingDict = Pick<Dictionary, "billing" | "properties" | "account" | "list">;

@@ -10,7 +10,7 @@ import { downloadText } from "@/shared/lib/download-text";
 import { Button } from "@/shared/ui/button/button";
 import { Field } from "@/shared/ui/field/field";
 import { useToast } from "@/shared/ui/toast/toast-provider";
-import { formatMoney } from "../domain/money";
+import { formatMoney } from "@/shared/lib/money";
 import {
   applicantAction,
   gatewayNotice,

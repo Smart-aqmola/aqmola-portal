@@ -67,7 +67,7 @@ domain/ — чистые функции и типы: проверки, стат�
 
 | Ключ `localStorage`                    | Хук (файл)                              | Сущность в api-contract.md                            |
 | -------------------------------------- | --------------------------------------- | ----------------------------------------------------- |
-| `aqmola:session`                       | `applications/ui/use-session.ts`        | Session, User                                         |
+| `aqmola:session`                       | `session/ui/use-session.ts`             | Session, User                                         |
 | `aqmola:profiles`                      | `account/ui/use-profiles.ts`            | User (регистрация)                                    |
 | `aqmola:properties`                    | `account/ui/use-properties.ts`          | Property                                              |
 | `aqmola:applications`                  | `applications/ui/use-applications.ts`   | Заявка на услугу (простая, этап 5)                    |

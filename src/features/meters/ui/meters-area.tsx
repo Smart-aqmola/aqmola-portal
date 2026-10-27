@@ -6,7 +6,7 @@ import { AccountGate } from "@/features/account/ui/account-gate";
 import { AccountNav } from "@/features/account/ui/account-nav";
 import { useProperties } from "@/features/account/ui/use-properties";
 import { addressLine, canOrderServices, type Property } from "@/features/account/domain/property";
-import { ownerIdOf, type DemoSession } from "@/features/applications/domain/storage";
+import { ownerIdOf, type DemoSession } from "@/features/session/domain/session";
 import type { Locale } from "@/shared/i18n/config";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { Button } from "@/shared/ui/button/button";

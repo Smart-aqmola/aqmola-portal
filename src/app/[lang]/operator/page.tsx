@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { loadOperatorData } from "@/features/applications/load-operator";
-import { OperatorList } from "@/features/applications/ui/operator-list";
+import { OperatorList } from "@/features/organization/ui/operator-list";
 import { hasLocale, locales } from "@/shared/i18n/config";
 import { getDictionary } from "@/shared/i18n/get-dictionary";
 import { pickDictionary } from "@/shared/i18n/pick-dictionary";

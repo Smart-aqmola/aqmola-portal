@@ -6,7 +6,7 @@ import { format } from "@/shared/i18n/format";
 import { Button } from "@/shared/ui/button/button";
 import { CheckField, Field } from "@/shared/ui/field/field";
 import { totalsOf, type Charge } from "../domain/charge";
-import { formatMoney } from "../domain/money";
+import { formatMoney } from "@/shared/lib/money";
 import {
   checkSelection,
   createPayment,

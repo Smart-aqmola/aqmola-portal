@@ -3,7 +3,7 @@
 import { useCallback, useSyncExternalStore } from "react";
 import { createLocalStore } from "@/shared/lib/local-store";
 import { useHydrated } from "@/shared/lib/use-hydrated";
-import { SESSION_KEY, parseSession, type DemoSession } from "../domain/storage";
+import { SESSION_KEY, parseSession, type DemoSession } from "../domain/session";
 
 const store = createLocalStore<DemoSession | null>({
   key: SESSION_KEY,

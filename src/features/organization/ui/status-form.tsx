@@ -4,12 +4,16 @@ import { useState } from "react";
 import { format } from "@/shared/i18n/format";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { Button } from "@/shared/ui/button/button";
-import { useAudit } from "@/features/organization/ui/use-audit";
-import { MAX_COMMENT, changeStatus, type Application } from "../domain/application";
-import { allowedNextStatuses } from "../domain/status";
-import { useApplications } from "./use-applications";
-import { useSession } from "./use-session";
-import panel from "./panel.module.css";
+import { useAudit } from "./use-audit";
+import {
+  MAX_COMMENT,
+  changeStatus,
+  type Application,
+} from "@/features/applications/domain/application";
+import { allowedNextStatuses } from "@/features/applications/domain/status";
+import { useApplications } from "@/features/applications/ui/use-applications";
+import { useSession } from "@/features/session/ui/use-session";
+import panel from "@/features/applications/ui/panel.module.css";
 
 type Props = {
   application: Application;

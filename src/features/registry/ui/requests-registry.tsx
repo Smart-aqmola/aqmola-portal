@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import type { ProviderInfo } from "@/features/account/domain/availability";
 import { AccountGate } from "@/features/account/ui/account-gate";
 import { useProperties } from "@/features/account/ui/use-properties";
-import { ownerIdOf } from "@/features/applications/domain/storage";
+import { ownerIdOf } from "@/features/session/domain/session";
 import { useApplications } from "@/features/applications/ui/use-applications";
 import type { Sector } from "@/features/catalog/domain/types";
 import { useAppeals } from "@/features/appeals/ui/use-appeals";

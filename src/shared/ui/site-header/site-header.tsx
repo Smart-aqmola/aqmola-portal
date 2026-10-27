@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef, useState, type KeyboardEvent } from "react";
-import { useSession } from "@/features/applications/ui/use-session";
+import { useSession } from "@/features/session/ui/use-session";
 import type { Locale } from "@/shared/i18n/config";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { DisplaySettings } from "@/features/display/ui/display-settings";

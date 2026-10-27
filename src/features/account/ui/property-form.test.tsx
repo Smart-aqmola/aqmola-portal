@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { DEMO_PROFILES } from "@/features/applications/domain/storage";
+import { DEMO_PROFILES } from "@/features/session/domain/session";
 import ru from "@/shared/i18n/dictionaries/ru.json";
 import { ToastProvider } from "@/shared/ui/toast/toast-provider";
 import type { AddressSuggestion } from "../domain/address-search";

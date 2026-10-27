@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, type ChangeEvent } from "react";
-import { ownerIdOf } from "@/features/applications/domain/storage";
+import { ownerIdOf } from "@/features/session/domain/session";
 import type { Locale } from "@/shared/i18n/config";
 import { format } from "@/shared/i18n/format";
 import { formatDate } from "@/shared/i18n/format-date";

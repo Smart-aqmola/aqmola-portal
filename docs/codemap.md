@@ -1,6 +1,6 @@
 # Карта проекта
 
-Обновлено: 2026-10-21. Нужна, чтобы быстро найти, где что лежит и как связано. Решения и причины — в [brief.md](brief.md), этапы — в [plan.md](plan.md), контракт данных для бэкенда — в [api-contract.md](api-contract.md), разбор образца — в [research/astana-kz.md](research/astana-kz.md), правила для разработчика — в [../AGENTS.md](../AGENTS.md).
+Обновлено: 2026-10-27. Нужна, чтобы быстро найти, где что лежит и как связано. Решения и причины — в [brief.md](brief.md), этапы — в [plan.md](plan.md), контракт данных для бэкенда — в [api-contract.md](api-contract.md), разбор образца — в [research/astana-kz.md](research/astana-kz.md), правила для разработчика — в [../AGENTS.md](../AGENTS.md).
 
 ## Что это за проект
 
@@ -18,6 +18,7 @@
 
 - `ui` → `domain` ← `data`. Страницы берут данные только через `load-*` и репозитории, не напрямую из `data`. Когда появится настоящий сервер, меняется только заглушка репозитория.
 - `domain` не знает о React: чистые функции и типы (поиск, фильтры, статусы).
+- Демо-вход и роли — отдельная фича `session` (`domain/session.ts`, `ui/use-session.ts`): её используют почти все кабинеты. Фичи не импортируют друг друга по кругу: `applications` знает только `catalog` и `session`, `catalog` — только `favorites`. Кабинет организации (`organization`) собирает экраны из других фич, а не наоборот.
 - Общее для всех фич — `src/shared`. Для кабинетов: стили `shared/ui/cabinet/`, хранилища записей `shared/lib/collection.ts`, проверки сохранённых данных `shared/lib/stored-data.ts`, номера `shared/lib/numbering.ts`, показ длинных списков частями `shared/ui/show-more/`, словарь для клиентских компонентов — только нужные разделы через `shared/i18n/pick-dictionary.ts`.
 
 ## Страницы (`src/app/[lang]/`, язык `ru` | `kk` | `en`)
@@ -31,6 +32,9 @@
 | `/applications`, `/<номер>`       | `applications/…`           | Заявки жителя и страница заявки с историей                                                           |
 | `/operator`, `/<номер>`           | `operator/…`               | Кабинет организации: заявки на услуги и смена статуса                                                |
 | `/operator/contracts` и ещё шесть | `operator/…`               | Договоры, заявки по приборам, показания, обращения, платежи, календарь работ, журнал действий        |
+| `/appeals`, `/new`, `/<id>`       | `appeals/…`                | Обращения: список, новое обращение, карточка с перепиской                                            |
+| `/notifications`                  | `notifications/page.tsx`   | История уведомлений, фильтр «все / непрочитанные»                                                    |
+| `/admin` и ещё семь               | `admin/…`                  | Админка: обзор, отчёты, организации, форма заявления, сроки и языки, тексты, интеграции, журнал      |
 | `/sign-in`                        | `sign-in/page.tsx`         | Вход по телефону и коду, заглушки eGov/ЭЦП, демо-профили                                             |
 | `/contracts`                      | `contracts/page.tsx`       | Мои договоры по объектам, фильтр по статусу                                                          |
 | `/contracts/new`                  | `contracts/new/page.tsx`   | Договор: выбор объекта, услуги и поставщика                                                          |
@@ -65,14 +69,23 @@
 
 | Фича            | Что делает                                          | Главные файлы                                                                                                                                                                                                                                                                                                                                                                              |
 | --------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `catalog`       | Услуги, категории, ситуации, организации            | `domain/query-services.ts` (фильтры), `domain/search.ts` (поиск е/ё), `load-catalog.ts`, `data/services.ts`                                                                                                                                                                                                                                                                                |
-| `applications`  | Демо-вход, заявки, статусы, оператор                | `domain/status.ts` (переходы), `domain/storage.ts` (хранилище), `ui/apply-wizard.tsx`, `ui/status-form.tsx`                                                                                                                                                                                                                                                                                |
+| `catalog`       | Услуги, категории, ситуации, организации            | `domain/query-services.ts` (фильтры), `domain/search.ts` (поиск е/ё), `domain/contract-services.ts` (какие услуги — договоры, `CONTRACT_SECTORS`, `orderPath`), `load-catalog.ts`, `data/services.ts`                                                                                                                                                                                      |
+| `applications`  | Заявки на услуги каталога и их статусы              | `domain/status.ts` (переходы), `domain/storage.ts` (хранилище заявок), `ui/apply-wizard.tsx`, `ui/application-detail.tsx` (карточка, слот `actions` для кнопок оператора)                                                                                                                                                                                                                  |
+| `session`       | Демо-вход, роли, кто владелец данных                | `domain/session.ts` (роли, `parseSession`, `ownerIdOf`), `ui/use-session.ts`                                                                                                                                                                                                                                                                                                               |
 | `account`       | Регистрация, вход по телефону, объекты недвижимости | `domain/profile.ts`, `domain/phone.ts`, `domain/iin.ts`, `domain/otp.ts` (демо-код 123456), `domain/property.ts` (проверка формы и правила подтверждения), `data/address-directory.ts` (тестовый справочник адресов), `domain/availability.ts` (какие услуги и поставщики есть по адресу), `ui/sign-up-form.tsx`, `ui/phone-sign-in.tsx`, `ui/property-form.tsx`, `ui/property-detail.tsx` |
 | `meters`        | Счётчики, показания и заявки по приборам            | `domain/meter.ts` (прибор, проверка формы), `domain/reading.ts` (проверки показаний, статусы), `domain/meter-request.ts` (шесть форм, переходы, последствия закрытия), `ui/meters-area.tsx` (вход, меню из 10 частей), `ui/reading-form.tsx`, `ui/request-form.tsx`, `ui/request-detail.tsx`                                                                                               |
 | `billing`       | Начисления, квитанция, платежи                      | `domain/charge.ts` (начисление, месяцы), `domain/payment.ts` (статусы, переходы, повторное уведомление, учёт оплаты), `domain/connected.ts` (поставщики объекта), `data/stub-charge-repository.ts` (тестовые суммы), `ui/billing-area.tsx`, `ui/pay-page.tsx`, `ui/payment-detail.tsx`                                                                                                     |
 | `appeals`       | Обращения и жалобы                                  | `domain/appeal.ts` (темы, проверка формы, организация по адресу, статусы, переписка), `ui/appeal-form.tsx`, `ui/appeal-detail.tsx`                                                                                                                                                                                                                                                         |
 | `registry`      | Единый реестр «Мои заявки»                          | `domain/registry.ts` (строка реестра, срок, фильтры), `ui/registry-items.ts` (как из каждого источника получить строку), `ui/requests-registry.tsx`                                                                                                                                                                                                                                        |
 | `notifications` | Уведомления и колокольчик                           | `domain/notifications.ts` (что произошло, из историй других фич), `domain/read-state.ts` (до какого момента прочитано), `ui/use-notifications.ts`, `ui/notification-bell.tsx` (в шапке), `ui/notification-text.ts` (слова события)                                                                                                                                                         |
+| `contracts`     | Заявления на договоры и «Мои договоры»              | `domain/contract.ts` (мастер, статусы ТЗ 5.4, переходы), `domain/storage.ts`, `ui/contract-wizard.tsx`, `ui/contracts-list.tsx`                                                                                                                                                                                                                                                            |
+| `organization`  | Кабинет организации (оператор)                      | `ui/operator-area.tsx` (вход, вкладки), `ui/operator-list.tsx` (заявки), `ui/operator-application.tsx` и `ui/status-form.tsx` (смена статуса), `domain/scope.ts` (что видит организация), `domain/audit.ts` (журнал)                                                                                                                                                                       |
+| `admin`         | Админка портала                                     | `domain/config.ts` (настройки в браузере), `domain/reports.ts` (отчёты, `toCsv`), `ui/use-admin-config.ts`, `ui/admin-area.tsx`                                                                                                                                                                                                                                                            |
+| `events`        | Афиша                                               | `domain/events.ts` (фильтры, `toIcs` — файл календаря), `data/events.ts`, `load-events.ts`                                                                                                                                                                                                                                                                                                 |
+| `surveys`       | Опросы                                              | `domain/survey.ts` (сроки, голос один раз, итоги), `data/surveys.ts`, `ui/survey-view.tsx`                                                                                                                                                                                                                                                                                                 |
+| `region`        | Панель «Мой регион»                                 | `load-my-region.ts`, `domain/signals.ts` (демо-погода и курс), `ui/photo-of-day.tsx`                                                                                                                                                                                                                                                                                                       |
+| `contacts`      | Контакты и форма «Остались вопросы?»                | `data/contacts.ts`, `domain/feedback.ts`, `ui/feedback-form.tsx`                                                                                                                                                                                                                                                                                                                           |
+| `help`          | Частые вопросы                                      | `faq.tsx`                                                                                                                                                                                                                                                                                                                                                                                  |
 | `content`       | Новости, места, анонсы, фото                        | `data/news.ts`, `data/places.ts`, `data/photo-files.ts`, `domain/query-news.ts`, `load-news.ts`                                                                                                                                                                                                                                                                                            |
 | `home`          | Блоки главной страницы                              | `load-home.ts`, `ui/rotating-words.tsx`, `ui/situation-services.tsx`, `ui/home-search.tsx`                                                                                                                                                                                                                                                                                                 |
 | `favorites`     | Избранное в браузере                                | `domain/favorites.ts`, `ui/favorite-button.tsx`                                                                                                                                                                                                                                                                                                                                            |
@@ -83,22 +96,29 @@
 - `ui/` — переиспользуемые компоненты: `button`, `card`, `icon`, `breadcrumbs`, `site-header`, `site-footer`, `language-switcher`, `demo-banner`, `photo-credits`, `scroll-row` (ряд со стрелкой), `reveal` (появление при прокрутке), `skeleton` (заглушка загрузки), `toast` (короткие сообщения).
 - `i18n/` — языки и словари. Тексты только в `i18n/dictionaries/{ru,kk,en}.json`; тест следит, чтобы ключи во всех языках совпадали. Казахский пока черновик.
 - `styles/` — `tokens.css` (цвета, отступы, размеры, темы), `globals.css` (база, `reduced-motion`, класс `visually-hidden`).
-- `lib/` — `local-store.ts` (чтение и запись `localStorage`), `use-hydrated.ts`.
+- `lib/` — `local-store.ts` (чтение и запись `localStorage`), `use-hydrated.ts`, `money.ts` (`formatMoney`, «12 345 ₸»), `upload-rules.ts` (правила файлов), `download-text.ts`.
 
 ## Состояние в браузере
 
-| Ключ `localStorage`     | Что хранит                       | Где описан                                |
-| ----------------------- | -------------------------------- | ----------------------------------------- |
-| `aqmola:session`        | Демо-сессия (роль и организация) | `features/applications/domain/storage.ts` |
-| `aqmola:applications`   | Заявки и история статусов        | `features/applications/domain/storage.ts` |
-| `aqmola:profiles`       | Зарегистрированные жители        | `features/account/domain/storage.ts`      |
-| `aqmola:properties`     | Объекты недвижимости жителей     | `features/account/domain/storage.ts`      |
-| `aqmola:contracts`      | Заявления на договоры            | `features/contracts/domain/storage.ts`    |
-| `aqmola:meters`         | Приборы учёта                    | `features/meters/domain/storage.ts`       |
-| `aqmola:readings`       | Переданные показания             | `features/meters/domain/storage.ts`       |
-| `aqmola:meter-requests` | Заявки по приборам               | `features/meters/domain/storage.ts`       |
-| `aqmola:favorites`      | Избранные услуги                 | `features/favorites/domain/favorites.ts`  |
-| `aqmola:display`        | Тема, контраст, крупный шрифт    | `features/display/domain/settings.ts`     |
+| Ключ `localStorage`         | Что хранит                       | Где описан                                    |
+| --------------------------- | -------------------------------- | --------------------------------------------- |
+| `aqmola:session`            | Демо-сессия (роль и организация) | `features/session/domain/session.ts`          |
+| `aqmola:applications`       | Заявки и история статусов        | `features/applications/domain/storage.ts`     |
+| `aqmola:profiles`           | Зарегистрированные жители        | `features/account/domain/storage.ts`          |
+| `aqmola:properties`         | Объекты недвижимости жителей     | `features/account/domain/storage.ts`          |
+| `aqmola:contracts`          | Заявления на договоры            | `features/contracts/domain/storage.ts`        |
+| `aqmola:meters`             | Приборы учёта                    | `features/meters/domain/storage.ts`           |
+| `aqmola:readings`           | Переданные показания             | `features/meters/domain/storage.ts`           |
+| `aqmola:meter-requests`     | Заявки по приборам               | `features/meters/domain/storage.ts`           |
+| `aqmola:payments`           | Платежи                          | `features/billing/domain/storage.ts`          |
+| `aqmola:appeals`            | Обращения                        | `features/appeals/domain/storage.ts`          |
+| `aqmola:notifications-read` | До какого момента прочитано      | `features/notifications/domain/read-state.ts` |
+| `aqmola:audit`              | Журнал действий организации      | `features/organization/domain/audit.ts`       |
+| `aqmola:admin-config`       | Настройки админки                | `features/admin/domain/config.ts`             |
+| `aqmola:feedback`           | Вопросы из формы контактов       | `features/contacts/domain/feedback.ts`        |
+| `aqmola:survey-votes`       | Ответы на опросы                 | `features/surveys/domain/survey.ts`           |
+| `aqmola:favorites`          | Избранные услуги                 | `features/favorites/domain/favorites.ts`      |
+| `aqmola:display`            | Тема, контраст, крупный шрифт    | `features/display/domain/settings.ts`         |
 
 Заявки живут только в браузере, поэтому оператор видит заявки жителя только из того же браузера.
 
