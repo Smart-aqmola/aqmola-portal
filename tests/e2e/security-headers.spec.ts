@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 // Headers that cost nothing and close common holes: clickjacking, content type guessing,
-// leaking the full address to other sites, unused browser features, and naming the framework.
+// leaking the full address to other sites, unused browser features, naming the framework, and plain HTTP.
 test.describe("security headers", () => {
   for (const path of ["/ru", "/ru/services", "/en/news"]) {
     test(`are sent with ${path}`, async ({ request }) => {
@@ -15,6 +15,8 @@ test.describe("security headers", () => {
       expect(headers["permissions-policy"]).toContain("camera=()");
       expect(headers["permissions-policy"]).toContain("geolocation=()");
       expect(headers["x-powered-by"]).toBeUndefined();
+      // Production build: browsers must come back only over HTTPS for a year.
+      expect(headers["strict-transport-security"]).toBe("max-age=31536000");
 
       const csp = headers["content-security-policy"];
       expect(csp).toContain("frame-ancestors 'self'");

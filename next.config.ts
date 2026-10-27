@@ -29,6 +29,9 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: contentPolicy,
   },
+  // Only in a production build: on localhost over HTTP the browser would remember it for a year.
+  // No includeSubDomains or preload until we know which subdomains the real site will have.
+  ...(dev ? [] : [{ key: "Strict-Transport-Security", value: "max-age=31536000" }]),
 ];
 
 const nextConfig: NextConfig = {

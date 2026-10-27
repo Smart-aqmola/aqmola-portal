@@ -53,7 +53,8 @@ export function relatedEvents(events: readonly EventItem[], event: EventItem, co
   ].slice(0, count);
 }
 
-const icsText = (value: string) => value.replace(/[\\;,]/g, (c) => `\\${c}`).replace(/\n/g, "\\n");
+const icsText = (value: string) =>
+  value.replace(/[\\;,]/g, (c) => `\\${c}`).replace(/\r\n|\r|\n/g, "\\n");
 const icsStamp = (iso: string) => iso.replace(/[-:]/g, "").slice(0, 15);
 
 /** A calendar file (RFC 5545) for "Add to calendar": the time is given in Kazakhstan time. */

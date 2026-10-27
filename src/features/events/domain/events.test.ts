@@ -78,4 +78,14 @@ describe("toIcs", () => {
     expect(text).toContain("LOCATION:Парк\\, Кокшетау");
     expect(text.split("\r\n")[0]).toBe("BEGIN:VCALENDAR");
   });
+
+  it("keeps a line break in the text from starting a new calendar field", () => {
+    const text = toIcs(
+      event("e-1", "2026-10-24T19:00"),
+      { title: "Концерт", place: "Парк", description: "Первая\r\nDTSTART:19700101T000000Z\rконец" },
+      thursday,
+    );
+    expect(text).toContain("DESCRIPTION:Первая\\nDTSTART:19700101T000000Z\\nконец");
+    expect(text.split("\r\n").filter((line) => line.startsWith("DTSTART"))).toHaveLength(1);
+  });
 });
