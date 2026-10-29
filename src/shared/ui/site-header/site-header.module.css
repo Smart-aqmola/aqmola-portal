@@ -11,8 +11,8 @@
 /* Over a photo hero (home page): transparent bar with white text. */
 .header[data-overlay="true"] {
   --pill-bg: #fff;
-  --pill-fg: #10242e;
-  --color-focus: #8fd3ea;
+  --pill-fg: #14302a;
+  --color-focus: #93dcc3;
   position: absolute;
   inset: 0 0 auto;
   color: var(--color-on-dark);
@@ -108,8 +108,20 @@
   height: var(--tap-target);
   border: 0;
   border-radius: 50%;
-  background: rgb(127 127 127 / 18%);
+  background: transparent;
   color: inherit;
+  transition: background-color 0.15s ease;
+}
+
+/* Like the theme button and the bell: filled only while the menu is open, hover for mice only. */
+.menuButton[aria-expanded="true"] {
+  background: rgb(127 127 127 / 22%);
+}
+
+@media (hover: hover) {
+  .menuButton:hover {
+    background: rgb(127 127 127 / 16%);
+  }
 }
 
 /* Registration lives in the menu only: on a wide bar there is no room for a sixth link in every language. */
@@ -207,6 +219,18 @@
 /* On a phone the large-text bar is still too wide: keep only the logo mark, the name stays for screen readers. */
 @media (max-width: 600px) {
   :root[data-text="large"] .brandName {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* Signed in, a phone gets the bell as well and the bar runs 10px past 375: keep the mark, hide the name. */
+@media (max-width: 400px) {
+  .header[data-signed-in="true"] .brandName {
     position: absolute;
     width: 1px;
     height: 1px;

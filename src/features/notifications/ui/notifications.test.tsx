@@ -11,7 +11,7 @@ import ru from "@/shared/i18n/dictionaries/ru.json";
 import { READ_KEY } from "../domain/read-state";
 import type { AppNotification } from "../domain/notifications";
 import { NotificationBell } from "./notification-bell";
-import { notificationText } from "./notification-text";
+import { notificationText, pickNoticeWords } from "./notification-text";
 import { NotificationsPage } from "./notifications-page";
 
 const now = new Date();
@@ -42,7 +42,6 @@ const signIn = () =>
   window.localStorage.setItem(SESSION_KEY, JSON.stringify(DEMO_PROFILES.resident));
 const seedProperty = () =>
   window.localStorage.setItem(PROPERTIES_KEY, JSON.stringify([property()]));
-const bellLabels = ru.notifications.bell;
 
 beforeEach(() => {
   window.localStorage.clear();
@@ -128,21 +127,63 @@ describe("notificationText", () => {
 });
 
 describe("NotificationBell", () => {
+  const bell = () => render(<NotificationBell lang="ru" dict={ru} />);
+
   it("is not there for a guest or for an operator", () => {
-    const { container, rerender } = render(<NotificationBell lang="ru" labels={bellLabels} />);
+    const { container, rerender } = bell();
     expect(container).toBeEmptyDOMElement();
     window.localStorage.setItem(SESSION_KEY, JSON.stringify(operatorSession("akmola-gas")));
-    rerender(<NotificationBell lang="ru" labels={bellLabels} />);
-    expect(screen.queryByRole("link")).toBeNull();
+    rerender(<NotificationBell lang="ru" dict={ru} />);
+    expect(screen.queryByRole("button")).toBeNull();
   });
 
-  it("shows how many notices are new and leads to the page", () => {
+  it("shows how many notices are new and opens a small panel instead of leaving the page", () => {
     signIn();
     seedProperty();
-    render(<NotificationBell lang="ru" labels={bellLabels} />);
-    const link = screen.getByRole("link", { name: "Уведомления, непрочитанных: 2" });
-    expect(link).toHaveAttribute("href", "/ru/notifications");
-    expect(link).toHaveTextContent("2");
+    bell();
+    const button = screen.getByRole("button", { name: "Уведомления, непрочитанных: 2" });
+    expect(button).toHaveTextContent("2");
+    expect(button).toHaveAttribute("aria-expanded", "false");
+
+    fireEvent.click(button);
+    expect(button).toHaveAttribute("aria-expanded", "true");
+    const panel = screen.getByRole("group", { name: "Уведомления" });
+    const items = within(panel).getAllByRole("listitem");
+    expect(items).toHaveLength(2);
+    for (const item of items) {
+      expect(within(item).getByRole("link").getAttribute("href")).toMatch(/^\/ru\/properties\//);
+    }
+    expect(within(panel).getByRole("link", { name: "Все уведомления" })).toHaveAttribute(
+      "href",
+      "/ru/notifications",
+    );
+  });
+
+  it("closes on Escape and gives the focus back to the bell", () => {
+    signIn();
+    seedProperty();
+    bell();
+    const button = screen.getByRole("button", { name: /Уведомления/ });
+    fireEvent.click(button);
+    fireEvent.keyDown(screen.getByRole("group", { name: "Уведомления" }), { key: "Escape" });
+    expect(screen.queryByRole("group", { name: "Уведомления" })).toBeNull();
+    expect(button).toHaveFocus();
+  });
+
+  it("marks everything read from the panel", () => {
+    signIn();
+    seedProperty();
+    bell();
+    fireEvent.click(screen.getByRole("button", { name: "Уведомления, непрочитанных: 2" }));
+    fireEvent.click(screen.getByRole("button", { name: "Отметить все прочитанными" }));
+    expect(screen.getByRole("button", { name: "Уведомления" })).not.toHaveTextContent(/\d/);
+  });
+
+  it("says so when there is nothing yet", () => {
+    signIn();
+    bell();
+    fireEvent.click(screen.getByRole("button", { name: "Уведомления" }));
+    expect(screen.getByText("Уведомлений пока нет")).toBeInTheDocument();
   });
 
   it("has no number once everything is read", () => {
@@ -152,8 +193,37 @@ describe("NotificationBell", () => {
       READ_KEY,
       JSON.stringify({ "demo-resident": new Date(Date.now() + 60_000).toISOString() }),
     );
-    render(<NotificationBell lang="ru" labels={bellLabels} />);
-    expect(screen.getByRole("link", { name: "Уведомления" })).not.toHaveTextContent(/\d/);
+    bell();
+    expect(screen.getByRole("button", { name: "Уведомления" })).not.toHaveTextContent(/\d/);
+  });
+});
+
+describe("pickNoticeWords", () => {
+  it("keeps every word a notice needs, so the header can carry a small part of the dictionary", () => {
+    const events = Object.keys(ru.notifications.events) as AppNotification["event"][];
+    const words = pickNoticeWords(ru);
+    for (const event of events) {
+      const item: AppNotification = {
+        id: event,
+        event,
+        at: "2026-10-21T06:00:00.000Z",
+        path: "/",
+        refs: {
+          scope: "contract",
+          status: "registered",
+          resource: "cold_water",
+          serial: "1",
+          date: "2026-10-21",
+          slot: { date: "2026-10-22", time: "morning" },
+        },
+        title: "install",
+        number: "N-1",
+        channel: "cabinet",
+        delivery: "delivered",
+      };
+      expect(notificationText(item, words, "ru")).toBe(notificationText(item, ru, "ru"));
+    }
+    expect(JSON.stringify(words).length).toBeLessThan(JSON.stringify(ru).length / 10);
   });
 });
 

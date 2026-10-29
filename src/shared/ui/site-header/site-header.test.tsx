@@ -8,7 +8,7 @@ const usePathname = vi.fn();
 vi.mock("next/navigation", () => ({ usePathname: () => usePathname() }));
 
 function renderHeader() {
-  return render(<SiteHeader lang="ru" dict={ru} />);
+  return render(<SiteHeader lang="ru" dict={ru} noticeWords={ru} />);
 }
 
 describe("SiteHeader", () => {
@@ -109,7 +109,7 @@ describe("SiteHeader", () => {
       expect(screen.getByRole("navigation")).toHaveAttribute("data-open", "true");
 
       usePathname.mockReturnValue("/ru/news");
-      rerender(<SiteHeader lang="ru" dict={ru} />);
+      rerender(<SiteHeader lang="ru" dict={ru} noticeWords={ru} />);
 
       expect(screen.getByRole("navigation")).toHaveAttribute("data-open", "false");
     });

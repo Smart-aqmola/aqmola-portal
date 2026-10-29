@@ -9,6 +9,7 @@ import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import { DisplaySettings } from "@/features/display/ui/display-settings";
 import { useEnabledLocales } from "@/features/admin/ui/use-admin-config";
 import { NotificationBell } from "@/features/notifications/ui/notification-bell";
+import type { NoticeWords } from "@/features/notifications/ui/notification-text";
 import { Button } from "../button/button";
 import { Icon } from "../icon/icon";
 import { LanguageSwitcher } from "../language-switcher/language-switcher";
@@ -17,9 +18,11 @@ import styles from "./site-header.module.css";
 type SiteHeaderProps = {
   lang: Locale;
   dict: Pick<Dictionary, "brand" | "nav" | "header" | "display" | "notifications">;
+  /** The few words the notices in the bell are made of. */
+  noticeWords: NoticeWords;
 };
 
-export function SiteHeader({ lang, dict }: SiteHeaderProps) {
+export function SiteHeader({ lang, dict, noticeWords }: SiteHeaderProps) {
   const pathname = usePathname();
   const { session } = useSession();
   const enabledLocales = useEnabledLocales();
@@ -51,7 +54,12 @@ export function SiteHeader({ lang, dict }: SiteHeaderProps) {
   }
 
   return (
-    <header className={styles.header} data-overlay={pathname === home} onKeyDown={onKeyDown}>
+    <header
+      className={styles.header}
+      data-overlay={pathname === home}
+      data-signed-in={session !== null}
+      onKeyDown={onKeyDown}
+    >
       <div className={`container ${styles.bar}`}>
         <Link href={home} className={styles.brand}>
           <span className={styles.brandPill}>
@@ -92,7 +100,7 @@ export function SiteHeader({ lang, dict }: SiteHeaderProps) {
         <div className={styles.tools}>
           <LanguageSwitcher lang={lang} label={dict.header.language} locales={enabledLocales} />
           <DisplaySettings labels={dict.display} />
-          <NotificationBell lang={lang} labels={dict.notifications.bell} />
+          <NotificationBell lang={lang} dict={noticeWords} />
           <Button
             variant="ghost"
             href={

@@ -9,6 +9,7 @@ import { pickDictionary } from "@/shared/i18n/pick-dictionary";
 import { DemoBanner } from "@/shared/ui/demo-banner/demo-banner";
 import { SiteFooter } from "@/shared/ui/site-footer/site-footer";
 import { SiteHeader } from "@/shared/ui/site-header/site-header";
+import { pickNoticeWords } from "@/features/notifications/ui/notification-text";
 import { StorageNotice } from "@/shared/ui/storage-notice/storage-notice";
 import { ToastProvider } from "@/shared/ui/toast/toast-provider";
 import "@/shared/styles/tokens.css";
@@ -58,6 +59,7 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
               <SiteHeader
                 lang={lang}
                 dict={pickDictionary(dict, "brand", "display", "header", "nav", "notifications")}
+                noticeWords={pickNoticeWords(dict)}
               />
             </Suspense>
             <main id="content">{children}</main>

@@ -9,10 +9,41 @@ export type NotificationsDict = Pick<
   "list" | "notifications" | "status" | "contracts" | "meters" | "billing" | "appeals"
 >;
 
+type Meters = Dictionary["meters"];
+
+/** Only the words a notice is made of: a few status names out of large sections of the dictionary. */
+export type NoticeWords = Pick<Dictionary, "notifications" | "status"> & {
+  contracts: Pick<Dictionary["contracts"], "status">;
+  meters: Pick<Meters, "status" | "requestStatus" | "nav" | "resources"> & {
+    request: Pick<Meters["request"], "times">;
+  };
+  billing: Pick<Dictionary["billing"], "status">;
+  appeals: Pick<Dictionary["appeals"], "status">;
+};
+
+/** The header shows notices on every page, so it gets these few kilobytes, not whole sections. */
+export function pickNoticeWords(dict: NoticeWords): NoticeWords {
+  const { meters } = dict;
+  return {
+    notifications: dict.notifications,
+    status: dict.status,
+    contracts: { status: dict.contracts.status },
+    meters: {
+      status: meters.status,
+      requestStatus: meters.requestStatus,
+      nav: meters.nav,
+      resources: meters.resources,
+      request: { times: meters.request.times },
+    },
+    billing: { status: dict.billing.status },
+    appeals: { status: dict.appeals.status },
+  };
+}
+
 const day = (iso: string, lang: Locale) =>
   `${formatDate(iso.slice(0, 10), lang)} ${iso.slice(0, 4)}`;
 
-function statusName(refs: NotificationRefs, dict: NotificationsDict): string {
+function statusName(refs: NotificationRefs, dict: NoticeWords): string {
   const key = refs.status ?? "";
   const names: Record<NonNullable<NotificationRefs["scope"]>, Record<string, string>> = {
     application: dict.status,
@@ -28,7 +59,7 @@ function statusName(refs: NotificationRefs, dict: NotificationsDict): string {
 /** The words of a notification in the visitor's language (spec 16.5: kk and ru). */
 export function notificationText(
   item: AppNotification,
-  dict: NotificationsDict,
+  dict: NoticeWords,
   lang: Locale,
   /** The texts the administrator wrote, by event; the dictionary is used for the rest (spec 16.5). */
   custom: Partial<Record<AppNotification["event"], string>> = {},

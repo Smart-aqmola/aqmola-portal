@@ -16,26 +16,42 @@ async function register(page: Page) {
 test.describe("notifications", () => {
   test("a guest has no bell and is asked to sign in on the page", async ({ page }) => {
     await page.goto("/ru");
-    await expect(page.locator("header").getByRole("link", { name: /^Уведомления/ })).toHaveCount(0);
+    await expect(page.locator("header").getByRole("button", { name: /^Уведомления/ })).toHaveCount(
+      0,
+    );
     await page.goto("/ru/notifications");
     await expect(
       page.getByRole("heading", { name: "Войдите, чтобы увидеть уведомления" }),
     ).toBeVisible();
   });
 
-  test("the bell counts what is new and the page marks it as read", async ({ page }) => {
+  test("the bell counts what is new, shows it in a panel and the page marks it as read", async ({
+    page,
+  }) => {
     await register(page);
     // The registration itself is the first notice.
-    const bell = page.getByRole("link", { name: /^Уведомления, непрочитанных: 1$/ });
+    const bell = page.getByRole("button", { name: /^Уведомления, непрочитанных: 1$/ });
     await expect(bell).toBeVisible();
     await bell.click();
+    const panel = page.getByRole("group", { name: "Уведомления" });
+    await expect(panel.getByText(/Вы зарегистрированы на портале/)).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(panel).toHaveCount(0);
+    await expect(bell).toBeFocused();
+
+    await bell.click();
+    // A click on the panel itself, not on a notice, leaves it open.
+    await panel.getByRole("heading").click();
+    await expect(panel).toBeVisible();
+    await panel.getByRole("link", { name: "Все уведомления" }).click();
     await expect(page).toHaveURL(/\/ru\/notifications$/);
+    await expect(panel).toHaveCount(0);
     await expect(page.getByText(/Вы зарегистрированы на портале/)).toBeVisible();
     await expect(page.getByText("Новое")).toBeVisible();
 
     await page.getByRole("button", { name: "Отметить все прочитанными" }).click();
     await expect(page.getByText("Новое")).toHaveCount(0);
-    await expect(page.getByRole("link", { name: "Уведомления", exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Уведомления", exact: true })).toBeVisible();
 
     // A new event brings a new notice, and it survives a reload.
     await page.goto("/ru/appeals/new");
@@ -56,7 +72,9 @@ test.describe("notifications", () => {
     await page.getByRole("button", { name: "Настройки вида" }).click();
     await page.getByRole("checkbox", { name: "Крупный шрифт" }).check();
     await page.goto("/ru");
-    await expect(page.locator("header").getByRole("link", { name: /^Уведомления/ })).toBeVisible();
+    await expect(
+      page.locator("header").getByRole("button", { name: /^Уведомления/ }),
+    ).toBeVisible();
     const controls = page.locator("header").getByRole("link").or(page.locator("header button"));
     for (const control of await controls.all()) {
       const box = await control.boundingBox();
