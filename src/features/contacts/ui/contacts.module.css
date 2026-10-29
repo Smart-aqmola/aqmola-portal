@@ -62,7 +62,7 @@
   padding: var(--space-5);
   border-radius: var(--radius-md);
   background: var(--color-surface);
-  box-shadow: 0 8px 24px rgb(16 36 46 / 0.12);
+  box-shadow: 0 8px 24px rgb(20 48 42 / 0.12);
 }
 
 .org {

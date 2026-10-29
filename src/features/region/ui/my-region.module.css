@@ -64,7 +64,7 @@
 .mini::after {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgb(16 36 46 / 0.2), rgb(16 36 46 / 0.92) 75%);
+  background: linear-gradient(180deg, rgb(20 48 42 / 0.2), rgb(20 48 42 / 0.92) 75%);
   content: "";
 }
 
@@ -117,10 +117,10 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgb(16 36 46 / 0.45) 0%,
-    rgb(16 36 46 / 0) 30%,
-    rgb(16 36 46 / 0) 60%,
-    rgb(16 36 46 / 0.75)
+    rgb(20 48 42 / 0.45) 0%,
+    rgb(20 48 42 / 0) 30%,
+    rgb(20 48 42 / 0) 60%,
+    rgb(20 48 42 / 0.75)
   );
   content: "";
   pointer-events: none;
@@ -247,7 +247,7 @@
 
 .tileServices {
   grid-area: services;
-  --tile: #e6f2f6;
+  --tile: #e4f2ec;
 }
 
 .tile {
@@ -278,7 +278,7 @@
 }
 
 .tileText {
-  color: rgb(16 36 46 / 0.8);
+  color: rgb(20 48 42 / 0.8);
   font-size: var(--text-sm);
 }
 
@@ -301,7 +301,7 @@
 }
 
 .serviceText {
-  color: rgb(16 36 46 / 0.8);
+  color: rgb(20 48 42 / 0.8);
   font-size: var(--text-sm);
 }
 

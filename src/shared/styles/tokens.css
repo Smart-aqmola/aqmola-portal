@@ -1,21 +1,21 @@
 /* Design tokens from design/variants/1-panorama.html. Breakpoints (not usable in var()):
    600px phone, 800px tablet, 1150px laptop. */
 :root {
-  --color-accent: #1c7c9c;
-  --color-accent-strong: #156680;
+  --color-accent: #2e7a68;
+  --color-accent-strong: #256656;
   /* Accent as the colour of text and links; the accent tokens above are for backgrounds. */
-  --color-accent-text: #156680;
-  --color-accent-soft: #e6f2f6;
-  --color-ink: #10242e;
-  --color-text: #18262d;
-  --color-muted: #5d6c73;
-  --color-line: #e3e9ec;
+  --color-accent-text: #256656;
+  --color-accent-soft: #e4f2ec;
+  --color-ink: #14302a;
+  --color-text: #17251f;
+  --color-muted: #5a6b66;
+  --color-line: #e1ebe6;
   --color-surface: #ffffff;
-  --color-surface-soft: #f4f7f8;
+  --color-surface-soft: #f2f7f4;
   /* The page behind the cards. Light: the same white. Dark: darker than the cards, or they melt into it. */
   --color-page: var(--color-surface);
   --color-card-border: transparent;
-  --color-focus: #156680;
+  --color-focus: #256656;
   --color-on-dark: #ffffff;
   --color-danger: #b3374a;
 
@@ -43,10 +43,11 @@
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 22px;
+  --radius-xl: 24px;
   --radius-pill: 999px;
 
-  --shadow-card: 0 16px 40px rgb(16 36 46 / 14%);
-  --shadow-soft: 0 10px 30px rgb(16 36 46 / 8%);
+  --shadow-card: 0 16px 40px rgb(20 48 42 / 14%);
+  --shadow-soft: 0 10px 30px rgb(20 48 42 / 8%);
 
   --space-1: 4px;
   --space-2: 8px;
@@ -72,17 +73,17 @@
 
 /* Dark theme: chosen on purpose (data-theme="dark") or followed from the system when nothing is chosen. */
 :root[data-theme="dark"] {
-  --color-accent-text: #7cc7de;
-  --color-accent-soft: #16303a;
-  --color-ink: #1d3a49;
+  --color-accent-text: #86d1b8;
+  --color-accent-soft: #1b3b33;
+  --color-ink: #163a31;
   --color-text: #e8f0f3;
-  --color-muted: #a3b5bc;
-  --color-line: #2b3d46;
-  --color-surface: #0d1a20;
-  --color-surface-soft: #15262e;
-  --color-page: #070f13;
+  --color-muted: #a9bdb6;
+  --color-line: #2d463e;
+  --color-surface: #162722;
+  --color-surface-soft: #1d322b;
+  --color-page: #0e1a17;
   --color-card-border: var(--color-line);
-  --color-focus: #8fd3ea;
+  --color-focus: #93dcc3;
   --color-danger: #ff9aa9;
   --status-new-bg: #172c42;
   --status-new-fg: #9cc5f2;
@@ -90,24 +91,24 @@
   --status-work-fg: #f2c66b;
   --status-done-bg: #12301f;
   --status-done-fg: #8fd6ae;
-  --shadow-card: 0 16px 40px rgb(0 0 0 / 50%);
+  --shadow-card: 0 16px 40px rgb(0 0 0 / 35%);
   --shadow-soft: 0 10px 30px rgb(0 0 0 / 35%);
   color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --color-accent-text: #7cc7de;
-    --color-accent-soft: #16303a;
-    --color-ink: #1d3a49;
+    --color-accent-text: #86d1b8;
+    --color-accent-soft: #1b3b33;
+    --color-ink: #163a31;
     --color-text: #e8f0f3;
-    --color-muted: #a3b5bc;
-    --color-line: #2b3d46;
-    --color-surface: #0d1a20;
-    --color-surface-soft: #15262e;
-    --color-page: #070f13;
+    --color-muted: #a9bdb6;
+    --color-line: #2d463e;
+    --color-surface: #162722;
+    --color-surface-soft: #1d322b;
+    --color-page: #0e1a17;
     --color-card-border: var(--color-line);
-    --color-focus: #8fd3ea;
+    --color-focus: #93dcc3;
     --color-danger: #ff9aa9;
     --status-new-bg: #172c42;
     --status-new-fg: #9cc5f2;
@@ -115,7 +116,7 @@
     --status-work-fg: #f2c66b;
     --status-done-bg: #12301f;
     --status-done-fg: #8fd6ae;
-    --shadow-card: 0 16px 40px rgb(0 0 0 / 50%);
+    --shadow-card: 0 16px 40px rgb(0 0 0 / 35%);
     --shadow-soft: 0 10px 30px rgb(0 0 0 / 35%);
     color-scheme: dark;
   }

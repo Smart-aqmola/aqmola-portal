@@ -26,13 +26,29 @@ test.describe("structure every page must have", () => {
 });
 
 test.describe("display settings", () => {
+  test("a click inside the panel that misses a control keeps it open", async ({ page }) => {
+    await page.goto("/ru/services");
+    await page.getByRole("button", { name: "Настройки вида" }).click();
+    const panel = page.locator("#display-panel");
+    await panel.getByRole("heading").click();
+    await expect(panel).toBeVisible();
+    await panel.getByText("Тема", { exact: true }).click();
+    await expect(panel).toBeVisible();
+    await page.getByRole("radio", { name: "Тёмная" }).check();
+    await expect(panel).toBeVisible();
+
+    // Low on the page, where the panel never reaches, even full width on a phone.
+    await page.mouse.click(8, 700);
+    await expect(panel).toHaveCount(0);
+  });
+
   test("dark theme is applied, saved and shown before the page is painted", async ({ page }) => {
     await page.goto("/ru");
     await page.getByRole("button", { name: "Настройки вида" }).click();
     await page.getByRole("radio", { name: "Тёмная" }).check();
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
     const background = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-    expect(background).toBe("rgb(7, 15, 19)");
+    expect(background).toBe("rgb(14, 26, 23)");
 
     await page.reload({ waitUntil: "commit" });
     // The inline script has already set the attribute at this point.
@@ -44,7 +60,7 @@ test.describe("display settings", () => {
     const page = await context.newPage();
     await page.goto("http://127.0.0.1:3100/ru/services");
     const background = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-    expect(background).toBe("rgb(7, 15, 19)");
+    expect(background).toBe("rgb(14, 26, 23)");
     await context.close();
   });
 

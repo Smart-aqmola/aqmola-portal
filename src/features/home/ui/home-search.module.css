@@ -1,6 +1,6 @@
 /* Sits on the dark hero photo: frosted glass panel with white text. */
 .form {
-  --color-focus: #8fd3ea;
+  --color-focus: #93dcc3;
   margin-top: var(--space-7);
   max-width: 880px;
 }
@@ -12,7 +12,7 @@
   padding: 4px;
   border: 0;
   border-radius: var(--radius-pill);
-  background: rgb(16 36 46 / 45%);
+  background: rgb(20 48 42 / 45%);
 }
 
 .option {

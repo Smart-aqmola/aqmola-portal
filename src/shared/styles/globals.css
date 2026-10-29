@@ -68,6 +68,54 @@ select:not([multiple]):not([size]):not([data-plain]) {
   text-overflow: ellipsis;
 }
 
+/* Our own check boxes and radio buttons: iPhone Safari draws the empty ones solid black in the dark
+   theme. :where() keeps the specificity at zero, so a component can still set the size or margin. */
+:where(input[type="checkbox"], input[type="radio"]) {
+  appearance: none;
+  flex: none;
+  display: inline-grid;
+  place-content: center;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 2px solid var(--color-muted);
+  border-radius: 5px;
+  background: var(--color-surface);
+  color: var(--color-on-dark);
+  cursor: pointer;
+}
+
+:where(input[type="radio"]) {
+  border-radius: 50%;
+}
+
+:where(input[type="checkbox"], input[type="radio"]):checked {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+
+:where(input[type="radio"]):checked::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentcolor;
+}
+
+:where(input[type="checkbox"]):checked::before {
+  content: "";
+  width: 10px;
+  height: 5px;
+  border-bottom: 2px solid currentcolor;
+  border-left: 2px solid currentcolor;
+  transform: translateY(-1px) rotate(-45deg);
+}
+
+:where(input[type="checkbox"], input[type="radio"]):disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 button {
   cursor: pointer;
 }
@@ -83,10 +131,17 @@ svg {
   flex: none;
 }
 
+/* The ring follows the element's own corners: no border-radius here, it would reshape pill buttons. */
 :focus-visible {
-  outline: 3px solid var(--color-focus);
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
-  border-radius: 6px;
+}
+
+/* Fields already have a border: the ring hugs it instead of doubling it. */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline-offset: 1px;
 }
 
 .visually-hidden {

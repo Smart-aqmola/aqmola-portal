@@ -41,7 +41,14 @@ export function DisplaySettings({ labels }: DisplaySettingsProps) {
       </button>
 
       {open && (
-        <div id="display-panel" role="group" aria-label={labels.title} className={styles.panel}>
+        <div
+          id="display-panel"
+          role="group"
+          aria-label={labels.title}
+          className={styles.panel}
+          // A click on text or a gap inside moves the focus here, not out, so the panel stays open.
+          tabIndex={-1}
+        >
           <h2 className={styles.title}>{labels.title}</h2>
 
           <fieldset className={styles.fieldset}>

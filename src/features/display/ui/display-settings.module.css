@@ -9,8 +9,21 @@
   height: var(--tap-target);
   border: 0;
   border-radius: 50%;
-  background: rgb(127 127 127 / 18%);
+  background: transparent;
   color: inherit;
+  transition: background-color 0.15s ease;
+}
+
+/* Filled only while the panel is open, so the button never looks stuck after a click. */
+.button[aria-expanded="true"] {
+  background: rgb(127 127 127 / 22%);
+}
+
+/* Touch screens keep :hover after a tap, so the hover look is for mice only. */
+@media (hover: hover) {
+  .button:hover {
+    background: rgb(127 127 127 / 16%);
+  }
 }
 
 .panel {
@@ -82,4 +95,9 @@
   color: var(--color-accent-text);
   font-size: var(--text-sm);
   text-decoration: underline;
+}
+
+/* The panel takes the focus only to stay open on a click inside; it is not a control to point at. */
+.panel:focus {
+  outline: none;
 }

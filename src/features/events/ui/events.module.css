@@ -120,7 +120,7 @@
   left: var(--space-3);
   padding: 2px var(--space-2);
   border-radius: var(--radius-pill);
-  background: rgb(16 36 46 / 0.72);
+  background: rgb(20 48 42 / 0.72);
   color: #fff;
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
@@ -211,9 +211,9 @@
   /* Dark enough under the text even on a bright photo (white text stays above 4.5:1). */
   background: linear-gradient(
     180deg,
-    rgb(16 36 46 / 0.15) 0%,
-    rgb(16 36 46 / 0.7) 38%,
-    rgb(16 36 46 / 0.94) 70%
+    rgb(20 48 42 / 0.15) 0%,
+    rgb(20 48 42 / 0.7) 38%,
+    rgb(20 48 42 / 0.94) 70%
   );
   content: "";
 }
@@ -264,7 +264,7 @@
 .venueTile::after {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 35%, rgb(16 36 46 / 0.85));
+  background: linear-gradient(180deg, transparent 35%, rgb(20 48 42 / 0.85));
   content: "";
 }
 
@@ -306,9 +306,9 @@
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgb(16 36 46 / 0.15) 0%,
-    rgb(16 36 46 / 0.65) 45%,
-    rgb(16 36 46 / 0.94)
+    rgb(20 48 42 / 0.15) 0%,
+    rgb(20 48 42 / 0.65) 45%,
+    rgb(20 48 42 / 0.94)
   );
   content: "";
 }

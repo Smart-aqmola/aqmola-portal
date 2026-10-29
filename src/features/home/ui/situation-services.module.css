@@ -38,10 +38,18 @@
   font-size: var(--text-sm);
   white-space: nowrap;
   opacity: 0.75;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
 }
 
-.tab:hover {
-  opacity: 1;
+/* The row scrolls and clips anything outside it, so the ring is drawn inside the tab. */
+.tab:focus-visible {
+  outline-offset: -2px;
+}
+
+@media (hover: hover) {
+  .tab:hover {
+    opacity: 1;
+  }
 }
 
 @media (hover: hover) {
