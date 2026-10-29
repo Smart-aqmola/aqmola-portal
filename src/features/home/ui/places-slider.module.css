@@ -1,0 +1,249 @@
+/* Full width, like the hero: the photo of the chosen place fills the whole block. */
+.slider {
+  position: relative;
+  overflow: hidden;
+  color: var(--color-on-dark);
+  background: var(--color-ink);
+  --color-focus: #93dcc3;
+}
+
+.photo {
+  object-fit: cover;
+}
+
+/* Dark on the left for the text, lighter on the right where the cards sit. */
+.shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(12 34 29 / 82%) 0%,
+      rgb(12 34 29 / 55%) 45%,
+      rgb(12 34 29 / 25%) 100%
+    ),
+    linear-gradient(0deg, rgb(12 34 29 / 55%) 0%, transparent 40%);
+}
+
+.inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: var(--space-7);
+  min-height: 560px;
+  padding-top: var(--space-8);
+  padding-bottom: var(--space-8);
+}
+
+.text {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 480px;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  opacity: 0.85;
+}
+
+.position {
+  font-weight: var(--weight-regular);
+  opacity: 0.8;
+}
+
+.territory {
+  font-size: var(--text-sm);
+  opacity: 0.85;
+}
+
+.name {
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  font-weight: var(--weight-light);
+  line-height: 1.05;
+}
+
+.summary {
+  font-size: var(--text-base);
+  opacity: 0.9;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-5);
+  margin-top: var(--space-2);
+}
+
+.all {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-target);
+  font-size: var(--text-sm);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.side {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+/* The other places as tall cards; the row scrolls when they do not fit. */
+.cards {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-1);
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.cards::-webkit-scrollbar {
+  display: none;
+}
+
+.cards li {
+  flex: 0 0 170px;
+  scroll-snap-align: start;
+}
+
+.card {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-ink);
+  color: var(--color-on-dark);
+  text-align: left;
+  cursor: pointer;
+}
+
+.cardPhoto {
+  object-fit: cover;
+}
+
+.cardText {
+  position: absolute;
+  inset: auto 0 0;
+  display: grid;
+  gap: 2px;
+  padding: var(--space-6) var(--space-3) var(--space-3);
+  background: linear-gradient(0deg, rgb(12 34 29 / 85%), transparent);
+}
+
+.cardName {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+.cardTerritory {
+  font-size: var(--text-xs);
+  opacity: 0.85;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: var(--tap-target);
+  height: var(--tap-target);
+  border: 1px solid rgb(255 255 255 / 55%);
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+}
+
+.prev svg {
+  transform: scaleX(-1);
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+  margin-left: var(--space-3);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 45%);
+  transition: width 0.25s ease-out;
+}
+
+.dot[data-active="true"] {
+  width: 24px;
+  background: var(--color-on-dark);
+}
+
+/* Mice only: touch screens keep :hover after a tap. */
+@media (hover: hover) {
+  .arrow:hover {
+    background: rgb(255 255 255 / 12%);
+  }
+
+  .card .cardPhoto {
+    transition: transform 0.35s ease-out;
+  }
+
+  .card:hover .cardPhoto {
+    transform: scale(1.05);
+  }
+}
+
+/* The new photo comes in softly; for people who asked for less motion it just appears. */
+@media (prefers-reduced-motion: no-preference) {
+  .photo {
+    animation: fade-in 0.6s ease-out both;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 800px) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: end;
+    min-height: 0;
+    padding-top: var(--space-7);
+    padding-bottom: var(--space-7);
+  }
+
+  .shade {
+    background: linear-gradient(
+      0deg,
+      rgb(12 34 29 / 88%) 0%,
+      rgb(12 34 29 / 45%) 60%,
+      rgb(12 34 29 / 30%) 100%
+    );
+  }
+
+  .cards li {
+    flex-basis: 140px;
+  }
+}

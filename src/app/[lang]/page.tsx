@@ -6,6 +6,7 @@ import { ApplicationsPrompt } from "@/features/home/ui/applications-prompt";
 import { ComingSoon } from "@/features/home/ui/coming-soon";
 import { HomeSearch } from "@/features/home/ui/home-search";
 import { NewsList } from "@/features/home/ui/news-list";
+import { PlacesSlider } from "@/features/home/ui/places-slider";
 import { PortalSections } from "@/features/home/ui/portal-sections";
 import { RotatingWords } from "@/features/home/ui/rotating-words";
 import { SituationServices } from "@/features/home/ui/situation-services";
@@ -22,6 +23,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
   if (!hasLocale(lang)) notFound();
   const [dict, home] = await Promise.all([getDictionary(lang), loadHome(lang)]);
   const t = dict.home;
+  const closing = home.places.find((place) => place.slug === "korgalzhyn")?.photo;
 
   return (
     <>
@@ -55,37 +57,59 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         <Reveal>
           <PortalSections lang={lang} labels={t.portal} />
         </Reveal>
+      </div>
 
-        <Reveal>
-          <UtilityServices
-            lang={lang}
-            labels={t.utility}
-            services={home.utilityServices}
-            serviceLabels={t.service}
-            favoriteLabels={dict.catalog.favorites}
-            documentNames={dict.serviceDetails.documents.items}
-          />
-        </Reveal>
+      {/* A soft band breaks the run of white blocks before the photo of the slider. */}
+      <div className={`${styles.softBand} ${styles.ornament}`}>
+        <div className={`container ${styles.softBandInner}`}>
+          <Reveal>
+            <UtilityServices
+              lang={lang}
+              labels={t.utility}
+              services={home.utilityServices}
+              serviceLabels={t.service}
+              favoriteLabels={dict.catalog.favorites}
+              documentNames={dict.serviceDetails.documents.items}
+            />
+          </Reveal>
+        </div>
+      </div>
 
-        <Reveal>
-          <div className={styles.columns}>
-            <NewsList lang={lang} title={t.news.title} allLabel={t.news.all} items={home.news} />
-            <ApplicationsPrompt lang={lang} labels={t.applications} />
-          </div>
-        </Reveal>
+      <PlacesSlider lang={lang} places={home.places} labels={t.slider} allLabel={t.tourism.all} />
 
-        <Reveal>
-          <ComingSoon
-            title={t.comingSoon.title}
-            badge={t.comingSoon.badge}
-            items={home.comingSoon}
-          />
-        </Reveal>
+      <div className={styles.ornament}>
+        <div className={`container ${styles.sections}`}>
+          <Reveal>
+            <div className={styles.columns}>
+              <NewsList lang={lang} title={t.news.title} allLabel={t.news.all} items={home.news} />
+              <ApplicationsPrompt lang={lang} labels={t.applications} />
+            </div>
+          </Reveal>
 
-        <Reveal>
-          <ContactBlock labels={dict.contactsPage} operator={loadOperator(lang)} />
-        </Reveal>
+          <Reveal>
+            <ComingSoon
+              title={t.comingSoon.title}
+              badge={t.comingSoon.badge}
+              items={home.comingSoon}
+            />
+          </Reveal>
+        </div>
+      </div>
 
+      {/* The page ends on the steppe it began with: a faded landscape behind the contacts. */}
+      <div className={styles.landscape}>
+        {closing && (
+          <Image src={closing.url} alt="" fill sizes="100vw" className={styles.landscapePhoto} />
+        )}
+        <div className={styles.veil} aria-hidden="true" />
+        <div className={`container ${styles.landscapeInner}`}>
+          <Reveal>
+            <ContactBlock labels={dict.contactsPage} operator={loadOperator(lang)} />
+          </Reveal>
+        </div>
+      </div>
+
+      <div className="container">
         <PhotoCredits label={t.credits.label} credits={home.credits} />
       </div>
     </>

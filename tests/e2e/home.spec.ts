@@ -232,3 +232,24 @@ test.describe("desktop navigation", () => {
     await expect(page.getByRole("button", { name: "Открыть меню" })).toBeHidden();
   });
 });
+
+test.describe("places slider", () => {
+  test("arrows and cards change the place, its photo and the link to it", async ({ page }) => {
+    await page.goto("/ru");
+    const slider = page.locator("section", { has: page.locator("#places-title") });
+    const place = slider.getByRole("heading", { level: 3 });
+    await slider.scrollIntoViewIfNeeded();
+    await expect(place).toHaveText("Бурабай");
+    await expect(slider.getByText("1 из 6")).toBeVisible();
+
+    await slider.getByRole("button", { name: "Предыдущее место" }).click();
+    await expect(slider.getByText("6 из 6")).toBeVisible();
+    await slider.getByRole("button", { name: "Следующее место" }).click();
+    await expect(place).toHaveText("Бурабай");
+
+    await slider.getByRole("button", { name: /^Зеренда/ }).click();
+    await expect(place).toHaveText("Зеренда");
+    await slider.getByRole("link", { name: "Подробнее" }).click();
+    await expect(page).toHaveURL(/\/ru\/tourism\/zerenda$/);
+  });
+});

@@ -88,10 +88,6 @@ describe("loadHome", () => {
     expect(home.territories[0]).toEqual({ id: "kokshetau", name: "Кокшетау" });
   });
 
-  it("does not load places while tourism is off the home page", async () => {
-    expect(await loadHome("ru")).not.toHaveProperty("places");
-  });
-
   it("uses the large Burabay photo kept on our own site and lists each author once", async () => {
     const home = await loadHome("ru");
     expect(home.hero.url).toBe("/photos/burabay-kokshe.jpg");
@@ -99,5 +95,26 @@ describe("loadHome", () => {
     const sources = home.credits.map((credit) => credit.sourceUrl);
     expect(new Set(sources).size).toBe(sources.length);
     expect(sources).toContain(home.hero.credit.sourceUrl);
+  });
+
+  it("gives the places slider every place with its district, words and photo", async () => {
+    const home = await loadHome("kk");
+    expect(home.places).toHaveLength(6);
+    expect(home.places[0].slug).toBe("burabay");
+    for (const place of home.places) {
+      expect(place.name, place.slug).not.toBe("");
+      expect(place.summary, place.slug).not.toBe("");
+      expect(place.territory, place.slug).not.toBe("");
+      expect(place.photo.url, place.slug).toMatch(/^\/photos\//);
+      expect(place.photo.alt, place.slug).not.toBe("");
+    }
+  });
+
+  it("credits the author of every place photo it shows", async () => {
+    const home = await loadHome("ru");
+    const sources = home.credits.map((credit) => credit.sourceUrl);
+    for (const place of home.places) {
+      expect(sources, place.slug).toContain(place.photo.credit.sourceUrl);
+    }
   });
 });

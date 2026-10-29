@@ -34,6 +34,15 @@ export type HomeNews = {
   photo: HomePhoto;
 };
 
+/** A place of the region for the slider: the photo fills the block while the place is chosen. */
+export type HomeSlide = {
+  slug: string;
+  name: string;
+  summary: string;
+  territory: string;
+  photo: HomePhoto;
+};
+
 export type HomeData = {
   hero: HomePhoto;
   territories: { id: string; name: string }[];
@@ -42,6 +51,7 @@ export type HomeData = {
   utilityServices: ServiceCardData[];
   news: HomeNews[];
   comingSoon: { id: string; title: string; summary: string }[];
+  places: HomeSlide[];
   credits: PhotoCredit[];
 };
 
@@ -58,7 +68,7 @@ export async function loadHome(
 ): Promise<HomeData> {
   const { catalog, content } = deps;
 
-  const [situations, territories, organizations, counts, news, comingSoon, heroPlace] =
+  const [situations, territories, organizations, counts, news, comingSoon, heroPlace, places] =
     await Promise.all([
       catalog.listSituations(),
       catalog.listTerritories(),
@@ -67,6 +77,7 @@ export async function loadHome(
       content.listNews({ limit: NEWS_ON_HOME }),
       content.listComingSoon(),
       content.getPlace("burabay"),
+      content.listPlaces(),
     ]);
 
   const organizationName = new Map(
@@ -127,6 +138,17 @@ export async function loadHome(
       title: localize(item.title, lang),
       summary: localize(item.summary, lang),
     })),
-    credits: uniqueCredits([heroPlace.photo, ...news.map((item) => item.photo)]),
+    places: places.map((place) => ({
+      slug: place.slug,
+      name: localize(place.name, lang),
+      summary: localize(place.summary, lang),
+      territory: territoryName.get(place.territoryId) ?? "",
+      photo: toPhoto(photoAt(place.photo, 1920), lang),
+    })),
+    credits: uniqueCredits([
+      heroPlace.photo,
+      ...news.map((item) => item.photo),
+      ...places.map((place) => place.photo),
+    ]),
   };
 }
