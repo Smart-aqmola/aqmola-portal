@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { ProviderInfo } from "@/features/account/domain/availability";
 import { createProperty, type Property } from "@/features/account/domain/property";
 import { PROPERTIES_KEY } from "@/features/account/domain/storage";
@@ -35,6 +35,9 @@ import { OperatorContracts } from "./operator-contracts";
 import { OperatorMeters } from "./operator-meters";
 import { OperatorPayments } from "./operator-payments";
 import { OperatorReadings } from "./operator-readings";
+
+// The cabinet carries the sign-out bar, which needs the app router.
+vi.mock("next/navigation", () => ({ useRouter: () => ({ push: vi.fn(), replace: vi.fn() }) }));
 
 const providers: ProviderInfo[] = [
   { id: "akmola-water", name: "Водоканал Акмолы", sector: "water", territories: ["kokshetau"] },

@@ -86,3 +86,26 @@ test.describe("registration and phone sign in", () => {
     await expect(page).toHaveURL(/\/ru\/sign-up$/);
   });
 });
+
+test.describe("signing out from a cabinet", () => {
+  const cabinets = [
+    { who: "resident", button: "Войти как житель", url: /\/ru\/applications$/ },
+    { who: "operator", button: "Войти как оператор", url: /\/ru\/operator$/ },
+    { who: "admin", button: "Войти как администратор", url: /\/ru\/admin$/ },
+  ];
+
+  for (const { who, button, url } of cabinets) {
+    test(`a ${who} signs out with the button in the cabinet`, async ({ page }) => {
+      await page.goto("/ru/sign-in");
+      await page.getByRole("button", { name: button }).click();
+      await expect(page).toHaveURL(url);
+
+      // The sign-in page stays in the document, hidden, with its own "signed in as" line.
+      await expect(page.getByText(/^Вы вошли как /).filter({ visible: true })).toBeVisible();
+      await page.getByRole("main").getByRole("button", { name: "Выйти" }).click();
+
+      await expect(page).toHaveURL(/\/ru$/);
+      await expect(page.getByRole("link", { name: "Войти", exact: true })).toBeVisible();
+    });
+  }
+});

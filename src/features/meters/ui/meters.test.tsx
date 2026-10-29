@@ -1,5 +1,5 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   createProperty,
   requestVerification,
@@ -30,6 +30,9 @@ import { ReadingsHistory } from "./readings-history";
 import { RequestDetail } from "./request-detail";
 import { RequestForm } from "./request-form";
 import { RequestsList } from "./requests-list";
+
+// The cabinet carries the sign-out bar, which needs the app router.
+vi.mock("next/navigation", () => ({ useRouter: () => ({ push: vi.fn(), replace: vi.fn() }) }));
 
 const territories = [{ id: "atbasar", name: "Атбасарский район" }];
 const now = new Date();

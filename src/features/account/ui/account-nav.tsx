@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SignOutBar } from "@/features/session/ui/sign-out-bar";
 import type { Locale } from "@/shared/i18n/config";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
 import styles from "./account-styles";
@@ -21,20 +22,23 @@ export function AccountNav({ lang, labels, current }: AccountNavProps) {
   ] as const;
 
   return (
-    <nav aria-label={labels.label} className={styles.tabs}>
-      <ul className={styles.tabList}>
-        {items.map((item) => (
-          <li key={item.id}>
-            <Link
-              href={item.href}
-              className={styles.tab}
-              aria-current={item.id === current ? "page" : undefined}
-            >
-              {item.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <>
+      <SignOutBar lang={lang} labels={labels} />
+      <nav aria-label={labels.label} className={styles.tabs}>
+        <ul className={styles.tabList}>
+          {items.map((item) => (
+            <li key={item.id}>
+              <Link
+                href={item.href}
+                className={styles.tab}
+                aria-current={item.id === current ? "page" : undefined}
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </>
   );
 }

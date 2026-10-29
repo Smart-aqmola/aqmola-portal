@@ -24,6 +24,9 @@ import { AdminReports } from "./admin-reports";
 import { AdminSettings } from "./admin-settings";
 import { AdminTemplates } from "./admin-templates";
 
+// The cabinet carries the sign-out bar, which needs the app router.
+vi.mock("next/navigation", () => ({ useRouter: () => ({ push: vi.fn(), replace: vi.fn() }) }));
+
 const download = vi.fn();
 vi.mock("@/shared/lib/download-text", () => ({
   downloadText: (...args: unknown[]) => download(...args),

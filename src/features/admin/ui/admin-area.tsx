@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { ProviderInfo } from "@/features/account/domain/availability";
+import { SignOutBar } from "@/features/session/ui/sign-out-bar";
 import { useSession } from "@/features/session/ui/use-session";
 import type { Locale } from "@/shared/i18n/config";
 import type { Dictionary } from "@/shared/i18n/get-dictionary";
@@ -110,6 +111,7 @@ export function AdminArea({ lang, dict, current, children }: AdminAreaProps) {
 
   return (
     <>
+      <SignOutBar lang={lang} labels={dict.admin.nav} />
       <AdminNav lang={lang} labels={dict.admin.nav} current={current} />
       {children({
         config,

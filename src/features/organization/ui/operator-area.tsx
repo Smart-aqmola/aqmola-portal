@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import type { ProviderInfo } from "@/features/account/domain/availability";
 import { useAdminConfig } from "@/features/admin/ui/use-admin-config";
+import { SignOutBar } from "@/features/session/ui/sign-out-bar";
 import { useSession } from "@/features/session/ui/use-session";
 import type { DemoSession } from "@/features/session/domain/session";
 import type { Locale } from "@/shared/i18n/config";
@@ -61,21 +62,24 @@ export function OperatorNav({
   current: OperatorNavId;
 }) {
   return (
-    <nav aria-label={labels.label} className={styles.tabs}>
-      <ul className={styles.subnavList}>
-        {(Object.keys(HREFS) as OperatorNavId[]).map((id) => (
-          <li key={id}>
-            <Link
-              href={`/${lang}/${HREFS[id]}`}
-              className={styles.subnavLink}
-              aria-current={id === current ? "page" : undefined}
-            >
-              {labels[id]}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <>
+      <SignOutBar lang={lang} labels={labels} />
+      <nav aria-label={labels.label} className={styles.tabs}>
+        <ul className={styles.subnavList}>
+          {(Object.keys(HREFS) as OperatorNavId[]).map((id) => (
+            <li key={id}>
+              <Link
+                href={`/${lang}/${HREFS[id]}`}
+                className={styles.subnavLink}
+                aria-current={id === current ? "page" : undefined}
+              >
+                {labels[id]}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </>
   );
 }
 
