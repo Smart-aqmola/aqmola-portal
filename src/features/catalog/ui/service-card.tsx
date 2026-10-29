@@ -30,16 +30,24 @@ export function ServiceCard({
   documentNames,
 }: ServiceCardProps) {
   const base = `/${lang}/services/${service.slug}`;
-  const audience = { resident: labels.resident, business: labels.business, both: labels.both }[
-    service.audience
-  ];
+  const cost = service.free
+    ? labels.free
+    : service.price &&
+      format(labels.price, { n: new Intl.NumberFormat(lang).format(service.price) });
+  const documents =
+    documentNames &&
+    format(labels.documents, {
+      list: service.documents.map((key) => documentNames[key]).join(", "),
+    });
 
   return (
     <Card as="article" className={styles.card}>
-      <div className={styles.cover}>
-        <Icon name={categoryIcons[service.categoryId]} size={56} strokeWidth={1.1} />
-        <span className={styles.code}>{format(labels.code, { code: service.code })}</span>
-        {service.isNew && <span className={styles.badge}>{labels.new}</span>}
+      {cost && <span className={styles.tag}>{cost}</span>}
+
+      <div className={styles.top}>
+        <span className={styles.icon} aria-hidden="true">
+          <Icon name={categoryIcons[service.categoryId]} size={22} />
+        </span>
         {favoriteLabels && (
           <FavoriteButton slug={service.slug} labels={favoriteLabels} className={styles.favorite} />
         )}
@@ -47,39 +55,21 @@ export function ServiceCard({
 
       <div className={styles.head}>
         <h3 className={styles.title}>{service.title}</h3>
-        {service.free ? (
-          <span className={styles.free}>{labels.free}</span>
-        ) : (
-          service.price && (
-            <span className={styles.price}>
-              {format(labels.price, { n: new Intl.NumberFormat(lang).format(service.price) })}
-            </span>
-          )
-        )}
+        <p className={styles.organization}>{service.organization}</p>
       </div>
-      <p className={styles.organization}>{service.organization}</p>
-
-      <ul className={styles.facts}>
-        <li>
-          <Icon name={service.channel === "online" ? "online" : "pin"} size={18} />
-          {service.channel === "online" ? labels.online : labels.visit}
-        </li>
-        <li>
-          <Icon name="clock" size={18} />
-          {format(labels.days, { n: service.workingDays })}
-        </li>
-        <li>
-          <Icon name="user" size={18} />
-          {audience}
-        </li>
-      </ul>
 
       <p className={styles.summary}>{service.summary}</p>
-      {documentNames && (
-        <p className={styles.docs}>
-          {format(labels.documents, {
-            list: service.documents.map((key) => documentNames[key]).join(", "),
-          })}
+
+      <ul className={styles.facts}>
+        {service.isNew && <li className={styles.badge}>{labels.new}</li>}
+        <li>{service.channel === "online" ? labels.online : labels.visit}</li>
+        <li>{format(labels.days, { n: service.workingDays })}</li>
+        <li>{format(labels.code, { code: service.code })}</li>
+      </ul>
+
+      {documents && (
+        <p className={styles.docs} title={documents}>
+          {documents}
         </p>
       )}
 
@@ -87,6 +77,7 @@ export function ServiceCard({
         <Button href={orderPath(lang, service.slug)}>{labels.order}</Button>
         <Link href={base} className={styles.details}>
           {labels.details}
+          <span aria-hidden="true">→</span>
         </Link>
       </div>
     </Card>

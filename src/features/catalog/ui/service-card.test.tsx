@@ -70,24 +70,24 @@ describe("ServiceCard", () => {
     expect(screen.queryByText(/^Документы:/)).not.toBeInTheDocument();
   });
 
-  it("shows how the service is provided, how long it takes and who it is for", () => {
+  it("puts how the service is provided, how long it takes and its number in one line", () => {
     renderCard();
     const facts = screen.getByRole("list");
     expect(within(facts).getByText("Онлайн")).toBeInTheDocument();
     expect(within(facts).getByText("1 раб. дн.")).toBeInTheDocument();
-    expect(within(facts).getByText("Жителям")).toBeInTheDocument();
+    expect(within(facts).getByText("№ 1001")).toBeInTheDocument();
   });
 
-  it("says when a visit is needed and when the service is for both audiences", () => {
-    renderCard({ channel: "front-office", audience: "both", workingDays: 10 });
+  it("says when a visit is needed", () => {
+    renderCard({ channel: "front-office", workingDays: 10 });
     expect(screen.getByText("Нужен визит")).toBeInTheDocument();
-    expect(screen.getByText("Жителям и бизнесу")).toBeInTheDocument();
     expect(screen.getByText("10 раб. дн.")).toBeInTheDocument();
   });
 
-  it("shows the service number so people can search by it", () => {
-    renderCard();
-    expect(screen.getByText("№ 1001")).toBeInTheDocument();
+  it("leaves the audience to the Residents / Business switch", () => {
+    renderCard({ audience: "both" });
+    expect(screen.queryByText("Жителям")).not.toBeInTheDocument();
+    expect(screen.queryByText("Жителям и бизнесу")).not.toBeInTheDocument();
   });
 
   it("shows a heart only when favorites are switched on", () => {

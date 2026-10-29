@@ -25,7 +25,7 @@ export function PortalSections({ lang, labels, sections = portalSections }: Port
           const body = (
             <>
               <span className={styles.icon}>
-                <Icon name={section.icon} size={26} strokeWidth={1.3} />
+                <Icon name={section.icon} size={22} />
               </span>
               <span className={styles.name}>{text.title}</span>
               <span className={styles.text}>{text.text}</span>

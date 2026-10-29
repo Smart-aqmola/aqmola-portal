@@ -20,16 +20,23 @@
   gap: var(--space-2);
   height: 100%;
   padding: var(--space-5);
+  border: 1px solid var(--color-card-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface-soft);
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
 }
 
-a.tile:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-card);
+/* Same lift as the service cards, for mice only: touch screens keep :hover after a tap. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .tile {
+    transition:
+      transform 0.2s ease-out,
+      box-shadow 0.2s ease-out;
+  }
+
+  a.tile:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card);
+  }
 }
 
 .tile[data-soon="true"] {
@@ -39,15 +46,16 @@ a.tile:hover {
 .icon {
   display: inline-grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
   background: var(--color-accent-soft);
   color: var(--color-accent-text);
 }
 
 .name {
-  font-size: var(--text-lg);
+  margin-top: var(--space-2);
+  font-size: var(--text-base);
   font-weight: var(--weight-medium);
 }
 
@@ -67,8 +75,31 @@ a.tile:hover {
   font-size: var(--text-xs);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  a.tile:hover {
-    transform: none;
+/* On a phone the nine sections sit two to a row, as short tiles. */
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+
+  .tile {
+    gap: var(--space-1);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+  }
+
+  .name {
+    margin-top: var(--space-1);
+    font-size: var(--text-sm);
+  }
+
+  .text {
+    font-size: var(--text-xs);
+  }
+
+  .soon {
+    top: var(--space-2);
+    right: var(--space-2);
+    padding: 1px 8px;
   }
 }
