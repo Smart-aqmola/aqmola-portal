@@ -8,9 +8,13 @@ import { Icon } from "@/shared/ui/icon/icon";
 import { FavoriteButton, type FavoriteLabels } from "@/features/favorites/ui/favorite-button";
 import { orderPath } from "@/features/catalog/domain/contract-services";
 import type { DocumentKey } from "../domain/service-details";
+import type { Sector } from "../domain/types";
 import { categoryIcons } from "./icons";
 import type { ServiceCardData } from "./service-card-data";
 import styles from "./service-card.module.css";
+
+/** The utility sectors whose cards wear their own tint; the rest stay on the plain surface. */
+const TINTED: ReadonlySet<Sector> = new Set(["water", "heat", "electricity", "gas", "waste"]);
 
 type ServiceCardProps = {
   service: ServiceCardData;
@@ -40,8 +44,18 @@ export function ServiceCard({
       list: service.documents.map((key) => documentNames[key]).join(", "),
     });
 
+  const tinted = TINTED.has(service.categoryId);
+
   return (
-    <Card as="article" className={styles.card}>
+    <Card
+      as="article"
+      className={tinted ? `${styles.card} ${styles[service.categoryId]}` : styles.card}
+    >
+      {tinted && (
+        <span className={styles.mark} aria-hidden="true">
+          <Icon name={categoryIcons[service.categoryId]} size={112} />
+        </span>
+      )}
       {cost && <span className={styles.tag}>{cost}</span>}
 
       <div className={styles.top}>

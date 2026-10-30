@@ -1,5 +1,7 @@
 .card {
   position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -166,4 +168,72 @@
 .top .favorite {
   box-shadow: none;
   border: 1px solid var(--color-line);
+}
+
+/* A utility sector tints its card: the tint is mixed from the sector colour and the theme's surface,
+   so the dark theme needs no colours of its own. */
+.water {
+  --sector: var(--sector-water);
+}
+
+.heat {
+  --sector: var(--sector-heat);
+}
+
+.electricity {
+  --sector: var(--sector-electricity);
+}
+
+.gas {
+  --sector: var(--sector-gas);
+}
+
+.waste {
+  --sector: var(--sector-waste);
+}
+
+.card:is(.water, .heat, .electricity, .gas, .waste) {
+  border-color: transparent;
+  background: color-mix(in srgb, var(--sector) 11%, var(--color-surface));
+}
+
+.card:is(.water, .heat, .electricity, .gas, .waste) .icon {
+  background: var(--color-surface);
+  color: var(--sector);
+}
+
+/* The sector's sign, large and faint in the corner, behind everything on the card. */
+.mark {
+  position: absolute;
+  right: -18px;
+  bottom: -22px;
+  z-index: -1;
+  color: var(--sector);
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+/* A phone card is narrow: a smaller sign keeps clear of "Details". */
+@media (max-width: 600px) {
+  .mark {
+    right: -26px;
+    bottom: -30px;
+    transform: scale(0.7);
+    transform-origin: bottom right;
+  }
+}
+
+/* High contrast asks for a plain background behind the text. */
+:root[data-contrast="high"] .card:is(.water, .heat, .electricity, .gas, .waste) {
+  border-color: var(--color-card-border);
+  background: var(--color-surface);
+}
+
+:root[data-contrast="high"] .card:is(.water, .heat, .electricity, .gas, .waste) .icon {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-text);
+}
+
+:root[data-contrast="high"] .mark {
+  display: none;
 }

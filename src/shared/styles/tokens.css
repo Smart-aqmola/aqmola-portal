@@ -18,6 +18,12 @@
   --color-focus: #256656;
   --color-on-dark: #ffffff;
   --color-danger: #b3374a;
+  /* Utility sectors: the colour of a service card's mark; its tint is mixed from it. */
+  --sector-water: #185fa5;
+  --sector-gas: #534ab7;
+  --sector-electricity: #854f0b;
+  --sector-heat: #993c1d;
+  --sector-waste: #3b6d11;
 
   --status-new-bg: #e7f0fa;
   --status-new-fg: #245c99;
@@ -85,6 +91,11 @@
   --color-card-border: var(--color-line);
   --color-focus: #93dcc3;
   --color-danger: #ff9aa9;
+  --sector-water: #85b7eb;
+  --sector-gas: #afa9ec;
+  --sector-electricity: #ef9f27;
+  --sector-heat: #f0997b;
+  --sector-waste: #97c459;
   --status-new-bg: #172c42;
   --status-new-fg: #9cc5f2;
   --status-work-bg: #3a2e10;
@@ -110,6 +121,11 @@
     --color-card-border: var(--color-line);
     --color-focus: #93dcc3;
     --color-danger: #ff9aa9;
+    --sector-water: #85b7eb;
+    --sector-gas: #afa9ec;
+    --sector-electricity: #ef9f27;
+    --sector-heat: #f0997b;
+    --sector-waste: #97c459;
     --status-new-bg: #172c42;
     --status-new-fg: #9cc5f2;
     --status-work-bg: #3a2e10;

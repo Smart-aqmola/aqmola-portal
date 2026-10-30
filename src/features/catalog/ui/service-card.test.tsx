@@ -28,6 +28,19 @@ function renderCard(overrides: Partial<ServiceCardData> = {}, lang: "ru" | "kk" 
 }
 
 describe("ServiceCard", () => {
+  it("wears the sign of its utility sector, and a card of another sector stays plain", () => {
+    const { container, unmount } = renderCard();
+    const article = container.querySelector("article")!;
+    // The icon by the heart plus the large faint one in the corner.
+    expect(article.querySelectorAll("svg")).toHaveLength(2);
+    unmount();
+
+    const plain = renderCard({ categoryId: "housing" }).container.querySelector("article")!;
+    expect(plain.querySelectorAll("svg")).toHaveLength(1);
+    // One class fewer: the class of the sector that tints the card.
+    expect(plain.classList).toHaveLength(article.classList.length - 1);
+  });
+
   it("shows title, provider, summary and the free badge", () => {
     renderCard();
     expect(
