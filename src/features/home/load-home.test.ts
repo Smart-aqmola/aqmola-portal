@@ -12,9 +12,9 @@ describe("loadHome", () => {
     }
   });
 
-  it("lists the fifteen utility services of the specification in the order of the list", async () => {
+  it("lists eight utility services, two even rows of four, in the order of the list", async () => {
     const { utilityServices } = await loadHome("ru");
-    expect(utilityServices).toHaveLength(15);
+    expect(utilityServices).toHaveLength(8);
     expect(utilityServices.map((service) => service.slug)).toEqual([...HOME_UTILITY_SLUGS]);
     for (const service of utilityServices) {
       expect(service.organization, service.slug).not.toBe("");
@@ -22,12 +22,11 @@ describe("loadHome", () => {
     }
   });
 
-  it("carries the price of the paid utility services and marks the rest free", async () => {
+  it("marks the free utility services free, without a price", async () => {
     const { utilityServices } = await loadHome("ru");
-    const bySlug = Object.fromEntries(utilityServices.map((service) => [service.slug, service]));
-    expect(bySlug["meter-verification"]).toMatchObject({ free: false, price: 4500 });
-    expect(bySlug["gas-contract"]).toMatchObject({ free: true });
-    expect(bySlug["gas-contract"]).not.toHaveProperty("price");
+    const gas = utilityServices.find((service) => service.slug === "gas-contract");
+    expect(gas).toMatchObject({ free: true });
+    expect(gas).not.toHaveProperty("price");
   });
 
   it("names the utility services in the visitor's language", async () => {

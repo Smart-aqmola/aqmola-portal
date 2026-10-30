@@ -5,9 +5,10 @@
   line-height: 1.1;
 }
 
+/* Fixed columns, not auto-fill: eight sections make two even rows of four, or of three on a tablet. */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-3);
   padding: 0;
   list-style: none;
@@ -75,11 +76,26 @@
   font-size: var(--text-xs);
 }
 
-/* On a phone the nine sections sit two to a row, as short tiles. */
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Two rows of three: the last two would start a third row. */
+  .grid > li:nth-child(n + 7) {
+    display: none;
+  }
+}
+
+/* On a phone the eight sections sit two to a row, as short tiles. */
 @media (max-width: 600px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-2);
+  }
+
+  .grid > li:nth-child(n + 7) {
+    display: block;
   }
 
   .tile {

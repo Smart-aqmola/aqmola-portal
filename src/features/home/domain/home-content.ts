@@ -1,9 +1,8 @@
 import type { IconName } from "@/shared/ui/icon/icon";
 
 /**
- * The utility services shown as cards on the home page (spec 1.2). Fifteen cards for fourteen
- * lines of the specification: waste removal has one card for the city and one for the districts,
- * because they are different companies.
+ * The utility services shown as cards on the home page (spec 1.2): eight, so they fill two even
+ * rows of four. The rest of the fourteen lines of the specification are one click away in the catalog.
  */
 export const HOME_UTILITY_SLUGS = [
   "electricity-contract-resident",
@@ -11,15 +10,8 @@ export const HOME_UTILITY_SLUGS = [
   "heat-contract",
   "gas-contract",
   "waste-contract-kokshetau",
-  "waste-contract-region",
   "water-meter-readings",
-  "meter-installation-replacement",
-  "water-meter-sealing",
-  "meter-unsealing",
-  "meter-verification",
-  "unified-receipt",
   "utility-payment",
-  "recalculation-request",
   "service-quality-complaint",
 ] as const;
 
@@ -27,7 +19,6 @@ export type PortalSectionId =
   | "contractNew"
   | "meters"
   | "billing"
-  | "applications"
   | "contracts"
   | "notifications"
   | "appeals"
@@ -44,12 +35,12 @@ export type PortalSection = {
 /**
  * The sections of the portal named in the specification (1.1). A section without a path is shown
  * as "soon" instead of a link that leads nowhere; each stage of the plan fills in its own path.
+ * Eight, for two even rows of four; "My applications" is left to the main menu, where it already is.
  */
 export const portalSections: readonly PortalSection[] = [
   { id: "contractNew", path: "/contracts/new", icon: "doc" },
   { id: "meters", path: "/meters", icon: "meter" },
   { id: "billing", path: "/billing", icon: "chart" },
-  { id: "applications", path: "/applications", icon: "files" },
   { id: "contracts", path: "/contracts", icon: "doc" },
   { id: "notifications", path: "/notifications", icon: "online" },
   { id: "appeals", path: "/appeals", icon: "chat" },

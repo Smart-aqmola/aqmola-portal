@@ -5,14 +5,14 @@ import { portalSections } from "../domain/home-content";
 import { PortalSections } from "./portal-sections";
 
 describe("PortalSections", () => {
-  it("shows all nine sections of the specification", () => {
+  it("shows eight sections, two even rows of four; my applications stay in the main menu", () => {
     render(<PortalSections lang="ru" labels={ru.home.portal} />);
-    expect(screen.getAllByRole("listitem")).toHaveLength(9);
+    expect(screen.getAllByRole("listitem")).toHaveLength(8);
+    expect(screen.queryByText("Мои заявки")).toBeNull();
     for (const name of [
       "Заключение договоров",
       "Счётчики",
       "Начисления и оплата",
-      "Мои заявки",
       "Мои договоры",
       "Уведомления",
       "Обращения и жалобы",
@@ -25,9 +25,9 @@ describe("PortalSections", () => {
 
   it("links a built section inside the current language", () => {
     render(<PortalSections lang="kk" labels={ru.home.portal} />);
-    expect(screen.getByRole("link", { name: /Мои заявки/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Мои договоры/ })).toHaveAttribute(
       "href",
-      "/kk/applications",
+      "/kk/contracts",
     );
     expect(screen.getByRole("link", { name: /Коммунальные организации/ })).toHaveAttribute(
       "href",

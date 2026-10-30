@@ -9,9 +9,10 @@
   color: var(--color-muted);
 }
 
+/* Fixed columns, not auto-fill: eight cards make two even rows of four, or of three on a tablet. */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-4);
   padding: 0;
   list-style: none;
@@ -23,6 +24,28 @@
 
 .grid > li > * {
   flex: 1;
+}
+
+.all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--tap-target);
+  margin-top: var(--space-3);
+  color: var(--color-accent-text);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+}
+
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  /* Two rows of three; the rest are behind the link to the catalog. */
+  .grid > li:nth-child(n + 7) {
+    display: none;
+  }
 }
 
 /* On a phone fifteen cards one under another are a long scroll: they become a row to swipe. */
@@ -42,7 +65,9 @@
     display: none;
   }
 
-  .grid > li {
+  .grid > li,
+  .grid > li:nth-child(n + 7) {
+    display: flex;
     flex: 0 0 85%;
     scroll-snap-align: start;
   }

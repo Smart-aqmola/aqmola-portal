@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ServiceCard } from "@/features/catalog/ui/service-card";
 import type { ServiceCardData } from "@/features/catalog/ui/service-card-data";
 import type { FavoriteLabels } from "@/features/favorites/ui/favorite-button";
@@ -42,6 +43,10 @@ export function UtilityServices({
           </li>
         ))}
       </ul>
+      <Link href={`/${lang}/services`} className={styles.all}>
+        {labels.all}
+        <span aria-hidden="true">→</span>
+      </Link>
     </section>
   );
 }

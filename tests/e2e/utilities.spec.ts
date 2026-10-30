@@ -1,14 +1,14 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("utility services and portal sections", () => {
-  test("shows the fifteen utility services, each with provider, term, documents and an order button", async ({
+  test("shows eight utility services, each with provider, term, documents and an order button", async ({
     page,
   }) => {
     await page.goto("/ru");
     const section = page.getByRole("region", { name: "Коммунальные услуги" });
     await section.scrollIntoViewIfNeeded();
     const cards = section.getByRole("article");
-    await expect(cards).toHaveCount(15);
+    await expect(cards).toHaveCount(8);
 
     const contract = cards.filter({ hasText: "Заключение договора на теплоснабжение" });
     await expect(contract).toContainText("Теплосети Акмолы");
@@ -19,15 +19,15 @@ test.describe("utility services and portal sections", () => {
       "/ru/contracts/new?service=heat-contract",
     );
 
-    const verification = cards.filter({ hasText: "Поверка счётчика" });
-    await expect(verification).toContainText("4 500 ₸");
-    await expect(verification).toContainText("Нужен визит");
+    // The rest of the utility services are in the catalog.
+    await section.getByRole("link", { name: "Все услуги" }).click();
+    await expect(page).toHaveURL(/\/ru\/services$/);
   });
 
-  test("lists the nine sections and links the ones that exist", async ({ page }) => {
+  test("lists the eight sections and links the ones that exist", async ({ page }) => {
     await page.goto("/ru");
     const sections = page.getByRole("region", { name: "Разделы портала" });
-    await expect(sections.getByRole("listitem")).toHaveCount(9);
+    await expect(sections.getByRole("listitem")).toHaveCount(8);
     await sections.getByRole("link", { name: /Коммунальные организации/ }).click();
     await expect(page).toHaveURL(/\/ru\/organizations$/);
   });
